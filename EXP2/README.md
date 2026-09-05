@@ -25,11 +25,6 @@ An optimization model can return the reference objective while still be mathemat
 2. [Detector + Requirement List](./methods/detector_requirement_list.md): the same input plus the requirement decomposition.
 3. [SilentOR](./methods/silentor.md): requirement-level template selection, executable probe generation, validation, solver execution, probe-aware witness review, and root-cause localization.
 
-## Results
-
-The complete comparison is in [results/README.md](./results/README.md). Gemma Direct/Requirement-List runs contain 111 rows each. **Gemma SilentOR is incomplete: 95/111 rows are present, and 90 are valid for the reported policy scores.**
-
-For the reported valid-row `probe_aware_root` policy, Gemma reaches 77.42% detection, 50.00% FPR, 33.87% primary exact localization, and 43.18% silent exact localization on its partial valid subset. Exact localization is diagnosis/scoring only.
 
 ## Browse the artifact
 
