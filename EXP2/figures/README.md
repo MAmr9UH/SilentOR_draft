@@ -8,6 +8,6 @@
 - [Supplied algorithm block](./original/algorithm_block.png)
 - [Supplied mutation taxonomy](./original/mutation_taxonomy.png)
 - [Supplied mutation mechanisms](./original/mutation_mechanisms.png)
-- [Regenerated Track-A-miss recovery](./original/track_a_miss_recovery.png)
+- [Regenerated Single agent-miss recovery](./original/track_a_miss_recovery.png)
 
 Figures are presentation views only. Use the retained result CSVs and exact manifests for quantitative work.
