@@ -1,0 +1,41 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    produced = {str(i+1): model.addVar(vtype=gp.GRB.INTEGER, name=f'produced_{i+1}') for i in range(len(data['cap']))}
+    allocation = {(str(i+1), str(j+1)): model.addVar(vtype=gp.GRB.INTEGER, name=f'allocation_{i+1}_{j+1}') 
+                  for i in range(len(data['cap'])) for j in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]}
+    
+    variables = {
+        "produced": produced,
+        "allocation": allocation
+    }
+    
+    model.addConstrs(gp.quicksum(allocation[(str(i+1), str(j+1))] for i in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]) == data['dem'][j] 
+                      for j in range(len(data['cap'])))
+    
+    model.addConstrs(produced[str(i+1)] >= gp.quicksum(allocation[(str(i+1), str(j+1))] for j in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]) 
+                      for i in range(len(data['cap'])))
+    
+    model.setObjective(gp.quicksum(produced[str(i+1)] * data['vcost'][i] for i in range(len(data['cap']))) + 
+                       gp.quicksum(data['fixed'] for i in range(len(data['cap'])) if produced[str(i+1)] > 0))
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    solution = {
+        "produced": {key: var.X for key, var in _.get("produced").items()},
+        "allocation": {key: var.X for key, var in _.get("allocation").items()}
+    }
+    
+    return {
+        "status": gp.Status(model.Status),
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

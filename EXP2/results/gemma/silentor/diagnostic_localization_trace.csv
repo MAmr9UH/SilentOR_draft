@@ -1,0 +1,63 @@
+run_id,verifier_model,track,candidate_id,bug_class,actual_mutated_requirement,primary_reported_requirement,diagnostic_only_requirement_ids,primary_exact_without_diagnosis_only,diagnostic_fail_requirement_ids,localization_with_diagnosis_only,added_because_of_diagnosis_only
+B__gemma3:12b__mut_p1_R5_domain__r0,gemma3:12b,B,mut_p1_R5_domain,silent,R5,R5,[],True,[],True,False
+B__gemma3:12b__mut_p35_Rbinary_y_domain__r0,gemma3:12b,B,mut_p35_Rbinary_y_domain,silent,R_binary_y,R_binary_y,[],True,[],True,False
+B__gemma3:12b__mut_p35_Rdemand1_misspec__r0,gemma3:12b,B,mut_p35_Rdemand1_misspec,silent,R_demand_1,R_demand_1,"[""R_binary_y"", ""R_capacity_link_station_2""]",True,"[""R_capacity_link_station_2""]",True,False
+B__gemma3:12b__mut_p30_Ryear2_misspec__r0,gemma3:12b,B,mut_p30_Ryear2_misspec,silent,R_year2_budget,R_limit_project2,[],False,[],False,False
+B__gemma3:12b__mut_p30_Rlimit2_misspec__r0,gemma3:12b,B,mut_p30_Rlimit2_misspec,silent,R_limit_project2,R_limit_project2,[],True,[],True,False
+B__gemma3:12b__mut_p30_Rfinal_misspec__r0,gemma3:12b,B,mut_p30_Rfinal_misspec,silent,R_final_balance,R_limit_project2,[],False,[],False,False
+B__gemma3:12b__mut_p3_R7_s2_domain__r0,gemma3:12b,B,mut_p3_R7_s2_domain,silent,R7,R7,[],True,[],True,False
+B__gemma3:12b__mut_p3_R2_constraint__r0,gemma3:12b,B,mut_p3_R2_constraint,silent,R2,,[],False,[],False,False
+B__gemma3:12b__mut_p3_R9_s2_objective__r0,gemma3:12b,B,mut_p3_R9_s2_objective,loud,R9,,[],False,[],False,False
+B__gemma3:12b__mut_p5_R8_sel_calculus_domain__r0,gemma3:12b,B,mut_p5_R8_sel_calculus_domain,silent,R8,R8,[],True,[],True,False
+B__gemma3:12b__mut_p5_R3_constraint__r0,gemma3:12b,B,mut_p5_R3_constraint,silent,R3,,[],False,[],False,False
+B__gemma3:12b__mut_p5_R9_sel_calculus_objective__r0,gemma3:12b,B,mut_p5_R9_sel_calculus_objective,loud,R9,,[],False,[],False,False
+B__gemma3:12b__mut_p6_R_bal_5_constraint__r0,gemma3:12b,B,mut_p6_R_bal_5_constraint,silent,R_bal_5,R_obj,[],False,[],False,False
+B__gemma3:12b__mut_p6_R_obj_x_4_1_objective__r0,gemma3:12b,B,mut_p6_R_obj_x_4_1_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p8_R_obj_s1_objective__r0,gemma3:12b,B,mut_p8_R_obj_s1_objective,loud,R_obj,R_obj,[],True,[],True,False
+B__gemma3:12b__mut_p9_R_int_s0_domain__r0,gemma3:12b,B,mut_p9_R_int_s0_domain,silent,R_int,R_int,[],True,[],True,False
+B__gemma3:12b__mut_p9_R_day1_constraint__r0,gemma3:12b,B,mut_p9_R_day1_constraint,silent,R_day1,,[],False,[],False,False
+B__gemma3:12b__mut_p9_R_obj_s0_objective__r0,gemma3:12b,B,mut_p9_R_obj_s0_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p10_R_cloth_constraint__r0,gemma3:12b,B,mut_p10_R_cloth_constraint,silent,R_cloth,R_cloth,[],True,[],True,False
+B__gemma3:12b__mut_p10_R_labor_constraint__r0,gemma3:12b,B,mut_p10_R_labor_constraint,silent,R_labor,R_labor,[],True,[],True,False
+B__gemma3:12b__mut_p10_R_obj_shirts_objective__r0,gemma3:12b,B,mut_p10_R_obj_shirts_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p12_R_cap_c1_constraint__r0,gemma3:12b,B,mut_p12_R_cap_c1_constraint,silent,R_capacity_open_link,R_demand,[],False,[],False,False
+B__gemma3:12b__mut_p12_R_dem_s1_constraint__r0,gemma3:12b,B,mut_p12_R_dem_s1_constraint,silent,R_demand,,[],False,[],False,False
+B__gemma3:12b__mut_p12_R_obj_y_c1_objective__r0,gemma3:12b,B,mut_p12_R_obj_y_c1_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p22_R_bottleneck_B_C_constraint__r0,gemma3:12b,B,mut_p22_R_bottleneck_B_C_constraint,silent,R_bottleneck_B_C,R_bottleneck_D_C,"[""R_z_upper_bound""]",False,"[""R_z_upper_bound""]",False,False
+B__gemma3:12b__mut_p22_R_bottleneck_C_E_constraint__r0,gemma3:12b,B,mut_p22_R_bottleneck_C_E_constraint,silent,R_bottleneck_C_E,R_bottleneck_D_C,"[""R_z_upper_bound""]",False,"[""R_z_upper_bound""]",False,False
+B__gemma3:12b__mut_p22_R_obj_z_objective__r0,gemma3:12b,B,mut_p22_R_obj_z_objective,loud,R_obj,R_bottleneck_D_C,"[""R_z_upper_bound""]",False,"[""R_z_upper_bound""]",False,False
+B__gemma3:12b__mut_p23_R_choose_one_combo_constraint__r0,gemma3:12b,B,mut_p23_R_choose_one_combo_constraint,silent,R_choose_one_combo,,[],False,[],False,False
+B__gemma3:12b__mut_p23_R_weight_constraint__r0,gemma3:12b,B,mut_p23_R_weight_constraint,silent,R_weight,,[],False,[],False,False
+B__gemma3:12b__mut_p29_R_task_A_constraint__r0,gemma3:12b,B,mut_p29_R_task_A_constraint,silent,R_task_A,R_task_A,[],True,[],True,False
+B__gemma3:12b__mut_p29_R_task_B_constraint__r0,gemma3:12b,B,mut_p29_R_task_B_constraint,silent,R_task_B,R_task_B,[],True,[],True,False
+B__gemma3:12b__mut_p29_R_obj_x_I_B_objective__r0,gemma3:12b,B,mut_p29_R_obj_x_I_B_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p31_R_demand_Donghai_1_constraint__r0,gemma3:12b,B,mut_p31_R_demand_Donghai_1_constraint,silent,R_demand_Donghai_1,,[],False,[],False,False
+B__gemma3:12b__mut_p31_R_demand_Donghai_2_constraint__r0,gemma3:12b,B,mut_p31_R_demand_Donghai_2_constraint,silent,R_demand_Donghai_2,,[],False,[],False,False
+B__gemma3:12b__mut_p31_R_obj_p3_shortfall_objective__r0,gemma3:12b,B,mut_p31_R_obj_p3_shortfall_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p34_R_integer_trucks_trucks_A_domain__r0,gemma3:12b,B,mut_p34_R_integer_trucks_trucks_A_domain,silent,R_integer_trucks,R_integer_trucks,"[""R_raw_A""]",True,[],True,False
+B__gemma3:12b__mut_p34_R_raw_A_constraint__r0,gemma3:12b,B,mut_p34_R_raw_A_constraint,silent,R_raw_A,R_raw_B,[],False,[],False,False
+B__gemma3:12b__mut_p34_R_obj_trucks_A_objective__r0,gemma3:12b,B,mut_p34_R_obj_trucks_A_objective,loud,R_obj,R_raw_B,[],False,[],False,False
+B__gemma3:12b__mut_p36_R_binary_y_y_1_domain__r0,gemma3:12b,B,mut_p36_R_binary_y_y_1_domain,silent,R_binary_y,R_binary_y,[],True,[],True,False
+B__gemma3:12b__mut_p36_R_at_least_two_lengths_constraint__r0,gemma3:12b,B,mut_p36_R_at_least_two_lengths_constraint,silent,R_at_least_two_lengths,,"[""R_link_lower_len_2""]",False,[],False,False
+B__gemma3:12b__mut_p36_R_obj_x_1_1_objective__r0,gemma3:12b,B,mut_p36_R_obj_x_1_1_objective,loud,R_obj,R_cover_month_3,[],False,[],False,False
+B__gemma3:12b__mut_p37_R_capacity_1_constraint__r0,gemma3:12b,B,mut_p37_R_capacity_1_constraint,silent,R_capacity_1,R_nonneg,"[""R_cash_balance_2"", ""R_cash_balance_3""]",False,"[""R_cash_balance_3""]",False,False
+B__gemma3:12b__mut_p37_R_capacity_2_constraint__r0,gemma3:12b,B,mut_p37_R_capacity_2_constraint,silent,R_capacity_2,R_nonneg,"[""R_cash_balance_2"", ""R_cash_balance_3""]",False,[],False,False
+B__gemma3:12b__mut_p37_R_profit_definition_profit_objective__r0,gemma3:12b,B,mut_p37_R_profit_definition_profit_objective,loud,R_profit_definition,R_nonneg,"[""R_cash_balance_1"", ""R_cash_balance_2"", ""R_cash_balance_3""]",False,"[""R_cash_balance_2""]",False,False
+B__gemma3:12b__mut_p39_R_prec_A_D_constraint__r0,gemma3:12b,B,mut_p39_R_prec_A_D_constraint,silent,R_prec_A_D,,"[""R_cmax_B"", ""R_cmax_C"", ""R_cmax_D"", ""R_cmax_E"", ""R_cmax_F"", ""R_cmax_G""]",False,"[""R_cmax_B"", ""R_cmax_F""]",False,False
+B__gemma3:12b__mut_p40_R_max_labor_constraint__r0,gemma3:12b,B,mut_p40_R_max_labor_constraint,silent,R_max_labor,R_max_labor,[],True,[],True,False
+B__gemma3:12b__mut_p40_R_max_skilled_constraint__r0,gemma3:12b,B,mut_p40_R_max_skilled_constraint,silent,R_max_skilled,R_max_labor,[],False,[],False,False
+B__gemma3:12b__mut_p40_R_obj_skilled_t1_A_objective__r0,gemma3:12b,B,mut_p40_R_obj_skilled_t1_A_objective,loud,R_obj,R_max_labor,[],False,[],False,False
+B__gemma3:12b__mut_p41_R_liquid_balance_constraint__r0,gemma3:12b,B,mut_p41_R_liquid_balance_constraint,silent,R_liquid_balance,,"[""R_liquid_balance"", ""R_solid_balance""]",False,"[""R_liquid_balance""]",True,True
+B__gemma3:12b__mut_p41_R_machine1_capacity_constraint__r0,gemma3:12b,B,mut_p41_R_machine1_capacity_constraint,silent,R_machine1_capacity,,"[""R_liquid_balance""]",False,[],False,False
+B__gemma3:12b__mut_p41_R_obj_ending_solid_objective__r0,gemma3:12b,B,mut_p41_R_obj_ending_solid_objective,loud,R_obj,,[],False,[],False,False
+B__gemma3:12b__mut_p17_R_open_binary_y_c1_domain__r0,gemma3:12b,B,mut_p17_R_open_binary_y_c1_domain,silent,R_open_binary,R_open_binary,[],True,[],True,False
+B__gemma3:12b__mut_p17_R_cap_c1_constraint__r0,gemma3:12b,B,mut_p17_R_cap_c1_constraint,silent,R_capacity_open_link,,[],False,[],False,False
+B__gemma3:12b__mut_p17_R_obj_y_c4_objective__r0,gemma3:12b,B,mut_p17_R_obj_y_c4_objective,loud,R_obj,,"[""R_obj""]",False,[],False,False
+B__gemma3:12b__mut_p27_R_mtz_2_3_constraint__r0,gemma3:12b,B,mut_p27_R_mtz_2_3_constraint,silent,R_mtz_2_3,,"[""R_mtz_2_3"", ""R_mtz_2_4"", ""R_mtz_2_5"", ""R_mtz_2_6"", ""R_mtz_2_7"", ""R_mtz_3_2"", ""R_mtz_3_4"", ""R_mtz_3_5"", ""R_mtz_3_6"", ""R_mtz_3_7"", ""R_mtz_4_2"", ""R_mtz_4_3"", ""R_mtz_4_5"", ""R_mtz_4_6"", ""R_mtz_4_7"", ""R_mtz_5_2"", ""R_mtz_5_3"", ""R_mtz_5_4"", ""R_mtz_5_6"", ""R_mtz_5_7"", ""R_mtz_6_2"", ""R_mtz_6_3"", ""R_mtz_6_4"", ""R_mtz_6_5"", ""R_mtz_6_7"", ""R_mtz_7_2"", ""R_mtz_7_3"", ""R_mtz_7_4"", ""R_mtz_7_5"", ""R_mtz_7_6""]",False,[],False,False
+B__gemma3:12b__mut_p27_R_mtz_2_4_constraint__r0,gemma3:12b,B,mut_p27_R_mtz_2_4_constraint,silent,R_mtz_2_4,,"[""R_mtz_2_3"", ""R_mtz_2_4"", ""R_mtz_2_5"", ""R_mtz_2_6"", ""R_mtz_2_7"", ""R_mtz_3_2"", ""R_mtz_3_4"", ""R_mtz_3_5"", ""R_mtz_3_6"", ""R_mtz_3_7"", ""R_mtz_4_2"", ""R_mtz_4_3"", ""R_mtz_4_5"", ""R_mtz_4_6"", ""R_mtz_4_7"", ""R_mtz_5_2"", ""R_mtz_5_3"", ""R_mtz_5_4"", ""R_mtz_5_6"", ""R_mtz_5_7"", ""R_mtz_6_2"", ""R_mtz_6_3"", ""R_mtz_6_4"", ""R_mtz_6_5"", ""R_mtz_6_7"", ""R_mtz_7_2"", ""R_mtz_7_3"", ""R_mtz_7_4"", ""R_mtz_7_5"", ""R_mtz_7_6""]",False,[],False,False
+B__gemma3:12b__mut_p27_R_obj_x_1_5_objective__r0,gemma3:12b,B,mut_p27_R_obj_x_1_5_objective,loud,R_obj,,"[""R_mtz_2_3"", ""R_mtz_2_4"", ""R_mtz_2_5"", ""R_mtz_2_6"", ""R_mtz_2_7"", ""R_mtz_3_2"", ""R_mtz_3_4"", ""R_mtz_3_5"", ""R_mtz_3_6"", ""R_mtz_3_7"", ""R_mtz_4_2"", ""R_mtz_4_3"", ""R_mtz_4_5"", ""R_mtz_4_6"", ""R_mtz_4_7"", ""R_mtz_5_2"", ""R_mtz_5_3"", ""R_mtz_5_4"", ""R_mtz_5_6"", ""R_mtz_5_7"", ""R_mtz_6_2"", ""R_mtz_6_3"", ""R_mtz_6_4"", ""R_mtz_6_5"", ""R_mtz_6_7"", ""R_mtz_7_2"", ""R_mtz_7_3"", ""R_mtz_7_4"", ""R_mtz_7_5"", ""R_mtz_7_6"", ""R_u_lb_4""]",False,[],False,False
+B__gemma3:12b__mut_p28_R_integer_t_t_Verona_Genoa_domain__r0,gemma3:12b,B,mut_p28_R_integer_t_t_Verona_Genoa_domain,silent,R_integer_t,R_supply_Rome,[],False,[],False,False
+B__gemma3:12b__mut_p28_R_demand_Ancona_constraint__r0,gemma3:12b,B,mut_p28_R_demand_Ancona_constraint,silent,R_demand_Ancona,R_supply_Rome,[],False,[],False,False
+B__gemma3:12b__mut_p28_R_obj_t_Verona_Venice_objective__r0,gemma3:12b,B,mut_p28_R_obj_t_Verona_Venice_objective,loud,R_obj,R_supply_Rome,[],False,[],False,False
+B__gemma3:12b__mut_p32_R_route_precedence_pos_1_vat_2_constraint__r0,gemma3:12b,B,mut_p32_R_route_precedence_pos_1_vat_2_constraint,silent,R_route_precedence_pos_1_vat_2,,"[""R_cmax_final"", ""R_route_precedence_pos_5_vat_3"", ""R_same_vat_order_pos_3_vat_3"", ""R_vat1_order_pos_1"", ""R_vat1_order_pos_4""]",False,"[""R_cmax_final"", ""R_vat1_order_pos_1""]",False,False
+B__gemma3:12b__mut_p32_R_route_precedence_pos_1_vat_3_constraint__r0,gemma3:12b,B,mut_p32_R_route_precedence_pos_1_vat_3_constraint,silent,R_route_precedence_pos_1_vat_3,,"[""R_cmax_final"", ""R_vat1_order_pos_1"", ""R_vat1_order_pos_2"", ""R_vat1_order_pos_3""]",False,"[""R_cmax_final"", ""R_vat1_order_pos_1"", ""R_vat1_order_pos_3""]",False,False

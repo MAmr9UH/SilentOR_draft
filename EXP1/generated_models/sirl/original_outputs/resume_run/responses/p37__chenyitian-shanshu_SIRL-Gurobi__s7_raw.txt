@@ -1,0 +1,108 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("grain_trading_model")
+    
+    buy = {}
+    sell = {}
+    inventory = {}
+    cash = {}
+    
+    for month in data["months"]:
+        buy[month] = model.addVar(name=f"buy_{month}", vtype=GRB.CONTINUOUS, lb=0)
+        sell[month] = model.addVar(name=f"sell_{month}", vtype=GRB.CONTINUOUS, lb=0)
+        inventory[month] = model.addVar(name=f"inventory_{month}", vtype=GRB.CONTINUOUS, lb=0)
+        cash[month] = model.addVar(name=f"cash_{month}", vtype=GRB.CONTINUOUS, lb=0)
+    
+    profit = model.addVar(name="profit", vtype=GRB.CONTINUOUS, lb=0)
+    
+    # Initial inventory and cash
+    model.addConstr(inventory[1] == data["initial_inventory"])
+    model.addConstr(cash[1] == data["initial_cash"])
+    
+    # Capacity constraint
+    for month in data["months"]:
+        model.addConstr(inventory[month] <= data["capacity"])
+    
+    # Purchase price
+    for month in data["months"]:
+        model.addConstr(buy[month] * data["purchase_price"][str(month)] <= cash[month])
+    
+    # Selling price
+    for month in data["months"]:
+        if month < 3:
+            model.addConstr(sell[month] * data["selling_price"][str(month + 1)] >= inventory[month + 1] + profit)
+    
+    # Initial inventory and final inventory
+    model.addConstr(inventory[1] - buy[1] + sell[1] == data["initial_inventory"])
+    for month in data["months"][:-1]:
+        model.addConstr(inventory[month] - buy[month] + sell[month] == inventory[month + 1])
+    model.addConstr(inventory[3] - buy[3] + sell[3] == data["final_inventory_required"])
+    
+    # Objective function: Maximize profit
+    model.setObjective(profit, GRB.MAXIMIZE)
+    
+    return model, {
+        "buy_1": buy[1],
+        "buy_2": buy[2],
+        "buy_3": buy[3],
+        "sell_1": sell[1],
+        "sell_2": sell[2],
+        "sell_3": sell[3],
+        "inventory_1": inventory[1],
+        "inventory_2": inventory[2],
+        "inventory_3": inventory[3],
+        "cash_1": cash[1],
+        "cash_2": cash[2],
+        "cash_3": cash[3],
+        "profit": profit
+    }
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "buy_1": variables["buy_1"].x,
+                "buy_2": variables["buy_2"].x,
+                "buy_3": variables["buy_3"].x,
+                "sell_1": variables["sell_1"].x,
+                "sell_2": variables["sell_2"].x,
+                "sell_3": variables["sell_3"].x,
+                "inventory_1": variables["inventory_1"].x,
+                "inventory_2": variables["inventory_2"].x,
+                "inventory_3": variables["inventory_3"].x,
+                "cash_1": variables["cash_1"].x,
+                "cash_2": variables["cash_2"].x,
+                "cash_3": variables["cash_3"].x,
+                "profit": variables["profit"].x
+            }
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {
+                "buy_1": None,
+                "buy_2": None,
+                "buy_3": None,
+                "sell_1": None,
+                "sell_2": None,
+                "sell_3": None,
+                "inventory_1": None,
+                "inventory_2": None,
+                "inventory_3": None,
+                "cash_1": None,
+                "cash_2": None,
+                "cash_3": None,
+                "profit": None
+            }
+        }
+```

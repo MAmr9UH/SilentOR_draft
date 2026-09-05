@@ -1,0 +1,165 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A post office needs a different number of employees each day: Monday 15, Tuesday 13, Wednesday 15, Thursday 18, Friday 14, Saturday 16, Sunday 10. Each employee works five consecutive days and then has two days off. Determine the minimum total number of employees to hire so that each day's requirement is met. An employee who starts on a given day works that day and the next four days.
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "s0": "integer Var: workers starting on this day",
+    "s1": "integer Var: workers starting on this day",
+    "s2": "integer Var: workers starting on this day",
+    "s3": "integer Var: workers starting on this day",
+    "s4": "integer Var: workers starting on this day",
+    "s5": "integer Var: workers starting on this day",
+    "s6": "integer Var: workers starting on this day"
+  },
+  "note": "Keys s0..s6 (workers starting each day, 0=Monday)."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "properties": {
+        "s0": {
+          "type": "number"
+        },
+        "s1": {
+          "type": "number"
+        },
+        "s2": {
+          "type": "number"
+        },
+        "s3": {
+          "type": "number"
+        },
+        "s4": {
+          "type": "number"
+        },
+        "s5": {
+          "type": "number"
+        },
+        "s6": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "days": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ],
+  "employees_needed": [
+    15,
+    13,
+    15,
+    18,
+    14,
+    16,
+    10
+  ],
+  "work_days_consecutive": 5,
+  "note": "employees_needed[d] is the requirement for day d (0=Monday..6=Sunday). A worker starting on day d works days d,d+1,d+2,d+3,d+4 (wrapping around the week). Decision variable keys: s0..s6 = number of workers starting on each day."
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

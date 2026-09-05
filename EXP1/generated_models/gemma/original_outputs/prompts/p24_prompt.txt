@@ -1,0 +1,499 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A company must pack goods into containers for transportation. Each container can hold at most 60 tons and each used container must load at least 18 tons. Goods A, B, C, D, and E have quantities 120, 90, 300, 90, and 120, and weights 0.5, 1.0, 0.4, 0.6, and 0.65 tons per unit. Whenever any A goods are loaded in a container, at least one unit of C must also be loaded in that container. Loading C alone does not require A. Each used container must load at least 12 units of D. Establish an operations research model that uses the fewest containers to pack all goods.
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "y_1": "binary Var: 1 if container i is used",
+    "y_2": "binary Var: 1 if container i is used",
+    "y_3": "binary Var: 1 if container i is used",
+    "y_4": "binary Var: 1 if container i is used",
+    "y_5": "binary Var: 1 if container i is used",
+    "y_6": "binary Var: 1 if container i is used",
+    "y_7": "binary Var: 1 if container i is used",
+    "y_8": "binary Var: 1 if container i is used",
+    "y_9": "binary Var: 1 if container i is used",
+    "y_10": "binary Var: 1 if container i is used",
+    "uA_1": "binary Var: 1 if container i loads any A goods",
+    "uA_2": "binary Var: 1 if container i loads any A goods",
+    "uA_3": "binary Var: 1 if container i loads any A goods",
+    "uA_4": "binary Var: 1 if container i loads any A goods",
+    "uA_5": "binary Var: 1 if container i loads any A goods",
+    "uA_6": "binary Var: 1 if container i loads any A goods",
+    "uA_7": "binary Var: 1 if container i loads any A goods",
+    "uA_8": "binary Var: 1 if container i loads any A goods",
+    "uA_9": "binary Var: 1 if container i loads any A goods",
+    "uA_10": "binary Var: 1 if container i loads any A goods",
+    "q_1_A": "integer Var: units of good A packed in container 1",
+    "q_1_B": "integer Var: units of good B packed in container 1",
+    "q_1_C": "integer Var: units of good C packed in container 1",
+    "q_1_D": "integer Var: units of good D packed in container 1",
+    "q_1_E": "integer Var: units of good E packed in container 1",
+    "q_2_A": "integer Var: units of good A packed in container 2",
+    "q_2_B": "integer Var: units of good B packed in container 2",
+    "q_2_C": "integer Var: units of good C packed in container 2",
+    "q_2_D": "integer Var: units of good D packed in container 2",
+    "q_2_E": "integer Var: units of good E packed in container 2",
+    "q_3_A": "integer Var: units of good A packed in container 3",
+    "q_3_B": "integer Var: units of good B packed in container 3",
+    "q_3_C": "integer Var: units of good C packed in container 3",
+    "q_3_D": "integer Var: units of good D packed in container 3",
+    "q_3_E": "integer Var: units of good E packed in container 3",
+    "q_4_A": "integer Var: units of good A packed in container 4",
+    "q_4_B": "integer Var: units of good B packed in container 4",
+    "q_4_C": "integer Var: units of good C packed in container 4",
+    "q_4_D": "integer Var: units of good D packed in container 4",
+    "q_4_E": "integer Var: units of good E packed in container 4",
+    "q_5_A": "integer Var: units of good A packed in container 5",
+    "q_5_B": "integer Var: units of good B packed in container 5",
+    "q_5_C": "integer Var: units of good C packed in container 5",
+    "q_5_D": "integer Var: units of good D packed in container 5",
+    "q_5_E": "integer Var: units of good E packed in container 5",
+    "q_6_A": "integer Var: units of good A packed in container 6",
+    "q_6_B": "integer Var: units of good B packed in container 6",
+    "q_6_C": "integer Var: units of good C packed in container 6",
+    "q_6_D": "integer Var: units of good D packed in container 6",
+    "q_6_E": "integer Var: units of good E packed in container 6",
+    "q_7_A": "integer Var: units of good A packed in container 7",
+    "q_7_B": "integer Var: units of good B packed in container 7",
+    "q_7_C": "integer Var: units of good C packed in container 7",
+    "q_7_D": "integer Var: units of good D packed in container 7",
+    "q_7_E": "integer Var: units of good E packed in container 7",
+    "q_8_A": "integer Var: units of good A packed in container 8",
+    "q_8_B": "integer Var: units of good B packed in container 8",
+    "q_8_C": "integer Var: units of good C packed in container 8",
+    "q_8_D": "integer Var: units of good D packed in container 8",
+    "q_8_E": "integer Var: units of good E packed in container 8",
+    "q_9_A": "integer Var: units of good A packed in container 9",
+    "q_9_B": "integer Var: units of good B packed in container 9",
+    "q_9_C": "integer Var: units of good C packed in container 9",
+    "q_9_D": "integer Var: units of good D packed in container 9",
+    "q_9_E": "integer Var: units of good E packed in container 9",
+    "q_10_A": "integer Var: units of good A packed in container 10",
+    "q_10_B": "integer Var: units of good B packed in container 10",
+    "q_10_C": "integer Var: units of good C packed in container 10",
+    "q_10_D": "integer Var: units of good D packed in container 10",
+    "q_10_E": "integer Var: units of good E packed in container 10"
+  },
+  "note": "Use exactly these flat variable keys. Container IDs 1-10 are an upper bound; the objective chooses how many are used."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "minimum number of used containers"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "y_1",
+        "y_2",
+        "y_3",
+        "y_4",
+        "y_5",
+        "y_6",
+        "y_7",
+        "y_8",
+        "y_9",
+        "y_10",
+        "uA_1",
+        "uA_2",
+        "uA_3",
+        "uA_4",
+        "uA_5",
+        "uA_6",
+        "uA_7",
+        "uA_8",
+        "uA_9",
+        "uA_10",
+        "q_1_A",
+        "q_1_B",
+        "q_1_C",
+        "q_1_D",
+        "q_1_E",
+        "q_2_A",
+        "q_2_B",
+        "q_2_C",
+        "q_2_D",
+        "q_2_E",
+        "q_3_A",
+        "q_3_B",
+        "q_3_C",
+        "q_3_D",
+        "q_3_E",
+        "q_4_A",
+        "q_4_B",
+        "q_4_C",
+        "q_4_D",
+        "q_4_E",
+        "q_5_A",
+        "q_5_B",
+        "q_5_C",
+        "q_5_D",
+        "q_5_E",
+        "q_6_A",
+        "q_6_B",
+        "q_6_C",
+        "q_6_D",
+        "q_6_E",
+        "q_7_A",
+        "q_7_B",
+        "q_7_C",
+        "q_7_D",
+        "q_7_E",
+        "q_8_A",
+        "q_8_B",
+        "q_8_C",
+        "q_8_D",
+        "q_8_E",
+        "q_9_A",
+        "q_9_B",
+        "q_9_C",
+        "q_9_D",
+        "q_9_E",
+        "q_10_A",
+        "q_10_B",
+        "q_10_C",
+        "q_10_D",
+        "q_10_E"
+      ],
+      "properties": {
+        "y_1": {
+          "type": "number"
+        },
+        "y_2": {
+          "type": "number"
+        },
+        "y_3": {
+          "type": "number"
+        },
+        "y_4": {
+          "type": "number"
+        },
+        "y_5": {
+          "type": "number"
+        },
+        "y_6": {
+          "type": "number"
+        },
+        "y_7": {
+          "type": "number"
+        },
+        "y_8": {
+          "type": "number"
+        },
+        "y_9": {
+          "type": "number"
+        },
+        "y_10": {
+          "type": "number"
+        },
+        "uA_1": {
+          "type": "number"
+        },
+        "uA_2": {
+          "type": "number"
+        },
+        "uA_3": {
+          "type": "number"
+        },
+        "uA_4": {
+          "type": "number"
+        },
+        "uA_5": {
+          "type": "number"
+        },
+        "uA_6": {
+          "type": "number"
+        },
+        "uA_7": {
+          "type": "number"
+        },
+        "uA_8": {
+          "type": "number"
+        },
+        "uA_9": {
+          "type": "number"
+        },
+        "uA_10": {
+          "type": "number"
+        },
+        "q_1_A": {
+          "type": "number"
+        },
+        "q_1_B": {
+          "type": "number"
+        },
+        "q_1_C": {
+          "type": "number"
+        },
+        "q_1_D": {
+          "type": "number"
+        },
+        "q_1_E": {
+          "type": "number"
+        },
+        "q_2_A": {
+          "type": "number"
+        },
+        "q_2_B": {
+          "type": "number"
+        },
+        "q_2_C": {
+          "type": "number"
+        },
+        "q_2_D": {
+          "type": "number"
+        },
+        "q_2_E": {
+          "type": "number"
+        },
+        "q_3_A": {
+          "type": "number"
+        },
+        "q_3_B": {
+          "type": "number"
+        },
+        "q_3_C": {
+          "type": "number"
+        },
+        "q_3_D": {
+          "type": "number"
+        },
+        "q_3_E": {
+          "type": "number"
+        },
+        "q_4_A": {
+          "type": "number"
+        },
+        "q_4_B": {
+          "type": "number"
+        },
+        "q_4_C": {
+          "type": "number"
+        },
+        "q_4_D": {
+          "type": "number"
+        },
+        "q_4_E": {
+          "type": "number"
+        },
+        "q_5_A": {
+          "type": "number"
+        },
+        "q_5_B": {
+          "type": "number"
+        },
+        "q_5_C": {
+          "type": "number"
+        },
+        "q_5_D": {
+          "type": "number"
+        },
+        "q_5_E": {
+          "type": "number"
+        },
+        "q_6_A": {
+          "type": "number"
+        },
+        "q_6_B": {
+          "type": "number"
+        },
+        "q_6_C": {
+          "type": "number"
+        },
+        "q_6_D": {
+          "type": "number"
+        },
+        "q_6_E": {
+          "type": "number"
+        },
+        "q_7_A": {
+          "type": "number"
+        },
+        "q_7_B": {
+          "type": "number"
+        },
+        "q_7_C": {
+          "type": "number"
+        },
+        "q_7_D": {
+          "type": "number"
+        },
+        "q_7_E": {
+          "type": "number"
+        },
+        "q_8_A": {
+          "type": "number"
+        },
+        "q_8_B": {
+          "type": "number"
+        },
+        "q_8_C": {
+          "type": "number"
+        },
+        "q_8_D": {
+          "type": "number"
+        },
+        "q_8_E": {
+          "type": "number"
+        },
+        "q_9_A": {
+          "type": "number"
+        },
+        "q_9_B": {
+          "type": "number"
+        },
+        "q_9_C": {
+          "type": "number"
+        },
+        "q_9_D": {
+          "type": "number"
+        },
+        "q_9_E": {
+          "type": "number"
+        },
+        "q_10_A": {
+          "type": "number"
+        },
+        "q_10_B": {
+          "type": "number"
+        },
+        "q_10_C": {
+          "type": "number"
+        },
+        "q_10_D": {
+          "type": "number"
+        },
+        "q_10_E": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "container_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "goods": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "quantity": {
+    "A": 120,
+    "B": 90,
+    "C": 300,
+    "D": 90,
+    "E": 120
+  },
+  "weight_tons": {
+    "A": 0.5,
+    "B": 1.0,
+    "C": 0.4,
+    "D": 0.6,
+    "E": 0.65
+  },
+  "container_capacity_tons": 60,
+  "minimum_load_tons_if_used": 18,
+  "minimum_D_units_if_used": 12,
+  "max_containers_available": 10,
+  "A_requires_at_least_one_C_in_same_container": true
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

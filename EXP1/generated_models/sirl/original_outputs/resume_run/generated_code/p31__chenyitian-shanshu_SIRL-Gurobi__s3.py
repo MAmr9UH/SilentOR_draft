@@ -1,0 +1,101 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("recruitment_model")
+
+    # Decision variables
+    x = {}
+    for type_id in data["types"]:
+        for branch in data["branches"]:
+            for specialty in data["specialties"]:
+                x[f"x_{type_id}_{branch}_{specialty}"] = model.addVar(name=f"x_{type_id}_{branch}_{specialty}", lb=0, vtype=GRB.INTEGER)
+
+    p3_shortfall = model.addVar(name="p3_shortfall", lb=0, vtype=GRB.INTEGER)
+
+    # Available people
+    available_people = data["available_people"]
+
+    # Suitable specialties
+    suitable_specialties = data["suitable_specialties"]
+
+    # Preferred specialty
+    preferred_specialty = data["preferred_specialty"]
+
+    # Preferred city
+    preferred_city = data["preferred_city"]
+
+    # Demand
+    demand = data["demand"]
+
+    # P2 target
+    p2_target = data["p2_preferred_specialty_target"]
+
+    # P3 target
+    p3_target = data["p3_preferred_city_target"]
+
+    # Objective function for lexicographic goal programming
+    model.setObjective(p3_shortfall, GRB.MINIMIZE)
+
+    # Demand constraints
+    for branch in data["branches"]:
+        for specialty in data["specialties"]:
+            model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types" if branch + "_" + str(specialty) in demand.keys()] if specialty in suitable_specialties.get(type_id, [])) >= demand.get(branch + "_" + str(specialty), 0))
+
+    # P2: Maximize the number of recruited personnel assigned to their preferred specialty
+    model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types"] if branch + "_" + str(specialty) in demand.keys() and specialty == preferred_specialty.get(type_id, 0)) <= p2_target)
+
+    # P3: Maximize the number assigned to their preferred city
+    model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types"] if branch == preferred_city.get(type_id, "default") and branch + "_" + str(specialty) in demand.keys()) <= p3_target)
+
+    # Available people constraint
+    for type_id in data["types"]:
+        model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for branch in data["branches"] for specialty in data["specialties"] if specialty in suitable_specialties.get(type_id, [])) <= available_people[str(type_id)])
+
+    # Lexicographic goal programming: P3 shortfall
+    model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types"] if branch == preferred_city.get(type_id, "default") and branch + "_" + str(specialty) in demand.keys()) - p3_target <= p3_shortfall)
+
+    return model, x, p3_shortfall
+
+def solve(data: dict) -> dict:
+    model, x, p3_shortfall = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_1_Donghai_1": x["x_1_Donghai_1"].x,
+            "x_1_Donghai_2": x["x_1_Donghai_2"].x,
+            "x_1_Nanjiang_1": x["x_1_Nanjiang_1"].x,
+            "x_1_Nanjiang_2": x["x_1_Nanjiang_2"].x,
+            "x_2_Donghai_2": x["x_2_Donghai_2"].x,
+            "x_2_Donghai_3": x["x_2_Donghai_3"].x,
+            "x_2_Nanjiang_2": x["x_2_Nanjiang_2"].x,
+            "x_2_Nanjiang_3": x["x_2_Nanjiang_3"].x,
+            "x_3_Donghai_1": x["x_3_Donghai_1"].x,
+            "x_3_Donghai_3": x["x_3_Donghai_3"].x,
+            "x_3_Nanjiang_1": x["x_3_Nanjiang_1"].x,
+            "x_3_Nanjiang_3": x["x_3_Nanjiang_3"].x,
+            "x_4_Donghai_1": x["x_4_Donghai_1"].x,
+            "x_4_Donghai_3": x["x_4_Donghai_3"].x,
+            "x_4_Nanjiang_1": x["x_4_Nanjiang_1"].x,
+            "x_4_Nanjiang_3": x["x_4_Nanjiang_3"].x,
+            "x_5_Donghai_2": x["x_5_Donghai_2"].x,
+            "x_5_Donghai_3": x["x_5_Donghai_3"].x,
+            "x_5_Nanjiang_2": x["x_5_Nanjiang_2"].x,
+            "x_5_Nanjiang_3": x["x_5_Nanjiang_3"].x,
+            "x_6_Donghai_3": x["x_6_Donghai_3"].x,
+            "x_6_Nanjiang_3": x["x_6_Nanjiang_3"].x,
+            "p3_shortfall": p3_shortfall.x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": solution["p3_shortfall"],
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

@@ -1,0 +1,27 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 9,
+  "scenario_id": "post_office_scheduling",
+  "data_instance": {
+    "days": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "employees_needed": [
+      15,
+      13,
+      15,
+      18,
+      14,
+      16,
+      10
+    ],
+    "work_days_consecutive": 5
+  }
+}

@@ -1,0 +1,122 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "start_A": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_B": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_C": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_D": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_E": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_F": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_G": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Cmax": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "machine_span": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Precedence constraints
+    for precedence in data["precedence"]:
+        predecessor = precedence[0]
+        successor = precedence[1]
+        if predecessor == "A":
+            start_predecessor = variables["start_A"]
+        elif predecessor == "B":
+            start_predecessor = variables["start_B"]
+        elif predecessor == "C":
+            start_predecessor = variables["start_C"]
+        elif predecessor == "D":
+            start_predecessor = variables["start_D"]
+        elif predecessor == "E":
+            start_predecessor = variables["start_E"]
+        elif predecessor == "F":
+            start_predecessor = variables["start_F"]
+        elif predecessor == "G":
+            start_predecessor = variables["start_G"]
+            
+        if successor == "A":
+            start_successor = variables["start_A"]
+        elif successor == "B":
+            start_successor = variables["start_B"]
+        elif successor == "C":
+            start_successor = variables["start_C"]
+        elif successor == "D":
+            start_successor = variables["start_D"]
+        elif successor == "E":
+            start_successor = variables["start_E"]
+        elif successor == "F":
+            start_successor = variables["start_F"]
+        elif successor == "G":
+            start_successor = variables["start_G"]
+            
+        if predecessor in data["durations"]:
+            duration_predecessor = data["durations"][predecessor]
+        else:
+            raise ValueError("Predecessor not found in durations")
+        
+        model.addConstr(start_successor >= start_predecessor + duration_predecessor)
+    
+    # Cmax constraints
+    for activity, duration in data["durations"].items():
+        if activity == "A":
+            start_activity = variables["start_A"]
+        elif activity == "B":
+            start_activity = variables["start_B"]
+        elif activity == "C":
+            start_activity = variables["start_C"]
+        elif activity == "D":
+            start_activity = variables["start_D"]
+        elif activity == "E":
+            start_activity = variables["start_E"]
+        elif activity == "F":
+            start_activity = variables["start_F"]
+        elif activity == "G":
+            start_activity = variables["start_G"]
+        
+        model.addConstr(variables["Cmax"] >= start_activity + duration)
+    
+    # Machine span constraint
+    model.addConstr(variables["machine_span"] == variables["start_B"] + data["durations"]["B"] - variables["start_A"])
+    
+    # Objective function
+    objective = gp.quicksum([data["work_cost_per_project_day"] * variables["Cmax"], 
+                             data["machine_rental_cost_per_day"] * variables["machine_span"]])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = "OPTIMAL"
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = "UNBOUNDED"
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = "INF_OR_UNBD"
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = "TIME_LIMIT"
+    
+    solution = {
+        "start_A": variables["start_A"].X,
+        "start_B": variables["start_B"].X,
+        "start_C": variables["start_C"].X,
+        "start_D": variables["start_D"].X,
+        "start_E": variables["start_E"].X,
+        "start_F": variables["start_F"].X,
+        "start_G": variables["start_G"].X,
+        "Cmax": variables["Cmax"].X,
+        "machine_span": variables["machine_span"].X
+    }
+    
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

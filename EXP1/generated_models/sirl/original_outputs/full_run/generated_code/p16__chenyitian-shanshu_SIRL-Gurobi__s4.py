@@ -1,0 +1,87 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("supply_distribution_model")
+
+    # Initialize decision variables
+    y = {}
+    f = {}
+
+    # y_c_i: 1 if distribution center i is opened
+    for center in data["centers"]:
+        y[center] = model.addVar(name=f"y_{center}", vtype=GRB.BINARY)
+
+    # f_c_i_s_j: units shipped from distribution center i to store j
+    for center in data["centers"]:
+        for store in data["stores"]:
+            f[center, store] = model.addVar(name=f"f_{center}_{store}", lb=0)
+
+    # Objective function: Minimize total cost
+    model.setObjective(
+        gp.quicksum(data["fixed_opening_cost"][center] * y[center] for center in data["centers"]) +
+        gp.quicksum(data["transport_cost"][center][store] * f[center, store] for center in data["centers"] for store in data["stores"]),
+        GRB.MINIMIZE)
+
+    # Demand at each store
+    for store in data["stores"]:
+        model.addConstr(gp.quicksum(f[center, store] for center in data["centers"]) >= data["demand"][store])
+
+    # Capacity limit for each distribution center
+    for center in data["centers"]:
+        model.addConstr(gp.quicksum(f[center, store] for store in data["stores"]) <= data["capacity"][center])
+
+    return model, {"y": y, "f": f}
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "y_c1": variables["y"]["c1"].x,
+            "y_c2": variables["y"]["c2"].x,
+            "y_c3": variables["y"]["c3"].x,
+            "y_c4": variables["y"]["c4"].x,
+            "y_c5": variables["y"]["c5"].x,
+            "y_c6": variables["y"]["c6"].x,
+            "y_c7": variables["y"]["c7"].x,
+            "f_c1_s1": variables["f"]["c1", "s1"].x,
+            "f_c1_s2": variables["f"]["c1", "s2"].x,
+            "f_c1_s3": variables["f"]["c1", "s3"].x,
+            "f_c1_s4": variables["f"]["c1", "s4"].x,
+            "f_c2_s1": variables["f"]["c2", "s1"].x,
+            "f_c2_s2": variables["f"]["c2", "s2"].x,
+            "f_c2_s3": variables["f"]["c2", "s3"].x,
+            "f_c2_s4": variables["f"]["c2", "s4"].x,
+            "f_c3_s1": variables["f"]["c3", "s1"].x,
+            "f_c3_s2": variables["f"]["c3", "s2"].x,
+            "f_c3_s3": variables["f"]["c3", "s3"].x,
+            "f_c3_s4": variables["f"]["c3", "s4"].x,
+            "f_c4_s1": variables["f"]["c4", "s1"].x,
+            "f_c4_s2": variables["f"]["c4", "s2"].x,
+            "f_c4_s3": variables["f"]["c4", "s3"].x,
+            "f_c4_s4": variables["f"]["c4", "s4"].x,
+            "f_c5_s1": variables["f"]["c5", "s1"].x,
+            "f_c5_s2": variables["f"]["c5", "s2"].x,
+            "f_c5_s3": variables["f"]["c5", "s3"].x,
+            "f_c5_s4": variables["f"]["c5", "s4"].x,
+            "f_c6_s1": variables["f"]["c6", "s1"].x,
+            "f_c6_s2": variables["f"]["c6", "s2"].x,
+            "f_c6_s3": variables["f"]["c6", "s3"].x,
+            "f_c6_s4": variables["f"]["c6", "s4"].x,
+            "f_c7_s1": variables["f"]["c7", "s1"].x,
+            "f_c7_s2": variables["f"]["c7", "s2"].x,
+            "f_c7_s3": variables["f"]["c7", "s3"].x,
+            "f_c7_s4": variables["f"]["c7", "s4"].x,
+            "status": "OPTIMAL",
+            "objective": model.objVal
+        }
+        return solution
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

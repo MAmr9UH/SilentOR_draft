@@ -1,0 +1,149 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("production_schedule_model")
+    
+    # Decision variables
+    prod_I = {
+        month: model.addVar(name=f"prod_I_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    prod_II = {
+        month: model.addVar(name=f"prod_II_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    inv_I = {
+        month: model.addVar(name=f"inv_I_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    inv_II = {
+        month: model.addVar(name=f"inv_II_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    own_storage = {
+        month: model.addVar(name=f"own_storage_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    external_storage = {
+        month: model.addVar(name=f"external_storage_{month}", vtype=GRB.CONTINUOUS) for month in data["months"]
+    }
+    
+    # Objective function: Minimize total production and inventory cost
+    model.setObjective(
+        gp.quicksum(data["production_cost"]["I"] * prod_I[month] for month in data["months"]) +
+        gp.quicksum(data["production_cost"]["II"] * prod_II[month] for month in data["months"]) +
+        gp.quicksum(data["own_storage_cost_per_cubic_m_month"] * own_storage[month] for month in data["months"]) +
+        gp.quicksum(data["external_storage_cost_per_cubic_m_month"] * external_storage[month] for month in data["months"]),
+        GRB.MINIMIZE)
+
+    # Demand constraints
+    for month in data["months"]:
+        if data["products"][0] == "I":
+            model.addConstr(prod_I[month] - inv_I[month] == data["demand"]["I"][str(month)])
+        if data["products"][1] == "II":
+            model.addConstr(prod_II[month] - inv_II[month] == data["demand"]["II"][str(month)])
+
+    # Production capacity constraint
+    for month in data["months"]:
+        model.addConstr(prod_I[month] + prod_II[month] <= data["monthly_total_production_capacity"])
+
+    # Inventory volume constraint
+    for month in data["months"]:
+        model.addConstr(0.2 * prod_I[month] + 0.4 * prod_II[month] - inv_I[month] - inv_II[month] <= data["own_warehouse_capacity_cubic_m"] - (own_storage[month] + external_storage[month]))
+
+    # Total storage cost constraint
+    for month in data["months"]:
+        model.addConstr(own_storage[month] * data["own_storage_cost_per_cubic_m_month"] + external_storage[month] * data["external_storage_cost_per_cubic_m_month"] <= 15000)
+
+    return model, {
+        "prod_I_7": prod_I[7],
+        "prod_I_8": prod_I[8],
+        "prod_I_9": prod_I[9],
+        "prod_I_10": prod_I[10],
+        "prod_I_11": prod_I[11],
+        "prod_I_12": prod_I[12],
+        "prod_II_7": prod_II[7],
+        "prod_II_8": prod_II[8],
+        "prod_II_9": prod_II[9],
+        "prod_II_10": prod_II[10],
+        "prod_II_11": prod_II[11],
+        "prod_II_12": prod_II[12],
+        "inv_I_7": inv_I[7],
+        "inv_I_8": inv_I[8],
+        "inv_I_9": inv_I[9],
+        "inv_I_10": inv_I[10],
+        "inv_I_11": inv_I[11],
+        "inv_I_12": inv_I[12],
+        "inv_II_7": inv_II[7],
+        "inv_II_8": inv_II[8],
+        "inv_II_9": inv_II[9],
+        "inv_II_10": inv_II[10],
+        "inv_II_11": inv_II[11],
+        "inv_II_12": inv_II[12],
+        "own_storage_7": own_storage[7],
+        "own_storage_8": own_storage[8],
+        "own_storage_9": own_storage[9],
+        "own_storage_10": own_storage[10],
+        "own_storage_11": own_storage[11],
+        "own_storage_12": own_storage[12],
+        "external_storage_7": external_storage[7],
+        "external_storage_8": external_storage[8],
+        "external_storage_9": external_storage[9],
+        "external_storage_10": external_storage[10],
+        "external_storage_11": external_storage[11],
+        "external_storage_12": external_storage[12]
+    }
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "prod_I_7": variables["prod_I_7"].x,
+                "prod_I_8": variables["prod_I_8"].x,
+                "prod_I_9": variables["prod_I_9"].x,
+                "prod_I_10": variables["prod_I_10"].x,
+                "prod_I_11": variables["prod_I_11"].x,
+                "prod_I_12": variables["prod_I_12"].x,
+                "prod_II_7": variables["prod_II_7"].x,
+                "prod_II_8": variables["prod_II_8"].x,
+                "prod_II_9": variables["prod_II_9"].x,
+                "prod_II_10": variables["prod_II_10"].x,
+                "prod_II_11": variables["prod_II_11"].x,
+                "prod_II_12": variables["prod_II_12"].x,
+                "inv_I_7": variables["inv_I_7"].x,
+                "inv_I_8": variables["inv_I_8"].x,
+                "inv_I_9": variables["inv_I_9"].x,
+                "inv_I_10": variables["inv_I_10"].x,
+                "inv_I_11": variables["inv_I_11"].x,
+                "inv_I_12": variables["inv_I_12"].x,
+                "inv_II_7": variables["inv_II_7"].x,
+                "inv_II_8": variables["inv_II_8"].x,
+                "inv_II_9": variables["inv_II_9"].x,
+                "inv_II_10": variables["inv_II_10"].x,
+                "inv_II_11": variables["inv_II_11"].x,
+                "inv_II_12": variables["inv_II_12"].x,
+                "own_storage_7": variables["own_storage_7"].x,
+                "own_storage_8": variables["own_storage_8"].x,
+                "own_storage_9": variables["own_storage_9"].x,
+                "own_storage_10": variables["own_storage_10"].x,
+                "own_storage_11": variables["own_storage_11"].x,
+                "own_storage_12": variables["own_storage_12"].x,
+                "external_storage_7": variables["external_storage_7"].x,
+                "external_storage_8": variables["external_storage_8"].x,
+                "external_storage_9": variables["external_storage_9"].x,
+                "external_storage_10": variables["external_storage_10"].x,
+                "external_storage_11": variables["external_storage_11"].x,
+                "external_storage_12": variables["external_storage_12"].x
+            }
+        }
+        return solution
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }
+```

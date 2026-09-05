@@ -1,0 +1,63 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for start_month in data['months']:
+        for length in [l for l in data['contract_lengths'] if (start_month + l - 1) <= max(data['months'])]:
+            key = f'x_{start_month}_{length}'
+            variables[key] = model.addVar(vtype=gp.GRB.INTEGER, name=key)
+    
+    for length in data['contract_lengths']:
+        key = f'y_{length}'
+        variables[key] = model.addVar(vtype=gp.GRB.BINARY, name=key)
+    
+    # Objective function
+    objective = gp.quicksum(variables[f'x_{start_month}_{length}'] * data['fee_per_100sqm_by_length'][str(length)] for start_month in data['months'] for length in [l for l in data['contract_lengths'] if (start_month + l - 1) <= max(data['months'])])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    # Demand constraints
+    for month in data['months']:
+        demand_constraint = gp.quicksum(variables[f'x_{start_month}_{length}'] for start_month in data['months'] for length in [l for l in data['contract_lengths'] if (start_month + l - 1) >= month and start_month <= month])
+        model.addConstr(demand_constraint == data['demand_100sqm'][str(month)], name=f'demand_{month}')
+    
+    # Contract length constraints
+    for length in data['contract_lengths']:
+        contract_length_constraint = gp.quicksum(variables[f'x_{start_month}_{length}'] for start_month in data['months'] if (start_month + length - 1) <= max(data['months']))
+        model.addConstr(contract_length_constraint >= variables[f'y_{length}'], name=f'contract_length_{length}')
+    
+    # Minimum distinct lengths constraint
+    min_distinct_lengths_constraint = gp.quicksum(variables[f'y_{length}'] for length in data['contract_lengths'])
+    model.addConstr(min_distinct_lengths_constraint >= data['min_distinct_lengths'], name='min_distinct_lengths')
+    
+    # Maximum distinct lengths constraint
+    max_distinct_lengths_constraint = gp.quicksum(variables[f'y_{length}'] for length in data['contract_lengths'])
+    model.addConstr(max_distinct_lengths_constraint <= data['max_distinct_lengths'], name='max_distinct_lengths')
+    
+    # Mutually exclusive lengths constraints
+    mutually_exclusive_lengths_constraints = []
+    for i, length1 in enumerate(data['mutually_exclusive_lengths']):
+        for j, length2 in enumerate(data['mutually_exclusive_lengths'][i+1:]):
+            mutually_exclusive_lengths_constraint = variables[f'y_{length1}'] + variables[f'y_{length2}']
+            model.addConstr(mutually_exclusive_lengths_constraint <= 1, name=f'mutually_exclusive_lengths_{length1}_{length2}')
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    solution = {}
+    for key in variables.keys():
+        if isinstance(variables[key], gp.Var):
+            solution[key] = variables[key].X
+        else:
+            raise ValueError(f"Unexpected variable type for {key}")
+    
+    return {
+        "status": model.Status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }

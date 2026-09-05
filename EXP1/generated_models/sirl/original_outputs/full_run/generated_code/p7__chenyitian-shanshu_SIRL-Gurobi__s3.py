@@ -1,0 +1,204 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("production_planning_model")
+
+    # Initialize decision variables
+    x = {
+        "I": {
+            1: model.addVar(name="x_I_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="x_I_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="x_I_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="x_I_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "II": {
+            1: model.addVar(name="x_II_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="x_II_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="x_II_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="x_II_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "III": {
+            1: model.addVar(name="x_III_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="x_III_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="x_III_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="x_III_4", vtype=GRB.CONTINUOUS, lb=0)
+        }
+    }
+
+    inventory = {
+        "I": {
+            1: model.addVar(name="Iv_I_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Iv_I_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Iv_I_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Iv_I_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "II": {
+            1: model.addVar(name="Iv_II_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Iv_II_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Iv_II_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Iv_II_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "III": {
+            1: model.addVar(name="Iv_III_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Iv_III_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Iv_III_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Iv_III_4", vtype=GRB.CONTINUOUS, lb=0)
+        }
+    }
+
+    backlog = {
+        "I": {
+            1: model.addVar(name="Bk_I_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Bk_I_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Bk_I_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Bk_I_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "II": {
+            1: model.addVar(name="Bk_II_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Bk_II_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Bk_II_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Bk_II_4", vtype=GRB.CONTINUOUS, lb=0)
+        },
+        "III": {
+            1: model.addVar(name="Bk_III_1", vtype=GRB.CONTINUOUS, lb=0),
+            2: model.addVar(name="Bk_III_2", vtype=GRB.CONTINUOUS, lb=0),
+            3: model.addVar(name="Bk_III_3", vtype=GRB.CONTINUOUS, lb=0),
+            4: model.addVar(name="Bk_III_4", vtype=GRB.CONTINUOUS, lb=0)
+        }
+    }
+
+    # Define order quantities
+    orders = {
+        "I": {
+            1: data["orders"]["I_1"],
+            2: data["orders"]["I_2"],
+            3: data["orders"]["I_3"],
+            4: data["orders"]["I_4"]
+        },
+        "II": {
+            1: data["orders"]["II_1"],
+            2: data["orders"]["II_2"],
+            3: data["orders"]["II_3"],
+            4: data["orders"]["II_4"]
+        },
+        "III": {
+            1: data["orders"]["III_1"],
+            2: data["orders"]["III_2"],
+            3: data["orders"]["III_3"],
+            4: data["orders"]["III_4"]
+        }
+    }
+
+    # Define hours per unit
+    hours_per_unit = {
+        "I": data["hours_per_unit"]["I"],
+        "II": data["hours_per_unit"]["II"],
+        "III": data["hours_per_unit"]["III"]
+    }
+
+    # Define capacity
+    capacity_hours_per_quarter = data["capacity_hours_per_quarter"]
+
+    # Define late penalty
+    late_penalty_per_unit_per_quarter = {
+        "I": data["late_penalty_per_unit_per_quarter"]["I"],
+        "II": data["late_penalty_per_unit_per_quarter"]["II"],
+        "III": data["late_penalty_per_unit_per_quarter"]["III"]
+    }
+
+    # Define storage cost
+    storage_cost_per_unit_per_quarter = data["storage_cost_per_unit_per_quarter"]
+
+    # Define the quarter where product I cannot be produced
+    product_I_blocked_quarter = data["product_I_blocked_quarter"]
+
+    # Objective function: Minimize total late penalty and storage cost
+    objective_function = 0
+
+    for product in ["I", "II", "III"]:
+        for quarter in [1, 2, 3, 4]:
+            objective_function += late_penalty_per_unit_per_quarter[product] * backlog[product][quarter] + storage_cost_per_unit_per_quarter * (x[product][quarter] - orders[product][quarter] + backlog[product][quarter])
+
+    model.setObjective(objective_function, GRB.MINIMIZE)
+
+    # Production capacity constraint
+    for quarter in [1, 2, 3, 4]:
+        total_production_hours = (hours_per_unit["I"] * x["I"][quarter] +
+                                 hours_per_unit["II"] * x["II"][quarter] +
+                                 hours_per_unit["III"] * x["III"][quarter])
+
+        model.addConstr(total_production_hours <= capacity_hours_per_quarter)
+
+    # Product I cannot be produced in quarter 2
+    model.addConstr(x["I"][2] == 0)
+
+    # Inventory balance for each product in each quarter
+    for product in ["I", "II", "III"]:
+        for quarter in [1, 2, 3, 4]:
+            if quarter == 1:
+                model.addConstr(x[product][quarter] - orders[product][quarter] + inventory[product][quarter] == backlog[product][quarter])
+            else:
+                model.addConstr(x[product][quarter] - orders[product][quarter] + inventory[product][quarter] == inventory[product][quarter - 1] - backlog[product][quarter])
+
+    # Required ending inventory for product I
+    model.addConstr(inventory["I"][4] == 150)
+
+    # Solve the model
+    return model, x, inventory, backlog
+
+def solve(data: dict) -> dict:
+    model, x, inventory, backlog = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_I_1": x["I"][1].x,
+            "x_I_2": x["I"][2].x,
+            "x_I_3": x["I"][3].x,
+            "x_I_4": x["I"][4].x,
+            "x_II_1": x["II"][1].x,
+            "x_II_2": x["II"][2].x,
+            "x_II_3": x["II"][3].x,
+            "x_II_4": x["II"][4].x,
+            "x_III_1": x["III"][1].x,
+            "x_III_2": x["III"][2].x,
+            "x_III_3": x["III"][3].x,
+            "x_III_4": x["III"][4].x,
+            "Iv_I_1": inventory["I"][1].x,
+            "Iv_I_2": inventory["I"][2].x,
+            "Iv_I_3": inventory["I"][3].x,
+            "Iv_I_4": inventory["I"][4].x,
+            "Iv_II_1": inventory["II"][1].x,
+            "Iv_II_2": inventory["II"][2].x,
+            "Iv_II_3": inventory["II"][3].x,
+            "Iv_II_4": inventory["II"][4].x,
+            "Iv_III_1": inventory["III"][1].x,
+            "Iv_III_2": inventory["III"][2].x,
+            "Iv_III_3": inventory["III"][3].x,
+            "Iv_III_4": inventory["III"][4].x,
+            "Bk_I_1": backlog["I"][1].x,
+            "Bk_I_2": backlog["I"][2].x,
+            "Bk_I_3": backlog["I"][3].x,
+            "Bk_I_4": backlog["I"][4].x,
+            "Bk_II_1": backlog["II"][1].x,
+            "Bk_II_2": backlog["II"][2].x,
+            "Bk_II_3": backlog["II"][3].x,
+            "Bk_II_4": backlog["II"][4].x,
+            "Bk_III_1": backlog["III"][1].x,
+            "Bk_III_2": backlog["III"][2].x,
+            "Bk_III_3": backlog["III"][3].x,
+            "Bk_III_4": backlog["III"][4].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

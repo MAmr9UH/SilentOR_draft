@@ -1,0 +1,60 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 39,
+  "scenario_id": "project_scheduling_precedence_machine_rental_lp",
+  "data_instance": {
+    "activities": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G"
+    ],
+    "durations": {
+      "A": 4,
+      "B": 3,
+      "C": 5,
+      "D": 2,
+      "E": 10,
+      "F": 10,
+      "G": 1
+    },
+    "precedence": [
+      [
+        "A",
+        "G"
+      ],
+      [
+        "A",
+        "D"
+      ],
+      [
+        "E",
+        "F"
+      ],
+      [
+        "G",
+        "F"
+      ],
+      [
+        "D",
+        "C"
+      ],
+      [
+        "F",
+        "C"
+      ],
+      [
+        "F",
+        "B"
+      ]
+    ],
+    "work_cost_per_project_day": 1000,
+    "machine_rental_cost_per_day": 5000,
+    "machine_rental_from": "start_A",
+    "machine_rental_to": "end_B"
+  }
+}

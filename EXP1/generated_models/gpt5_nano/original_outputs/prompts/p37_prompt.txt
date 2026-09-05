@@ -1,0 +1,163 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A trading company specializes in wholesale grain. It has warehouse capacity of 5000 dan. On January 1 it has 1000 dan of grain in stock and 20000 yuan in cash. Estimated purchase and selling prices for months 1, 2, and 3 are: purchase prices 2.85, 3.05, and 2.90 yuan per dan; selling prices 3.10, 3.25, and 2.95 yuan per dan. Purchased grain is delivered in the same month but can only be sold in the next month, and payment is required upon delivery. The company wants to have exactly 2000 dan in inventory at the end of the quarter. Determine a purchasing and selling strategy that maximizes total profit over the three months.
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "buy_1": "continuous variable",
+    "buy_2": "continuous variable",
+    "buy_3": "continuous variable",
+    "sell_1": "continuous variable",
+    "sell_2": "continuous variable",
+    "sell_3": "continuous variable",
+    "inventory_1": "continuous variable",
+    "inventory_2": "continuous variable",
+    "inventory_3": "continuous variable",
+    "cash_1": "continuous variable",
+    "cash_2": "continuous variable",
+    "cash_3": "continuous variable",
+    "profit": "continuous variable"
+  },
+  "note": "Use flat continuous variables buy_1..buy_3, sell_1..sell_3, inventory_1..inventory_3, cash_1..cash_3, and profit."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "maximum total profit over the three months"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "buy_1",
+        "buy_2",
+        "buy_3",
+        "sell_1",
+        "sell_2",
+        "sell_3",
+        "inventory_1",
+        "inventory_2",
+        "inventory_3",
+        "cash_1",
+        "cash_2",
+        "cash_3",
+        "profit"
+      ],
+      "properties": {
+        "buy_1": {
+          "type": "number"
+        },
+        "buy_2": {
+          "type": "number"
+        },
+        "buy_3": {
+          "type": "number"
+        },
+        "sell_1": {
+          "type": "number"
+        },
+        "sell_2": {
+          "type": "number"
+        },
+        "sell_3": {
+          "type": "number"
+        },
+        "inventory_1": {
+          "type": "number"
+        },
+        "inventory_2": {
+          "type": "number"
+        },
+        "inventory_3": {
+          "type": "number"
+        },
+        "cash_1": {
+          "type": "number"
+        },
+        "cash_2": {
+          "type": "number"
+        },
+        "cash_3": {
+          "type": "number"
+        },
+        "profit": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "months": [
+    1,
+    2,
+    3
+  ],
+  "initial_inventory": 1000,
+  "initial_cash": 20000,
+  "capacity": 5000,
+  "final_inventory_required": 2000,
+  "purchase_price": {
+    "1": 2.85,
+    "2": 3.05,
+    "3": 2.9
+  },
+  "selling_price": {
+    "1": 3.1,
+    "2": 3.25,
+    "3": 2.95
+  },
+  "same_month_purchases_sellable_next_month": true
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

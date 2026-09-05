@@ -1,0 +1,93 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for oil in data['vegetable_oils'] + data['non_vegetable_oils']:
+        for month in data['months']:
+            variables[f'buy_{oil}_{month}'] = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+            variables[f'use_{oil}_{month}'] = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+            variables[f'store_{oil}_{month}'] = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+            variables[f'y_{oil}_{month}'] = model.addVar(vtype=gp.GRB.BINARY)
+    
+    for month in data['months']:
+        veg_refine = gp.quicksum(variables[f'use_{oil}_{month}'] for oil in data['vegetable_oils'])
+        nonveg_refine = gp.quicksum(variables[f'use_{oil}_{month}'] for oil in data['non_vegetable_oils'])
+        
+        model.addConstr(veg_refine <= data['veg_refine_cap'], f'veg_refine_cap_{month}')
+        model.addConstr(nonveg_refine <= data['nonveg_refine_cap'], f'nonveg_refine_cap_{month}')
+    
+    for oil in data['vegetable_oils'] + data['non_vegetable_oils']:
+        storage = variables[f'store_{oil}_Jan']
+        for month in data['months'][1:]:
+            prev_storage = variables[f'store_{oil}_{data["months"][data["months"].index(month) - 1]}']
+            buy = variables[f'buy_{oil}_{month}']
+            use = variables[f'use_{oil}_{month}']
+            new_storage = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+            
+            model.addConstr(new_storage == prev_storage + buy - use, f'storage_balance_{oil}_{month}')
+            storage = new_storage
+    
+    for oil in data['vegetable_oils'] + data['non_vegetable_oils']:
+        for month in data['months']:
+            model.addConstr(variables[f'use_{oil}_{month}'] <= data['storage_cap_per_oil'] * variables[f'y_{oil}_{month}'], f'use_limit_{oil}_{month}')
+    
+    for oil in data['vegetable_oils'] + data['non_vegetable_oils']:
+        model.addConstr(variables[f'store_Jun'] == data['required_final_storage_per_oil'], f'final_storage_{oil}')
+    
+    for month in data['months']:
+        oils_used = gp.quicksum(variables[f'y_{oil}_{month}'] for oil in data['vegetable_oils'] + data['non_vegetable_oils'])
+        model.addConstr(oils_used <= 3, f'oils_used_limit_{month}')
+    
+    for month in data['months']:
+        hardness = gp.quicksum(variables[f'use_{oil}_{month}'] * data['hardness'][oil] for oil in data['vegetable_oils'] + data['non_vegetable_oils'])
+        total_use = gp.quicksum(variables[f'use_{oil}_{month}'] for oil in data['vegetable_oils'] + data['non_vegetable_oils'])
+        
+        model.addConstr(hardness / total_use >= data['min_hardness'], f'min_hardness_{month}')
+        model.addConstr(hardness / total_use <= data['max_hardness'], f'max_hardness_{month}')
+    
+    for month in data['months']:
+        for oil in ['VEG1', 'VEG2']:
+            if oil in data['vegetable_oils'] + data['non_vegetable_oils']:
+                model.addConstr(variables[f'y_{oil}_{month}'] <= variables[f'y_OIL3_{month}'], f'veg_oil_restrict_{oil}_{month}')
+    
+    objective = gp.quicksum(data['sell_price'] * variables[f'use_{oil}_{month}'] for oil in data['vegetable_oils'] + data['non_vegetable_oils'] for month in data['months'])
+    objective -= gp.quicksum(data['purchase_price'][month][oil] * variables[f'buy_{oil}_{month}'] for oil in data['vegetable_oils'] + data['non_vegetable_oils'] for month in data['months'])
+    objective -= gp.quicksum(data['storage_cost_per_ton_month'] * variables[f'store_{oil}_{month}'] for oil in data['vegetable_oils'] + data['non_vegetable_oils'] for month in data['months'])
+    
+    model.setObjective(objective, gp.GRB.MAXIMIZE)
+    
+    return model, variables
+
+def solve_model(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    solution = {
+        'status': None,
+        'objective': None,
+        'solution': {}
+    }
+    
+    if model.Status == gp.GRB.OPTIMAL:
+        solution['status'] = 'OPTIMAL'
+        solution['objective'] = model.ObjVal
+        
+        for var in variables:
+            solution['solution'][var] = variables[var].X
+    
+    elif model.Status == gp.GRB.INFEASIBLE:
+        solution['status'] = 'INFEASIBLE'
+    
+    elif model.Status == gp.GRB.UNBOUNDED:
+        solution['status'] = 'UNBOUNDED'
+    
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        solution['status'] = 'INF_OR_UNBD'
+    
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        solution['status'] = 'TIME_LIMIT'
+    
+    return solution

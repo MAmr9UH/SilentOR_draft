@@ -1,0 +1,760 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A food company plans buying, storage, and blending of five raw oils over six months (January-June) to maximize profit. Vegetable oils VEG1, VEG2 and non-vegetable oils OIL1, OIL2, OIL3 are refined on separate lines: at most 200 tons of vegetable oil and 250 tons of non-vegetable oil can be refined per month. Refining has no weight loss and no cost. The final product sells for 150 pounds/ton. Oil purchase prices per ton by month (Jan-Jun): VEG1 110,130,110,120,100,90; VEG2 120,130,140,110,120,100; OIL1 130,110,130,120,150,140; OIL2 110,90,100,120,110,80; OIL3 115,115,95,125,105,135. Up to 1000 tons of each raw oil may be stored at 5 pounds/ton/month; the final product and refined oils cannot be stored. The product hardness must be between 3 and 6 and blends linearly; hardness of VEG1 8.8, VEG2 6.1, OIL1 2.0, OIL2 4.2, OIL3 5.0. There are 500 tons of each raw oil in store at the start of January, and 500 tons of each must remain at the end of June. Additional restrictions: (1) at most three oils may be used in any month; (2) if an oil is used in a month, at least 20 tons of it must be used; (3) if VEG1 or VEG2 is used in a month, then OIL3 must also be used that month. Determine the buying, storage, usage, and production plan maximizing total profit.
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "buy_VEG1_Jan": "continuous Var: tons of oil bought in month",
+    "use_VEG1_Jan": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_Jan": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_Jan": "binary Var: 1 if oil is used in month",
+    "buy_VEG1_Feb": "continuous Var: tons of oil bought in month",
+    "use_VEG1_Feb": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_Feb": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_Feb": "binary Var: 1 if oil is used in month",
+    "buy_VEG1_Mar": "continuous Var: tons of oil bought in month",
+    "use_VEG1_Mar": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_Mar": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_Mar": "binary Var: 1 if oil is used in month",
+    "buy_VEG1_Apr": "continuous Var: tons of oil bought in month",
+    "use_VEG1_Apr": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_Apr": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_Apr": "binary Var: 1 if oil is used in month",
+    "buy_VEG1_May": "continuous Var: tons of oil bought in month",
+    "use_VEG1_May": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_May": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_May": "binary Var: 1 if oil is used in month",
+    "buy_VEG1_Jun": "continuous Var: tons of oil bought in month",
+    "use_VEG1_Jun": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG1_Jun": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG1_Jun": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_Jan": "continuous Var: tons of oil bought in month",
+    "use_VEG2_Jan": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_Jan": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_Jan": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_Feb": "continuous Var: tons of oil bought in month",
+    "use_VEG2_Feb": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_Feb": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_Feb": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_Mar": "continuous Var: tons of oil bought in month",
+    "use_VEG2_Mar": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_Mar": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_Mar": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_Apr": "continuous Var: tons of oil bought in month",
+    "use_VEG2_Apr": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_Apr": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_Apr": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_May": "continuous Var: tons of oil bought in month",
+    "use_VEG2_May": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_May": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_May": "binary Var: 1 if oil is used in month",
+    "buy_VEG2_Jun": "continuous Var: tons of oil bought in month",
+    "use_VEG2_Jun": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_VEG2_Jun": "continuous Var: tons of oil in storage at end of month",
+    "y_VEG2_Jun": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_Jan": "continuous Var: tons of oil bought in month",
+    "use_OIL1_Jan": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_Jan": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_Jan": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_Feb": "continuous Var: tons of oil bought in month",
+    "use_OIL1_Feb": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_Feb": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_Feb": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_Mar": "continuous Var: tons of oil bought in month",
+    "use_OIL1_Mar": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_Mar": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_Mar": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_Apr": "continuous Var: tons of oil bought in month",
+    "use_OIL1_Apr": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_Apr": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_Apr": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_May": "continuous Var: tons of oil bought in month",
+    "use_OIL1_May": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_May": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_May": "binary Var: 1 if oil is used in month",
+    "buy_OIL1_Jun": "continuous Var: tons of oil bought in month",
+    "use_OIL1_Jun": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL1_Jun": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL1_Jun": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_Jan": "continuous Var: tons of oil bought in month",
+    "use_OIL2_Jan": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_Jan": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_Jan": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_Feb": "continuous Var: tons of oil bought in month",
+    "use_OIL2_Feb": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_Feb": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_Feb": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_Mar": "continuous Var: tons of oil bought in month",
+    "use_OIL2_Mar": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_Mar": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_Mar": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_Apr": "continuous Var: tons of oil bought in month",
+    "use_OIL2_Apr": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_Apr": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_Apr": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_May": "continuous Var: tons of oil bought in month",
+    "use_OIL2_May": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_May": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_May": "binary Var: 1 if oil is used in month",
+    "buy_OIL2_Jun": "continuous Var: tons of oil bought in month",
+    "use_OIL2_Jun": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL2_Jun": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL2_Jun": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_Jan": "continuous Var: tons of oil bought in month",
+    "use_OIL3_Jan": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_Jan": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_Jan": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_Feb": "continuous Var: tons of oil bought in month",
+    "use_OIL3_Feb": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_Feb": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_Feb": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_Mar": "continuous Var: tons of oil bought in month",
+    "use_OIL3_Mar": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_Mar": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_Mar": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_Apr": "continuous Var: tons of oil bought in month",
+    "use_OIL3_Apr": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_Apr": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_Apr": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_May": "continuous Var: tons of oil bought in month",
+    "use_OIL3_May": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_May": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_May": "binary Var: 1 if oil is used in month",
+    "buy_OIL3_Jun": "continuous Var: tons of oil bought in month",
+    "use_OIL3_Jun": "continuous Var: tons of oil used (refined+blended) in month",
+    "store_OIL3_Jun": "continuous Var: tons of oil in storage at end of month",
+    "y_OIL3_Jun": "binary Var: 1 if oil is used in month"
+  },
+  "note": "Keys buy_<OIL>_<MONTH>, use_<OIL>_<MONTH>, store_<OIL>_<MONTH>, y_<OIL>_<MONTH>."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "buy_VEG1_Jan",
+        "buy_VEG1_Feb",
+        "buy_VEG1_Mar",
+        "buy_VEG1_Apr",
+        "buy_VEG1_May",
+        "buy_VEG1_Jun",
+        "buy_VEG2_Jan",
+        "buy_VEG2_Feb",
+        "buy_VEG2_Mar",
+        "buy_VEG2_Apr",
+        "buy_VEG2_May",
+        "buy_VEG2_Jun",
+        "buy_OIL1_Jan",
+        "buy_OIL1_Feb",
+        "buy_OIL1_Mar",
+        "buy_OIL1_Apr",
+        "buy_OIL1_May",
+        "buy_OIL1_Jun",
+        "buy_OIL2_Jan",
+        "buy_OIL2_Feb",
+        "buy_OIL2_Mar",
+        "buy_OIL2_Apr",
+        "buy_OIL2_May",
+        "buy_OIL2_Jun",
+        "buy_OIL3_Jan",
+        "buy_OIL3_Feb",
+        "buy_OIL3_Mar",
+        "buy_OIL3_Apr",
+        "buy_OIL3_May",
+        "buy_OIL3_Jun",
+        "use_VEG1_Jan",
+        "use_VEG1_Feb",
+        "use_VEG1_Mar",
+        "use_VEG1_Apr",
+        "use_VEG1_May",
+        "use_VEG1_Jun",
+        "use_VEG2_Jan",
+        "use_VEG2_Feb",
+        "use_VEG2_Mar",
+        "use_VEG2_Apr",
+        "use_VEG2_May",
+        "use_VEG2_Jun",
+        "use_OIL1_Jan",
+        "use_OIL1_Feb",
+        "use_OIL1_Mar",
+        "use_OIL1_Apr",
+        "use_OIL1_May",
+        "use_OIL1_Jun",
+        "use_OIL2_Jan",
+        "use_OIL2_Feb",
+        "use_OIL2_Mar",
+        "use_OIL2_Apr",
+        "use_OIL2_May",
+        "use_OIL2_Jun",
+        "use_OIL3_Jan",
+        "use_OIL3_Feb",
+        "use_OIL3_Mar",
+        "use_OIL3_Apr",
+        "use_OIL3_May",
+        "use_OIL3_Jun",
+        "store_VEG1_Jan",
+        "store_VEG1_Feb",
+        "store_VEG1_Mar",
+        "store_VEG1_Apr",
+        "store_VEG1_May",
+        "store_VEG1_Jun",
+        "store_VEG2_Jan",
+        "store_VEG2_Feb",
+        "store_VEG2_Mar",
+        "store_VEG2_Apr",
+        "store_VEG2_May",
+        "store_VEG2_Jun",
+        "store_OIL1_Jan",
+        "store_OIL1_Feb",
+        "store_OIL1_Mar",
+        "store_OIL1_Apr",
+        "store_OIL1_May",
+        "store_OIL1_Jun",
+        "store_OIL2_Jan",
+        "store_OIL2_Feb",
+        "store_OIL2_Mar",
+        "store_OIL2_Apr",
+        "store_OIL2_May",
+        "store_OIL2_Jun",
+        "store_OIL3_Jan",
+        "store_OIL3_Feb",
+        "store_OIL3_Mar",
+        "store_OIL3_Apr",
+        "store_OIL3_May",
+        "store_OIL3_Jun",
+        "y_VEG1_Jan",
+        "y_VEG1_Feb",
+        "y_VEG1_Mar",
+        "y_VEG1_Apr",
+        "y_VEG1_May",
+        "y_VEG1_Jun",
+        "y_VEG2_Jan",
+        "y_VEG2_Feb",
+        "y_VEG2_Mar",
+        "y_VEG2_Apr",
+        "y_VEG2_May",
+        "y_VEG2_Jun",
+        "y_OIL1_Jan",
+        "y_OIL1_Feb",
+        "y_OIL1_Mar",
+        "y_OIL1_Apr",
+        "y_OIL1_May",
+        "y_OIL1_Jun",
+        "y_OIL2_Jan",
+        "y_OIL2_Feb",
+        "y_OIL2_Mar",
+        "y_OIL2_Apr",
+        "y_OIL2_May",
+        "y_OIL2_Jun",
+        "y_OIL3_Jan",
+        "y_OIL3_Feb",
+        "y_OIL3_Mar",
+        "y_OIL3_Apr",
+        "y_OIL3_May",
+        "y_OIL3_Jun"
+      ],
+      "properties": {
+        "buy_VEG1_Jan": {
+          "type": "number"
+        },
+        "buy_VEG1_Feb": {
+          "type": "number"
+        },
+        "buy_VEG1_Mar": {
+          "type": "number"
+        },
+        "buy_VEG1_Apr": {
+          "type": "number"
+        },
+        "buy_VEG1_May": {
+          "type": "number"
+        },
+        "buy_VEG1_Jun": {
+          "type": "number"
+        },
+        "buy_VEG2_Jan": {
+          "type": "number"
+        },
+        "buy_VEG2_Feb": {
+          "type": "number"
+        },
+        "buy_VEG2_Mar": {
+          "type": "number"
+        },
+        "buy_VEG2_Apr": {
+          "type": "number"
+        },
+        "buy_VEG2_May": {
+          "type": "number"
+        },
+        "buy_VEG2_Jun": {
+          "type": "number"
+        },
+        "buy_OIL1_Jan": {
+          "type": "number"
+        },
+        "buy_OIL1_Feb": {
+          "type": "number"
+        },
+        "buy_OIL1_Mar": {
+          "type": "number"
+        },
+        "buy_OIL1_Apr": {
+          "type": "number"
+        },
+        "buy_OIL1_May": {
+          "type": "number"
+        },
+        "buy_OIL1_Jun": {
+          "type": "number"
+        },
+        "buy_OIL2_Jan": {
+          "type": "number"
+        },
+        "buy_OIL2_Feb": {
+          "type": "number"
+        },
+        "buy_OIL2_Mar": {
+          "type": "number"
+        },
+        "buy_OIL2_Apr": {
+          "type": "number"
+        },
+        "buy_OIL2_May": {
+          "type": "number"
+        },
+        "buy_OIL2_Jun": {
+          "type": "number"
+        },
+        "buy_OIL3_Jan": {
+          "type": "number"
+        },
+        "buy_OIL3_Feb": {
+          "type": "number"
+        },
+        "buy_OIL3_Mar": {
+          "type": "number"
+        },
+        "buy_OIL3_Apr": {
+          "type": "number"
+        },
+        "buy_OIL3_May": {
+          "type": "number"
+        },
+        "buy_OIL3_Jun": {
+          "type": "number"
+        },
+        "use_VEG1_Jan": {
+          "type": "number"
+        },
+        "use_VEG1_Feb": {
+          "type": "number"
+        },
+        "use_VEG1_Mar": {
+          "type": "number"
+        },
+        "use_VEG1_Apr": {
+          "type": "number"
+        },
+        "use_VEG1_May": {
+          "type": "number"
+        },
+        "use_VEG1_Jun": {
+          "type": "number"
+        },
+        "use_VEG2_Jan": {
+          "type": "number"
+        },
+        "use_VEG2_Feb": {
+          "type": "number"
+        },
+        "use_VEG2_Mar": {
+          "type": "number"
+        },
+        "use_VEG2_Apr": {
+          "type": "number"
+        },
+        "use_VEG2_May": {
+          "type": "number"
+        },
+        "use_VEG2_Jun": {
+          "type": "number"
+        },
+        "use_OIL1_Jan": {
+          "type": "number"
+        },
+        "use_OIL1_Feb": {
+          "type": "number"
+        },
+        "use_OIL1_Mar": {
+          "type": "number"
+        },
+        "use_OIL1_Apr": {
+          "type": "number"
+        },
+        "use_OIL1_May": {
+          "type": "number"
+        },
+        "use_OIL1_Jun": {
+          "type": "number"
+        },
+        "use_OIL2_Jan": {
+          "type": "number"
+        },
+        "use_OIL2_Feb": {
+          "type": "number"
+        },
+        "use_OIL2_Mar": {
+          "type": "number"
+        },
+        "use_OIL2_Apr": {
+          "type": "number"
+        },
+        "use_OIL2_May": {
+          "type": "number"
+        },
+        "use_OIL2_Jun": {
+          "type": "number"
+        },
+        "use_OIL3_Jan": {
+          "type": "number"
+        },
+        "use_OIL3_Feb": {
+          "type": "number"
+        },
+        "use_OIL3_Mar": {
+          "type": "number"
+        },
+        "use_OIL3_Apr": {
+          "type": "number"
+        },
+        "use_OIL3_May": {
+          "type": "number"
+        },
+        "use_OIL3_Jun": {
+          "type": "number"
+        },
+        "store_VEG1_Jan": {
+          "type": "number"
+        },
+        "store_VEG1_Feb": {
+          "type": "number"
+        },
+        "store_VEG1_Mar": {
+          "type": "number"
+        },
+        "store_VEG1_Apr": {
+          "type": "number"
+        },
+        "store_VEG1_May": {
+          "type": "number"
+        },
+        "store_VEG1_Jun": {
+          "type": "number"
+        },
+        "store_VEG2_Jan": {
+          "type": "number"
+        },
+        "store_VEG2_Feb": {
+          "type": "number"
+        },
+        "store_VEG2_Mar": {
+          "type": "number"
+        },
+        "store_VEG2_Apr": {
+          "type": "number"
+        },
+        "store_VEG2_May": {
+          "type": "number"
+        },
+        "store_VEG2_Jun": {
+          "type": "number"
+        },
+        "store_OIL1_Jan": {
+          "type": "number"
+        },
+        "store_OIL1_Feb": {
+          "type": "number"
+        },
+        "store_OIL1_Mar": {
+          "type": "number"
+        },
+        "store_OIL1_Apr": {
+          "type": "number"
+        },
+        "store_OIL1_May": {
+          "type": "number"
+        },
+        "store_OIL1_Jun": {
+          "type": "number"
+        },
+        "store_OIL2_Jan": {
+          "type": "number"
+        },
+        "store_OIL2_Feb": {
+          "type": "number"
+        },
+        "store_OIL2_Mar": {
+          "type": "number"
+        },
+        "store_OIL2_Apr": {
+          "type": "number"
+        },
+        "store_OIL2_May": {
+          "type": "number"
+        },
+        "store_OIL2_Jun": {
+          "type": "number"
+        },
+        "store_OIL3_Jan": {
+          "type": "number"
+        },
+        "store_OIL3_Feb": {
+          "type": "number"
+        },
+        "store_OIL3_Mar": {
+          "type": "number"
+        },
+        "store_OIL3_Apr": {
+          "type": "number"
+        },
+        "store_OIL3_May": {
+          "type": "number"
+        },
+        "store_OIL3_Jun": {
+          "type": "number"
+        },
+        "y_VEG1_Jan": {
+          "type": "number"
+        },
+        "y_VEG1_Feb": {
+          "type": "number"
+        },
+        "y_VEG1_Mar": {
+          "type": "number"
+        },
+        "y_VEG1_Apr": {
+          "type": "number"
+        },
+        "y_VEG1_May": {
+          "type": "number"
+        },
+        "y_VEG1_Jun": {
+          "type": "number"
+        },
+        "y_VEG2_Jan": {
+          "type": "number"
+        },
+        "y_VEG2_Feb": {
+          "type": "number"
+        },
+        "y_VEG2_Mar": {
+          "type": "number"
+        },
+        "y_VEG2_Apr": {
+          "type": "number"
+        },
+        "y_VEG2_May": {
+          "type": "number"
+        },
+        "y_VEG2_Jun": {
+          "type": "number"
+        },
+        "y_OIL1_Jan": {
+          "type": "number"
+        },
+        "y_OIL1_Feb": {
+          "type": "number"
+        },
+        "y_OIL1_Mar": {
+          "type": "number"
+        },
+        "y_OIL1_Apr": {
+          "type": "number"
+        },
+        "y_OIL1_May": {
+          "type": "number"
+        },
+        "y_OIL1_Jun": {
+          "type": "number"
+        },
+        "y_OIL2_Jan": {
+          "type": "number"
+        },
+        "y_OIL2_Feb": {
+          "type": "number"
+        },
+        "y_OIL2_Mar": {
+          "type": "number"
+        },
+        "y_OIL2_Apr": {
+          "type": "number"
+        },
+        "y_OIL2_May": {
+          "type": "number"
+        },
+        "y_OIL2_Jun": {
+          "type": "number"
+        },
+        "y_OIL3_Jan": {
+          "type": "number"
+        },
+        "y_OIL3_Feb": {
+          "type": "number"
+        },
+        "y_OIL3_Mar": {
+          "type": "number"
+        },
+        "y_OIL3_Apr": {
+          "type": "number"
+        },
+        "y_OIL3_May": {
+          "type": "number"
+        },
+        "y_OIL3_Jun": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "vegetable_oils": [
+    "VEG1",
+    "VEG2"
+  ],
+  "non_vegetable_oils": [
+    "OIL1",
+    "OIL2",
+    "OIL3"
+  ],
+  "months": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun"
+  ],
+  "purchase_price": {
+    "Jan": {
+      "VEG1": 110,
+      "VEG2": 120,
+      "OIL1": 130,
+      "OIL2": 110,
+      "OIL3": 115
+    },
+    "Feb": {
+      "VEG1": 130,
+      "VEG2": 130,
+      "OIL1": 110,
+      "OIL2": 90,
+      "OIL3": 115
+    },
+    "Mar": {
+      "VEG1": 110,
+      "VEG2": 140,
+      "OIL1": 130,
+      "OIL2": 100,
+      "OIL3": 95
+    },
+    "Apr": {
+      "VEG1": 120,
+      "VEG2": 110,
+      "OIL1": 120,
+      "OIL2": 120,
+      "OIL3": 125
+    },
+    "May": {
+      "VEG1": 100,
+      "VEG2": 120,
+      "OIL1": 150,
+      "OIL2": 110,
+      "OIL3": 105
+    },
+    "Jun": {
+      "VEG1": 90,
+      "VEG2": 100,
+      "OIL1": 140,
+      "OIL2": 80,
+      "OIL3": 135
+    }
+  },
+  "sell_price": 150,
+  "veg_refine_cap": 200,
+  "nonveg_refine_cap": 250,
+  "storage_cap_per_oil": 1000,
+  "storage_cost_per_ton_month": 5,
+  "hardness": {
+    "VEG1": 8.8,
+    "VEG2": 6.1,
+    "OIL1": 2.0,
+    "OIL2": 4.2,
+    "OIL3": 5.0
+  },
+  "min_hardness": 3,
+  "max_hardness": 6,
+  "initial_storage_per_oil": 500,
+  "required_final_storage_per_oil": 500,
+  "logical_restrictions": [
+    "at most 3 oils used per month",
+    "if an oil is used, >= 20 tons of it",
+    "if VEG1 or VEG2 used, OIL3 must be used"
+  ],
+  "note": "purchase_price[month][oil] in pounds/ton. Hardness blends linearly over tons used. Decision variable keys: buy_<OIL>_<MONTH>, use_<OIL>_<MONTH>, store_<OIL>_<MONTH> (tons), and y_<OIL>_<MONTH> (1 if that oil is used that month). OIL in VEG1,VEG2,OIL1,OIL2,OIL3; MONTH in Jan..Jun."
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

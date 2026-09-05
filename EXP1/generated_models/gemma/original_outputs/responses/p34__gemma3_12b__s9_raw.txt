@@ -1,0 +1,59 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    trucks_A = model.addVar(vtype=GRB.INTEGER, name="trucks_A")
+    trucks_B = model.addVar(vtype=GRB.INTEGER, name="trucks_B")
+
+    # TODO: set the objective using numeric values from data
+    objective = gp.quicksum([data["freight_cost"]["A"] * trucks_A,
+                              data["freight_cost"]["B"] * trucks_B])
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # TODO: add ALL constraints using numeric values from data
+    raw_material_A_constraint = gp.quicksum([data["truck_contents"]["A"]["A"] * trucks_A,
+                                               data["truck_contents"]["B"]["A"] * trucks_B]) >= 240
+    model.addConstr(raw_material_A_constraint, "raw_material_A")
+
+    raw_material_B_constraint = gp.quicksum([data["truck_contents"]["A"]["B"] * trucks_A,
+                                               data["truck_contents"]["B"]["B"] * trucks_B]) >= 80
+    model.addConstr(raw_material_B_constraint, "raw_material_B")
+
+    raw_material_C_constraint = gp.quicksum([data["truck_contents"]["A"]["C"] * trucks_A,
+                                               data["truck_contents"]["B"]["C"] * trucks_B]) >= 120
+    model.addConstr(raw_material_C_constraint, "raw_material_C")
+
+    variables = {
+        "trucks_A": trucks_A,
+        "trucks_B": trucks_B
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "trucks_A": variables["trucks_A"].X,
+        "trucks_B": variables["trucks_B"].X
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

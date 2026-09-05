@@ -1,0 +1,125 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("task_allocation_model")
+
+    # Decision variables
+    y1_A = model.addVar(name="y1_A", vtype=GRB.BINARY)
+    y1_B = model.addVar(name="y1_B", vtype=GRB.BINARY)
+    y2_A = model.addVar(name="y2_A", vtype=GRB.BINARY)
+    y2_B = model.addVar(name="y2_B", vtype=GRB.BINARY)
+    y3_A = model.addVar(name="y3_A", vtype=GRB.BINARY)
+    y3_B = model.addVar(name="y3_B", vtype=GRB.BINARY)
+    skilled_t1_A = model.addVar(name="skilled_t1_A", vtype=GRB.INTEGER)
+    skilled_t1_B = model.addVar(name="skilled_t1_B", vtype=GRB.INTEGER)
+    skilled_t2_A = model.addVar(name="skilled_t2_A", vtype=GRB.INTEGER)
+    skilled_t3_B = model.addVar(name="skilled_t3_B", vtype=GRB.INTEGER)
+    labor_t1_B = model.addVar(name="labor_t1_B", vtype=GRB.INTEGER)
+    labor_t2_B = model.addVar(name="labor_t2_B", vtype=GRB.INTEGER)
+    labor_t3_A = model.addVar(name="labor_t3_A", vtype=GRB.INTEGER)
+    labor_t3_B = model.addVar(name="labor_t3_B", vtype=GRB.INTEGER)
+    total_skilled = model.addVar(name="total_skilled", vtype=GRB.INTEGER)
+    total_labor = model.addVar(name="total_labor", vtype=GRB.INTEGER)
+
+    # Objective function: Minimize total weekly cost
+    model.setObjective(
+        100 * total_skilled + 80 * total_labor + 500 * y1_B + y3_A * 0,  # Fixed cost for task 1 method B
+        GRB.MINIMIZE)
+
+    # Task 1 effective hours
+    model.addConstr(8400 * (200 * y1_A + 200 * y1_B + 400 * y1_B) == skilled_t1_A * 42 + labor_t1_B * 36)
+
+    # Task 2 effective hours
+    model.addConstr(10800 * (257.14285714285717 * y2_A + 300 * y2_B) == skilled_t2_A * 42 + labor_t2_B * 36)
+
+    # Task 3 effective hours
+    model.addConstr(18000 * (500 * y3_A + 120 * y3_B + 360 * y3_B) == skilled_t3_B * 42 + labor_t3_A * 36 + labor_t3_B * 36)
+
+    # Number of skilled workers and laborers
+    model.addConstr(total_skilled == skilled_t1_A + skilled_t1_B + skilled_t2_A + skilled_t3_B)
+    model.addConstr(total_labor == labor_t1_B + labor_t2_B + labor_t3_A + labor_t3_B)
+
+    # Maximum number of skilled workers
+    model.addConstr(skilled_t1_A + skilled_t1_B + skilled_t2_A + skilled_t3_B <= 400)
+
+    # Maximum number of laborers
+    model.addConstr(labor_t1_B + labor_t2_B + labor_t3_A + labor_t3_B <= 800)
+
+    # Skilled workers cannot exceed 60% of total laborers
+    model.addConstr(total_skilled <= 0.6 * total_labor)
+
+    # If task 1 uses method B, task 3 cannot use method A
+    model.addConstr(y1_B + y3_A <= 1)
+
+    # If task 3 uses method B, at least 20 skilled workers must be assigned
+    model.addConstr(y3_B * 120 >= 20)
+
+    # Effective hours for task 1
+    model.addConstr(8400 == 200 * y1_A + 200 * y1_B + 400 * y1_B)
+
+    # Effective hours for task 2
+    model.addConstr(10800 == 257.14285714285717 * y2_A + 300 * y2_B)
+
+    # Effective hours for task 3
+    model.addConstr(18000 == 500 * y3_A + 120 * y3_B + 360 * y3_B)
+
+    # Return the model and the variables
+    variables = {
+        "y1_A": y1_A,
+        "y1_B": y1_B,
+        "y2_A": y2_A,
+        "y2_B": y2_B,
+        "y3_A": y3_A,
+        "y3_B": y3_B,
+        "skilled_t1_A": skilled_t1_A,
+        "skilled_t1_B": skilled_t1_B,
+        "skilled_t2_A": skilled_t2_A,
+        "skilled_t3_B": skilled_t3_B,
+        "labor_t1_B": labor_t1_B,
+        "labor_t2_B": labor_t2_B,
+        "labor_t3_A": labor_t3_A,
+        "labor_t3_B": labor_t3_B,
+        "total_skilled": total_skilled,
+        "total_labor": total_labor
+    }
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "y1_A": variables["y1_A"].x,
+            "y1_B": variables["y1_B"].x,
+            "y2_A": variables["y2_A"].x,
+            "y2_B": variables["y2_B"].x,
+            "y3_A": variables["y3_A"].x,
+            "y3_B": variables["y3_B"].x,
+            "skilled_t1_A": variables["skilled_t1_A"].x,
+            "skilled_t1_B": variables["skilled_t1_B"].x,
+            "skilled_t2_A": variables["skilled_t2_A"].x,
+            "skilled_t3_B": variables["skilled_t3_B"].x,
+            "labor_t1_B": variables["labor_t1_B"].x,
+            "labor_t2_B": variables["labor_t2_B"].x,
+            "labor_t3_A": variables["labor_t3_A"].x,
+            "labor_t3_B": variables["labor_t3_B"].x,
+            "total_skilled": variables["total_skilled"].x,
+            "total_labor": variables["total_labor"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }
+```

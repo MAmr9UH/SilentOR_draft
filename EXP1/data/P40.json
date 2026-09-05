@@ -1,0 +1,56 @@
+{
+  "problem_id": 40,
+  "scenario_id": "three_task_method_selection_worker_mix_fixed_setup_mip",
+  "data_instance": {
+    "tasks": [
+      1,
+      2,
+      3
+    ],
+    "weekly_wage": {
+      "skilled": 100,
+      "labor": 80
+    },
+    "weekly_effective_hours": {
+      "skilled": 42,
+      "labor": 36
+    },
+    "task_effective_hours": {
+      "1": 8400,
+      "2": 10800,
+      "3": 18000
+    },
+    "method_worker_requirements": {
+      "task1_A": {
+        "skilled": 200,
+        "labor": 0
+      },
+      "task1_B": {
+        "skilled": 200,
+        "labor": 400,
+        "fixed_setup_cost": 500
+      },
+      "task2_A": {
+        "skilled": 257.14285714285717,
+        "labor": 0
+      },
+      "task2_B": {
+        "skilled": 0,
+        "labor": 300
+      },
+      "task3_A": {
+        "skilled": 0,
+        "labor": 500
+      },
+      "task3_B": {
+        "skilled": 120,
+        "labor": 360
+      }
+    },
+    "max_skilled": 400,
+    "max_labor": 800,
+    "skilled_to_labor_ratio_max": 0.6,
+    "exclusion": "if task 1 uses method B, task 3 cannot use method A",
+    "minimum_skilled_if_task3_B": 20
+  }
+}

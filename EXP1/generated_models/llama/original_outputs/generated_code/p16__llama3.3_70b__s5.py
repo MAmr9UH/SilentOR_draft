@@ -1,0 +1,168 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "y_c1": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c2": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c3": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c4": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c5": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c6": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c7": model.addVar(vtype=gp.GRB.BINARY),
+        "f_c1_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Objective function
+    obj = gp.quicksum([data["fixed_opening_cost"]["c1"] * variables["y_c1"],
+                       data["fixed_opening_cost"]["c2"] * variables["y_c2"],
+                       data["fixed_opening_cost"]["c3"] * variables["y_c3"],
+                       data["fixed_opening_cost"]["c4"] * variables["y_c4"],
+                       data["fixed_opening_cost"]["c5"] * variables["y_c5"],
+                       data["fixed_opening_cost"]["c6"] * variables["y_c6"],
+                       data["fixed_opening_cost"]["c7"] * variables["y_c7"],
+                       data["transport_cost"]["c1"]["s1"] * variables["f_c1_s1"],
+                       data["transport_cost"]["c1"]["s2"] * variables["f_c1_s2"],
+                       data["transport_cost"]["c1"]["s3"] * variables["f_c1_s3"],
+                       data["transport_cost"]["c1"]["s4"] * variables["f_c1_s4"],
+                       data["transport_cost"]["c2"]["s1"] * variables["f_c2_s1"],
+                       data["transport_cost"]["c2"]["s2"] * variables["f_c2_s2"],
+                       data["transport_cost"]["c2"]["s3"] * variables["f_c2_s3"],
+                       data["transport_cost"]["c2"]["s4"] * variables["f_c2_s4"],
+                       data["transport_cost"]["c3"]["s1"] * variables["f_c3_s1"],
+                       data["transport_cost"]["c3"]["s2"] * variables["f_c3_s2"],
+                       data["transport_cost"]["c3"]["s3"] * variables["f_c3_s3"],
+                       data["transport_cost"]["c3"]["s4"] * variables["f_c3_s4"],
+                       data["transport_cost"]["c4"]["s1"] * variables["f_c4_s1"],
+                       data["transport_cost"]["c4"]["s2"] * variables["f_c4_s2"],
+                       data["transport_cost"]["c4"]["s3"] * variables["f_c4_s3"],
+                       data["transport_cost"]["c4"]["s4"] * variables["f_c4_s4"],
+                       data["transport_cost"]["c5"]["s1"] * variables["f_c5_s1"],
+                       data["transport_cost"]["c5"]["s2"] * variables["f_c5_s2"],
+                       data["transport_cost"]["c5"]["s3"] * variables["f_c5_s3"],
+                       data["transport_cost"]["c5"]["s4"] * variables["f_c5_s4"],
+                       data["transport_cost"]["c6"]["s1"] * variables["f_c6_s1"],
+                       data["transport_cost"]["c6"]["s2"] * variables["f_c6_s2"],
+                       data["transport_cost"]["c6"]["s3"] * variables["f_c6_s3"],
+                       data["transport_cost"]["c6"]["s4"] * variables["f_c6_s4"],
+                       data["transport_cost"]["c7"]["s1"] * variables["f_c7_s1"],
+                       data["transport_cost"]["c7"]["s2"] * variables["f_c7_s2"],
+                       data["transport_cost"]["c7"]["s3"] * variables["f_c7_s3"],
+                       data["transport_cost"]["c7"]["s4"] * variables["f_c7_s4"]])
+    model.setObjective(obj, gp.GRB.MINIMIZE)
+    
+    # Constraints
+    model.addConstr(variables["f_c1_s1"] + variables["f_c2_s1"] + variables["f_c3_s1"] +
+                    variables["f_c4_s1"] + variables["f_c5_s1"] + variables["f_c6_s1"] +
+                    variables["f_c7_s1"] == data["demand"]["s1"])
+    model.addConstr(variables["f_c1_s2"] + variables["f_c2_s2"] + variables["f_c3_s2"] +
+                    variables["f_c4_s2"] + variables["f_c5_s2"] + variables["f_c6_s2"] +
+                    variables["f_c7_s2"] == data["demand"]["s2"])
+    model.addConstr(variables["f_c1_s3"] + variables["f_c2_s3"] + variables["f_c3_s3"] +
+                    variables["f_c4_s3"] + variables["f_c5_s3"] + variables["f_c6_s3"] +
+                    variables["f_c7_s3"] == data["demand"]["s3"])
+    model.addConstr(variables["f_c1_s4"] + variables["f_c2_s4"] + variables["f_c3_s4"] +
+                    variables["f_c4_s4"] + variables["f_c5_s4"] + variables["f_c6_s4"] +
+                    variables["f_c7_s4"] == data["demand"]["s4"])
+    
+    model.addConstr(variables["f_c1_s1"] + variables["f_c1_s2"] + variables["f_c1_s3"] +
+                    variables["f_c1_s4"] <= data["capacity"]["c1"] * variables["y_c1"])
+    model.addConstr(variables["f_c2_s1"] + variables["f_c2_s2"] + variables["f_c2_s3"] +
+                    variables["f_c2_s4"] <= data["capacity"]["c2"] * variables["y_c2"])
+    model.addConstr(variables["f_c3_s1"] + variables["f_c3_s2"] + variables["f_c3_s3"] +
+                    variables["f_c3_s4"] <= data["capacity"]["c3"] * variables["y_c3"])
+    model.addConstr(variables["f_c4_s1"] + variables["f_c4_s2"] + variables["f_c4_s3"] +
+                    variables["f_c4_s4"] <= data["capacity"]["c4"] * variables["y_c4"])
+    model.addConstr(variables["f_c5_s1"] + variables["f_c5_s2"] + variables["f_c5_s3"] +
+                    variables["f_c5_s4"] <= data["capacity"]["c5"] * variables["y_c5"])
+    model.addConstr(variables["f_c6_s1"] + variables["f_c6_s2"] + variables["f_c6_s3"] +
+                    variables["f_c6_s4"] <= data["capacity"]["c6"] * variables["y_c6"])
+    model.addConstr(variables["f_c7_s1"] + variables["f_c7_s2"] + variables["f_c7_s3"] +
+                    variables["f_c7_s4"] <= data["capacity"]["c7"] * variables["y_c7"])
+    
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {
+        "y_c1": variables["y_c1"].X,
+        "y_c2": variables["y_c2"].X,
+        "y_c3": variables["y_c3"].X,
+        "y_c4": variables["y_c4"].X,
+        "y_c5": variables["y_c5"].X,
+        "y_c6": variables["y_c6"].X,
+        "y_c7": variables["y_c7"].X,
+        "f_c1_s1": variables["f_c1_s1"].X,
+        "f_c1_s2": variables["f_c1_s2"].X,
+        "f_c1_s3": variables["f_c1_s3"].X,
+        "f_c1_s4": variables["f_c1_s4"].X,
+        "f_c2_s1": variables["f_c2_s1"].X,
+        "f_c2_s2": variables["f_c2_s2"].X,
+        "f_c2_s3": variables["f_c2_s3"].X,
+        "f_c2_s4": variables["f_c2_s4"].X,
+        "f_c3_s1": variables["f_c3_s1"].X,
+        "f_c3_s2": variables["f_c3_s2"].X,
+        "f_c3_s3": variables["f_c3_s3"].X,
+        "f_c3_s4": variables["f_c3_s4"].X,
+        "f_c4_s1": variables["f_c4_s1"].X,
+        "f_c4_s2": variables["f_c4_s2"].X,
+        "f_c4_s3": variables["f_c4_s3"].X,
+        "f_c4_s4": variables["f_c4_s4"].X,
+        "f_c5_s1": variables["f_c5_s1"].X,
+        "f_c5_s2": variables["f_c5_s2"].X,
+        "f_c5_s3": variables["f_c5_s3"].X,
+        "f_c5_s4": variables["f_c5_s4"].X,
+        "f_c6_s1": variables["f_c6_s1"].X,
+        "f_c6_s2": variables["f_c6_s2"].X,
+        "f_c6_s3": variables["f_c6_s3"].X,
+        "f_c6_s4": variables["f_c6_s4"].X,
+        "f_c7_s1": variables["f_c7_s1"].X,
+        "f_c7_s2": variables["f_c7_s2"].X,
+        "f_c7_s3": variables["f_c7_s3"].X,
+        "f_c7_s4": variables["f_c7_s4"].X
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }

@@ -1,0 +1,22 @@
+{
+  "Problems_main.json": {
+    "sha256": "0659357ec73ce0be5af589bba7a2ad0646a8b353c6699bf0464e966b87dfe1c0",
+    "bytes": 3490676
+  },
+  "_checker_specs_41.json": {
+    "sha256": "a7989ead9b4bd431d90a3ed6c424f545a46326b8d085c10654ad94c6dd00a31d",
+    "bytes": 786487
+  },
+  "_checker_specs_45.json": {
+    "sha256": "1cfcee66aaba78e541ea7e712da649a3098c6a352e35037c45922d43878a1e28",
+    "bytes": 1077552
+  },
+  "checkers.py": {
+    "sha256": "7dda8108bee09373f77235aba5c6b06e33d6fa5a819cbd5fa7f46aef45e2864a",
+    "bytes": 14052
+  },
+  "formulation_audit.py": {
+    "sha256": "420dfbe54f26e516cb9ba7daf01aa653b963244b8eead71244449b231268d654",
+    "bytes": 38117
+  }
+}

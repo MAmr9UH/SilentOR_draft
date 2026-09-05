@@ -1,0 +1,169 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("max_bottleneck_bandwidth_model")
+    
+    nodes = data["nodes"]
+    source = data["source"]
+    sink = data["sink"]
+    required_service_node = data["required_service_node"]
+    bandwidth = data["bandwidth"]
+    big_m = data["big_m"]
+
+    variables_keys = {
+        "z": "bottleneck bandwidth",
+        "x_A_B": "arc A->B",
+        "x_A_C": "arc A->C",
+        "x_A_E": "arc A->E",
+        "x_B_A": "arc B->A",
+        "x_B_C": "arc B->C",
+        "x_B_D": "arc B->D",
+        "x_B_E": "arc B->E",
+        "x_C_A": "arc C->A",
+        "x_C_D": "arc C->D",
+        "x_C_E": "arc C->E",
+        "x_D_A": "arc D->A",
+        "x_D_B": "arc D->B",
+        "x_D_C": "arc D->C",
+        "x_D_E": "arc D->E",
+        "x_E_B": "arc E->B",
+        "x_E_D": "arc E->D"
+    }
+
+    # Decision variables
+    z = model.addVar(name="z", vtype=GRB.CONTINUOUS, lb=0)
+    x = {
+        "x_A_B": model.addVar(name="x_A_B", vtype=GRB.BINARY),
+        "x_A_C": model.addVar(name="x_A_C", vtype=GRB.BINARY),
+        "x_A_E": model.addVar(name="x_A_E", vtype=GRB.BINARY),
+        "x_B_A": model.addVar(name="x_B_A", vtype=GRB.BINARY),
+        "x_B_C": model.addVar(name="x_B_C", vtype=GRB.BINARY),
+        "x_B_D": model.addVar(name="x_B_D", vtype=GRB.BINARY),
+        "x_B_E": model.addVar(name="x_B_E", vtype=GRB.BINARY),
+        "x_C_A": model.addVar(name="x_C_A", vtype=GRB.BINARY),
+        "x_C_D": model.addVar(name="x_C_D", vtype=GRB.BINARY),
+        "x_C_E": model.addVar(name="x_C_E", vtype=GRB.BINARY),
+        "x_D_A": model.addVar(name="x_D_A", vtype=GRB.BINARY),
+        "x_D_B": model.addVar(name="x_D_B", vtype=GRB.BINARY),
+        "x_D_C": model.addVar(name="x_D_C", vtype=GRB.BINARY),
+        "x_D_E": model.addVar(name="x_D_E", vtype=GRB.BINARY),
+        "x_E_B": model.addVar(name="x_E_B", vtype=GRB.BINARY),
+        "x_E_D": model.addVar(name="x_E_D", vtype=GRB.BINARY)
+    }
+
+    # Objective function: Maximize the bottleneck bandwidth
+    model.setObjective(z, GRB.MAXIMIZE)
+
+    # Define the bandwidth values
+    bandwidth_values = {
+        ("A", "B"): 90,
+        ("A", "C"): 85,
+        ("A", "D"): 0,
+        ("A", "E"): 65,
+        ("B", "A"): 95,
+        ("B", "C"): 70,
+        ("B", "D"): 65,
+        ("B", "E"): 34,
+        ("C", "A"): 60,
+        ("C", "B"): 0,
+        ("C", "D"): 88,
+        ("C", "E"): 80,
+        ("D", "A"): 67,
+        ("D", "B"): 30,
+        ("D", "C"): 25,
+        ("D", "E"): 84,
+        ("E", "A"): 0,
+        ("E", "B"): 51,
+        ("E", "C"): 0,
+        ("E", "D"): 56
+    }
+
+    # Constraint 1: The flow through the bottleneck must be less than or equal to the bandwidth of each arc
+    for (from_node, to_node) in bandwidth_values.keys():
+        model.addConstr(x[variables_keys[f"x_{from_node}_{to_node}"]] * bandwidth_values[(from_node, to_node)] >= z)
+
+    # Constraint 2: Flow conservation for all nodes except source and sink
+    for node in nodes:
+        if node != source and node != sink and node != required_service_node:
+            inflow = 0
+            outflow = 0
+            for from_node in nodes:
+                if (from_node, node) in bandwidth_values.keys():
+                    inflow += x[variables_keys[f"x_{from_node}_{node}"]]
+            for to_node in nodes:
+                if (node, to_node) in bandwidth_values.keys():
+                    outflow += x[variables_keys[f"x_{node}_{to_node}"]]
+            model.addConstr(inflow == outflow)
+
+    # Constraint 3: Flow must pass through the required service node C
+    inflow_at_C = 0
+    outflow_at_C = 0
+    for from_node in nodes:
+        if (from_node, "C") in bandwidth_values.keys():
+            inflow_at_C += x[variables_keys[f"x_{from_node}_C"]]
+    for to_node in nodes:
+        if ("C", to_node) in bandwidth_values.keys():
+            outflow_at_C += x[variables_keys[f"x_C_{to_node}"]]
+    model.addConstr(inflow_at_C == outflow_at_C)
+
+    # Return the model and the variables
+    return model, x
+
+def solve(data: dict) -> dict:
+    model, x = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "z": x["z"].x,
+                "x_A_B": x["x_A_B"].x,
+                "x_A_C": x["x_A_C"].x,
+                "x_A_E": x["x_A_E"].x,
+                "x_B_A": x["x_B_A"].x,
+                "x_B_C": x["x_B_C"].x,
+                "x_B_D": x["x_B_D"].x,
+                "x_B_E": x["x_B_E"].x,
+                "x_C_A": x["x_C_A"].x,
+                "x_C_D": x["x_C_D"].x,
+                "x_C_E": x["x_C_E"].x,
+                "x_D_A": x["x_D_A"].x,
+                "x_D_B": x["x_D_B"].x,
+                "x_D_C": x["x_D_C"].x,
+                "x_D_E": x["x_D_E"].x,
+                "x_E_B": x["x_E_B"].x,
+                "x_E_D": x["x_E_D"].x
+            }
+        }
+    else:
+        solution = {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {
+                "z": None,
+                "x_A_B": None,
+                "x_A_C": None,
+                "x_A_E": None,
+                "x_B_A": None,
+                "x_B_C": None,
+                "x_B_D": None,
+                "x_B_E": None,
+                "x_C_A": None,
+                "x_C_D": None,
+                "x_C_E": None,
+                "x_D_A": None,
+                "x_D_B": None,
+                "x_D_C": None,
+                "x_D_E": None,
+                "x_E_B": None,
+                "x_E_D": None
+            }
+        }
+
+    return solution
+```

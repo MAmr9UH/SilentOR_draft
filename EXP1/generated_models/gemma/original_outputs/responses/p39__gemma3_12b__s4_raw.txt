@@ -1,0 +1,94 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    activities = data["activities"]
+    durations = data["durations"]
+    precedence = data["precedence"]
+    work_cost_per_project_day = data["work_cost_per_project_day"]
+    machine_rental_cost_per_day = data["machine_rental_cost_per_day"]
+
+    # Decision variables
+    start_A = model.addVar(vtype=GRB.CONTINUOUS, name="start_A")
+    start_B = model.addVar(vtype=GRB.CONTINUOUS, name="start_B")
+    start_C = model.addVar(vtype=GRB.CONTINUOUS, name="start_C")
+    start_D = model.addVar(vtype=GRB.CONTINUOUS, name="start_D")
+    start_E = model.addVar(vtype=GRB.CONTINUOUS, name="start_E")
+    start_F = model.addVar(vtype=GRB.CONTINUOUS, name="start_F")
+    start_G = model.addVar(vtype=GRB.CONTINUOUS, name="start_G")
+
+    Cmax = model.addVar(vtype=GRB.CONTINUOUS, name="Cmax")
+    machine_span = model.addVar(vtype=GRB.CONTINUOUS, name="machine_span")
+
+    # Objective function
+    model.setObjective(work_cost_per_project_day * machine_span + machine_rental_cost_per_day * machine_span, GRB.MINIMIZE)
+
+    # Constraints
+    # Precedence constraints
+    model.addConstr(start_G >= start_A + durations["A"])
+    model.addConstr(start_D >= start_A + durations["A"])
+    model.addConstr(start_F >= start_E + durations["E"])
+    model.addConstr(start_F >= start_G + durations["G"])
+    model.addConstr(start_C >= start_D + durations["D"])
+    model.addConstr(start_C >= start_F + durations["F"])
+    model.addConstr(start_B >= start_F + durations["F"])
+
+    # Cmax constraints
+    model.addConstr(Cmax >= start_A + durations["A"])
+    model.addConstr(Cmax >= start_B + durations["B"])
+    model.addConstr(Cmax >= start_C + durations["C"])
+    model.addConstr(Cmax >= start_D + durations["D"])
+    model.addConstr(Cmax >= start_E + durations["E"])
+    model.addConstr(Cmax >= start_F + durations["F"])
+    model.addConstr(Cmax >= start_G + durations["G"])
+
+    # Machine span constraint
+    machine_span = start_B - start_A
+
+    variables = {
+        "start_A": start_A,
+        "start_B": start_B,
+        "start_C": start_C,
+        "start_D": start_D,
+        "start_E": start_E,
+        "start_F": start_F,
+        "start_G": start_G,
+        "Cmax": Cmax,
+        "machine_span": machine_span
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "start_A": float(variables["start_A"].X),
+        "start_B": float(variables["start_B"].X),
+        "start_C": float(variables["start_C"].X),
+        "start_D": float(variables["start_D"].X),
+        "start_E": float(variables["start_E"].X),
+        "start_F": float(variables["start_F"].X),
+        "start_G": float(variables["start_G"].X),
+        "Cmax": float(variables["Cmax"].X),
+        "machine_span": float(variables["machine_span"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

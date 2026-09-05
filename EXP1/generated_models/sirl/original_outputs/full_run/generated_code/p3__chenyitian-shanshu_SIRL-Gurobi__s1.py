@@ -1,0 +1,105 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("convenience_store_model")
+    
+    shift_start_times = data["shift_start_times"]
+    demand_by_period_start = data["demand_by_period_start"]
+    
+    variables_keys = {
+        "s2": "integer Var: number starting at 2:00",
+        "s6": "integer Var: number starting at 6:00",
+        "s10": "integer Var: number starting at 10:00",
+        "s14": "integer Var: number starting at 14:00",
+        "s18": "integer Var: number starting at 18:00",
+        "s22": "integer Var: number starting at 22:00"
+    }
+    
+    variables = {
+        "s2": model.addVar(name="s2", vtype=GRB.INTEGER, lb=0),
+        "s6": model.addVar(name="s6", vtype=GRB.INTEGER, lb=0),
+        "s10": model.addVar(name="s10", vtype=GRB.INTEGER, lb=0),
+        "s14": model.addVar(name="s14", vtype=GRB.INTEGER, lb=0),
+        "s18": model.addVar(name="s18", vtype=GRB.INTEGER, lb=0),
+        "s22": model.addVar(name="s22", vtype=GRB.INTEGER, lb=0)
+    }
+    
+    # Define constraints
+    for start_time in data["period_start_times"]:
+        demand = demand_by_period_start.get(str(start_time), 0)
+        if start_time == 2:
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+        elif start_time == 6:
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+        elif start_time == 10:
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+        elif start_time == 14:
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+        elif start_time == 18:
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+        elif start_time == 22:
+            model.addConstr(variables["s22"] + variables["s2"] >= demand)
+            model.addConstr(variables["s2"] + variables["s6"] >= demand)
+            model.addConstr(variables["s6"] + variables["s10"] >= demand)
+            model.addConstr(variables["s10"] + variables["s14"] >= demand)
+            model.addConstr(variables["s14"] + variables["s18"] >= demand)
+            model.addConstr(variables["s18"] + variables["s22"] >= demand)
+    
+    # Objective function: Minimize the total number of salespeople
+    model.setObjective(
+        variables["s2"] + variables["s6"] + variables["s10"] + variables["s14"] + variables["s18"] + variables["s22"],
+        GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "s2": variables["s2"].x,
+            "s6": variables["s6"].x,
+            "s10": variables["s10"].x,
+            "s14": variables["s14"].x,
+            "s18": variables["s18"].x,
+            "s22": variables["s22"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

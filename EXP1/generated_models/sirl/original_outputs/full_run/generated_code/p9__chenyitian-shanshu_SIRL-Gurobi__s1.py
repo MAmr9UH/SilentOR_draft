@@ -1,0 +1,73 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("post_office_hiring_model")
+    
+    # Initialize decision variables
+    variables = {
+        "s0": {},
+        "s1": {},
+        "s2": {},
+        "s3": {},
+        "s4": {},
+        "s5": {},
+        "s6": {}
+    }
+    
+    # Number of employees needed each day
+    employees_needed = data["employees_needed"]
+    
+    # Days of the week
+    days = data["days"]
+    
+    # Work days consecutive
+    work_days_consecutive = data["work_days_consecutive"]
+    
+    # Define decision variables
+    for day in days:
+        variables[day] = model.addVar(name=f"s_{days.index(day)}", vtype=GRB.INTEGER, lb=0)
+    
+    # Constraint: Number of employees needed each day
+    for day_index, day in enumerate(days):
+        model.addConstr(
+            variables["s0"][day_index] + variables["s1"][day_index - 1] + variables["s2"][day_index - 2] + variables["s3"][day_index - 3] + variables["s4"][day_index - 4] + variables["s5"][day_index - 5] + variables["s6"][day_index - 6] >= employees_needed[day_index % 7]
+        )
+    
+    # Objective function: Minimize the total number of employees
+    model.setObjective(
+        variables["s0"][0] + variables["s1"][0] + variables["s2"][0] + variables["s3"][0] + variables["s4"][0] + variables["s5"][0] + variables["s6"][0],
+        GRB.MINIMIZE
+    )
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    
+    # Solve the model
+    model.optimize()
+    
+    # Check if the model is optimal
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "s0": variables["s0"][0].x,
+            "s1": variables["s1"][0].x,
+            "s2": variables["s2"][0].x,
+            "s3": variables["s3"][0].x,
+            "s4": variables["s4"][0].x,
+            "s5": variables["s5"][0].x,
+            "s6": variables["s6"][0].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

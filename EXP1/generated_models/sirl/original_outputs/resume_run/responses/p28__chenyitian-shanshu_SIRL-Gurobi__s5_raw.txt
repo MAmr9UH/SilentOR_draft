@@ -1,0 +1,126 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("container_transportation_model")
+    
+    warehouses = data["warehouses"]
+    ports = data["ports"]
+    supply = data["supply"]
+    demand = data["demand"]
+    distance_km = data["distance_km"]
+    truck_capacity_containers = data["truck_capacity_containers"]
+    cost_per_km_per_truck = data["cost_per_km_per_truck"]
+
+    # Decision variables
+    x = {}
+    for warehouse in warehouses:
+        for port in ports:
+            x[warehouse, port] = model.addVar(name=f"x_{warehouse}_{port}", vtype=GRB.INTEGER, lb=0)
+
+    t = {}
+    for warehouse in warehouses:
+        for port in ports:
+            t[warehouse, port] = model.addVar(name=f"t_{warehouse}_{port}", vtype=GRB.INTEGER, lb=0)
+
+    # Objective function: Minimize total transportation cost
+    model.setObjective(
+        gp.quicksum(cost_per_km_per_truck * distance_km[warehouse][port] * x[warehouse, port] for warehouse in warehouses for port in ports),
+        GRB.MINIMIZE)
+
+    # Supply constraint
+    for warehouse in warehouses:
+        model.addConstr(gp.quicksum(x[warehouse, port] for port in ports) <= supply[warehouse])
+
+    # Demand constraint
+    for port in ports:
+        model.addConstr(gp.quicksum(x[warehouse, port] for warehouse in warehouses) >= demand[port])
+
+    # Each truck can carry up to 2 containers
+    for warehouse in warehouses:
+        for port in ports:
+            model.addConstr(x[warehouse, port] <= 2 * t[warehouse, port])
+
+    return model, {"x": x, "t": t}
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_Verona_Genoa": variables["x"]["Verona", "Genoa"].x,
+            "x_Verona_Venice": variables["x"]["Verona", "Venice"].x,
+            "x_Verona_Ancona": variables["x"]["Verona", "Ancona"].x,
+            "x_Verona_Naples": variables["x"]["Verona", "Naples"].x,
+            "x_Verona_Bari": variables["x"]["Verona", "Bari"].x,
+            "x_Perugia_Genoa": variables["x"]["Perugia", "Genoa"].x,
+            "x_Perugia_Venice": variables["x"]["Perugia", "Venice"].x,
+            "x_Perugia_Ancona": variables["x"]["Perugia", "Ancona"].x,
+            "x_Perugia_Naples": variables["x"]["Perugia", "Naples"].x,
+            "x_Perugia_Bari": variables["x"]["Perugia", "Bari"].x,
+            "x_Rome_Genoa": variables["x"]["Rome", "Genoa"].x,
+            "x_Rome_Venice": variables["x"]["Rome", "Venice"].x,
+            "x_Rome_Ancona": variables["x"]["Rome", "Ancona"].x,
+            "x_Rome_Naples": variables["x"]["Rome", "Naples"].x,
+            "x_Rome_Bari": variables["x"]["Rome", "Bari"].x,
+            "x_Pescara_Genoa": variables["x"]["Pescara", "Genoa"].x,
+            "x_Pescara_Venice": variables["x"]["Pescara", "Venice"].x,
+            "x_Pescara_Ancona": variables["x"]["Pescara", "Ancona"].x,
+            "x_Pescara_Naples": variables["x"]["Pescara", "Naples"].x,
+            "x_Pescara_Bari": variables["x"]["Pescara", "Bari"].x,
+            "x_Taranto_Genoa": variables["x"]["Taranto", "Genoa"].x,
+            "x_Taranto_Venice": variables["x"]["Taranto", "Venice"].x,
+            "x_Taranto_Ancona": variables["x"]["Taranto", "Ancona"].x,
+            "x_Taranto_Naples": variables["x"]["Taranto", "Naples"].x,
+            "x_Taranto_Bari": variables["x"]["Taranto", "Bari"].x,
+            "x_Lamezia_Genoa": variables["x"]["Lamezia", "Genoa"].x,
+            "x_Lamezia_Venice": variables["x"]["Lamezia", "Venice"].x,
+            "x_Lamezia_Ancona": variables["x"]["Lamezia", "Ancona"].x,
+            "x_Lamezia_Naples": variables["x"]["Lamezia", "Naples"].x,
+            "x_Lamezia_Bari": variables["x"]["Lamezia", "Bari"].x,
+            "t_Verona_Genoa": variables["t"]["Verona", "Genoa"].x,
+            "t_Verona_Venice": variables["t"]["Verona", "Venice"].x,
+            "t_Verona_Ancona": variables["t"]["Verona", "Ancona"].x,
+            "t_Verona_Naples": variables["t"]["Verona", "Naples"].x,
+            "t_Verona_Bari": variables["t"]["Verona", "Bari"].x,
+            "t_Perugia_Genoa": variables["t"]["Perugia", "Genoa"].x,
+            "t_Perugia_Venice": variables["t"]["Perugia", "Venice"].x,
+            "t_Perugia_Ancona": variables["t"]["Perugia", "Ancona"].x,
+            "t_Perugia_Naples": variables["t"]["Perugia", "Naples"].x,
+            "t_Perugia_Bari": variables["t"]["Perugia", "Bari"].x,
+            "t_Rome_Genoa": variables["t"]["Rome", "Genoa"].x,
+            "t_Rome_Venice": variables["t"]["Rome", "Venice"].x,
+            "t_Rome_Ancona": variables["t"]["Rome", "Ancona"].x,
+            "t_Rome_Naples": variables["t"]["Rome", "Naples"].x,
+            "t_Rome_Bari": variables["t"]["Rome", "Bari"].x,
+            "t_Pescara_Genoa": variables["t"]["Pescara", "Genoa"].x,
+            "t_Pescara_Venice": variables["t"]["Pescara", "Venice"].x,
+            "t_Pescara_Ancona": variables["t"]["Pescara", "Ancona"].x,
+            "t_Pescara_Naples": variables["t"]["Pescara", "Naples"].x,
+            "t_Pescara_Bari": variables["t"]["Pescara", "Bari"].x,
+            "t_Taranto_Genoa": variables["t"]["Taranto", "Genoa"].x,
+            "t_Taranto_Venice": variables["t"]["Taranto", "Venice"].x,
+            "t_Taranto_Ancona": variables["t"]["Taranto", "Ancona"].x,
+            "t_Taranto_Naples": variables["t"]["Taranto", "Naples"].x,
+            "t_Taranto_Bari": variables["t"]["Taranto", "Bari"].x,
+            "t_Lamezia_Genoa": variables["t"]["Lamezia", "Genoa"].x,
+            "t_Lamezia_Venice": variables["t"]["Lamezia", "Venice"].x,
+            "t_Lamezia_Ancona": variables["t"]["Lamezia", "Ancona"].x,
+            "t_Lamezia_Naples": variables["t"]["Lamezia", "Naples"].x,
+            "t_Lamezia_Bari": variables["t"]["Lamezia", "Bari"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE" if model.status == GRB.INFEASIBLE else "OTHER",
+            "objective": None,
+            "solution": {}
+        }
+```

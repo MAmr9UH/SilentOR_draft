@@ -1,0 +1,166 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+The number of employees needed in a post office varies depending on the day of the week: Monday 15, Tuesday 13, Wednesday 15, Thursday 18, Friday 14, Saturday 16, and Sunday 10. Employees work five consecutive days and then have the next two days off. Organize groups of employees according to the day on which they start their five-day work stretch so that staffing requirements are satisfied every day of the week. Minimize the total number of workers employed.
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "start_Monday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Tuesday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Wednesday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Thursday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Friday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Saturday": "integer Var: number of workers whose five-day work stretch starts on this day",
+    "start_Sunday": "integer Var: number of workers whose five-day work stretch starts on this day"
+  },
+  "note": "Scalar variables under EXACTLY these flat keys. An employee starting on a day works that day and the next four consecutive days, then is off for two days."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "reported minimum number of workers"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "start_Monday",
+        "start_Tuesday",
+        "start_Wednesday",
+        "start_Thursday",
+        "start_Friday",
+        "start_Saturday",
+        "start_Sunday"
+      ],
+      "properties": {
+        "start_Monday": {
+          "type": "number"
+        },
+        "start_Tuesday": {
+          "type": "number"
+        },
+        "start_Wednesday": {
+          "type": "number"
+        },
+        "start_Thursday": {
+          "type": "number"
+        },
+        "start_Friday": {
+          "type": "number"
+        },
+        "start_Saturday": {
+          "type": "number"
+        },
+        "start_Sunday": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "days": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ],
+  "demand": {
+    "Monday": 15,
+    "Tuesday": 13,
+    "Wednesday": 15,
+    "Thursday": 18,
+    "Friday": 14,
+    "Saturday": 16,
+    "Sunday": 10
+  },
+  "work_consecutive_days": 5,
+  "off_consecutive_days": 2
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

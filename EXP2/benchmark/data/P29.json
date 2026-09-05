@@ -1,0 +1,53 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 29,
+  "scenario_id": "five_worker_four_task_assignment_min_hours",
+  "data_instance": {
+    "workers": [
+      "I",
+      "II",
+      "III",
+      "IV",
+      "V"
+    ],
+    "tasks": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "hours": {
+      "I": {
+        "A": 9,
+        "B": 4,
+        "C": 3,
+        "D": 7
+      },
+      "II": {
+        "A": 4,
+        "B": 6,
+        "C": 5,
+        "D": 6
+      },
+      "III": {
+        "A": 5,
+        "B": 4,
+        "C": 7,
+        "D": 5
+      },
+      "IV": {
+        "A": 7,
+        "B": 5,
+        "C": 2,
+        "D": 3
+      },
+      "V": {
+        "A": 10,
+        "B": 6,
+        "C": 7,
+        "D": 4
+      }
+    }
+  }
+}

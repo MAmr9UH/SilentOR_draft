@@ -1,0 +1,69 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "start_A": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_B": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_C": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_D": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_E": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_F": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "start_G": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Cmax": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "machine_span": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Precedence constraints
+    for precedence in data["precedence"]:
+        predecessor = variables[f"start_{precedence[0]}"]
+        successor = variables[f"start_{precedence[1]}"]
+        duration = data["durations"][precedence[1]]
+        model.addConstr(successor >= predecessor + duration)
+    
+    # Cmax constraints
+    for activity in data["activities"]:
+        start_var = variables[f"start_{activity}"]
+        duration = data["durations"][activity]
+        model.addConstr(variables["Cmax"] >= start_var + duration)
+    
+    # Machine span constraint
+    model.addConstr(variables["machine_span"] == variables["start_B"] + data["durations"]["B"] - variables["start_A"])
+    
+    # Objective function
+    work_cost = gp.quicksum([variables[f"start_{activity}"] + data["durations"][activity] for activity in data["activities"]])
+    machine_rental_cost = variables["machine_span"]
+    model.setObjective(data["work_cost_per_project_day"] * variables["Cmax"] + data["machine_rental_cost_per_day"] * machine_rental_cost, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {
+        "start_A": variables["start_A"].X,
+        "start_B": variables["start_B"].X,
+        "start_C": variables["start_C"].X,
+        "start_D": variables["start_D"].X,
+        "start_E": variables["start_E"].X,
+        "start_F": variables["start_F"].X,
+        "start_G": variables["start_G"].X,
+        "Cmax": variables["Cmax"].X,
+        "machine_span": variables["machine_span"].X
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }

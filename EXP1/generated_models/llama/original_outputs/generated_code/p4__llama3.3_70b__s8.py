@@ -1,0 +1,41 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    variables = {
+        "chicken": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "rice": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "broccoli": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "tofu": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "beans": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    model.addConstr(gp.quicksum(data["protein"][food] * variables[food] for food in data["foods"]) >= data["min"]["protein"], name="protein_min")
+    model.addConstr(gp.quicksum(data["carb"][food] * variables[food] for food in data["foods"]) >= data["min"]["carb"], name="carb_min")
+    model.addConstr(gp.quicksum(data["calories"][food] * variables[food] for food in data["foods"]) >= data["min"]["calories"], name="calories_min")
+    
+    model.setObjective(gp.quicksum(data["cost"][food] * variables[food] for food in data["foods"]), gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {
+        food: model.getVarByName(food).X for food in data["foods"]
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }

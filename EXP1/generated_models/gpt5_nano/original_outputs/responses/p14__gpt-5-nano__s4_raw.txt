@@ -1,0 +1,160 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+
+    centers = data["centers"]      # e.g., ["c1","c2","c3","c4"]
+    stores = data["stores"]        # e.g., ["s1","s2",...,"s8"]
+    fixed_opening_cost = data["fixed_opening_cost"]  # dict: {"c1": cost, ...}
+    transport_cost = data["transport_cost"]          # dict of dicts: {"c1": {"s1": cost, ...}, ...}
+    demand = data["demand"]          # dict: {"s1": qty, ...}
+    capacity = data["capacity"]      # dict: {"c1": cap, ...}
+
+    # Variable containers
+    var_map = {}
+
+    # Opening decision variables y_c1 .. y_c4
+    y_vars_by_center = {}
+    for idx, center_id in enumerate(centers, start=1):
+        key = f"y_{center_id}"
+        v = model.addVar(vtype=GRB.BINARY, name=key)
+        var_map[key] = v
+        y_vars_by_center[center_id] = v
+
+    # Transportation variables f_ci_sj for i in centers, j in stores
+    for i, center_id in enumerate(centers, start=1):
+        for j, store_id in enumerate(stores, start=1):
+            key = f"f_c{i}_s{j}"
+            v = model.addVar(lb=0.0, vtype=GRB.CONTINUOUS, name=key)
+            var_map[key] = v
+
+    model.update()
+
+    # Objective: minimize opening costs + transportation costs
+    objective = gp.quicksum(fixed_opening_cost[center_id] * y_vars_by_center[center_id] for center_id in centers)
+    for i, center_id in enumerate(centers, start=1):
+        for j, store_id in enumerate(stores, start=1):
+            key = f"f_c{i}_s{j}"
+            cost = transport_cost[center_id][store_id]
+            objective += cost * var_map[key]
+
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # Constraints
+    # 1) Demand satisfaction: sum over centers of shipments to each store equals its demand
+    for j, store_id in enumerate(stores, start=1):
+        shipment_sum = gp.quicksum(var_map[f"f_c{i}_s{j}"] for i in range(1, len(centers) + 1))
+        model.addConstr(shipment_sum == demand[store_id], name=f"demand_{store_id}")
+
+    # 2) Capacity constraints: total shipments from a center <= capacity * y_center
+    for i, center_id in enumerate(centers, start=1):
+        total_from_center = gp.quicksum(var_map[f"f_c{i}_s{j}"] for j in range(1, len(stores) + 1))
+        model.addConstr(total_from_center <= capacity[center_id] * y_vars_by_center[center_id], name=f"cap_{center_id}")
+
+    # Return model and the flat variable dictionary
+    return model, var_map
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    # Map status to string
+    status_code = model.Status
+    if status_code == GRB.OPTIMAL:
+        status_str = "OPTIMAL"
+    elif status_code == GRB.INFEASIBLE:
+        status_str = "INFEASIBLE"
+    elif status_code == GRB.UNBOUNDED:
+        status_str = "UNBOUNDED"
+    elif status_code == GRB.INF_OR_UNBD:
+        status_str = "INF_OR_UNBD"
+    elif status_code == GRB.TIME_LIMIT:
+        status_str = "TIME_LIMIT"
+    else:
+        status_str = str(status_code)
+
+    model.update()
+    obj_val = model.ObjVal
+
+    # Build solution dict with all required keys
+    solution = {}
+    # Ensure all keys exist in a deterministic order
+    for key in [
+        "y_c1","y_c2","y_c3","y_c4",
+        "f_c1_s1","f_c1_s2","f_c1_s3","f_c1_s4","f_c1_s5","f_c1_s6","f_c1_s7","f_c1_s8",
+        "f_c2_s1","f_c2_s2","f_c2_s3","f_c2_s4","f_c2_s5","f_c2_s6","f_c2_s7","f_c2_s8",
+        "f_c3_s1","f_c3_s2","f_c3_s3","f_c3_s4","f_c3_s5","f_c3_s6","f_c3_s7","f_c3_s8",
+        "f_c4_s1","f_c4_s2","f_c4_s3","f_c4_s4","f_c4_s5","f_c4_s6","f_c4_s7","f_c4_s8",
+    ]:
+        v = variables.get(key)
+        if v is None:
+            # If a key is missing somehow, default to 0.0
+            solution[key] = 0.0
+        else:
+            solution[key] = v.X
+
+    return {
+        "type": "object",
+        "required": [
+            "status",
+            "objective",
+            "solution"
+        ],
+        "properties": {
+            "status": {"type": "string"},
+            "objective": {"type": "number", "description": "reported objective value"},
+            "solution": {
+                "type": "object",
+                "required": [
+                    "y_c1","y_c2","y_c3","y_c4",
+                    "f_c1_s1","f_c1_s2","f_c1_s3","f_c1_s4","f_c1_s5","f_c1_s6","f_c1_s7","f_c1_s8",
+                    "f_c2_s1","f_c2_s2","f_c2_s3","f_c2_s4","f_c2_s5","f_c2_s6","f_c2_s7","f_c2_s8",
+                    "f_c3_s1","f_c3_s2","f_c3_s3","f_c3_s4","f_c3_s5","f_c3_s6","f_c3_s7","f_c3_s8",
+                    "f_c4_s1","f_c4_s2","f_c4_s3","f_c4_s4","f_c4_s5","f_c4_s6","f_c4_s7","f_c4_s8"
+                ],
+                "properties": {
+                    "y_c1": {"type": "number"},
+                    "y_c2": {"type": "number"},
+                    "y_c3": {"type": "number"},
+                    "y_c4": {"type": "number"},
+                    "f_c1_s1": {"type": "number"},
+                    "f_c1_s2": {"type": "number"},
+                    "f_c1_s3": {"type": "number"},
+                    "f_c1_s4": {"type": "number"},
+                    "f_c1_s5": {"type": "number"},
+                    "f_c1_s6": {"type": "number"},
+                    "f_c1_s7": {"type": "number"},
+                    "f_c1_s8": {"type": "number"},
+                    "f_c2_s1": {"type": "number"},
+                    "f_c2_s2": {"type": "number"},
+                    "f_c2_s3": {"type": "number"},
+                    "f_c2_s4": {"type": "number"},
+                    "f_c2_s5": {"type": "number"},
+                    "f_c2_s6": {"type": "number"},
+                    "f_c2_s7": {"type": "number"},
+                    "f_c2_s8": {"type": "number"},
+                    "f_c3_s1": {"type": "number"},
+                    "f_c3_s2": {"type": "number"},
+                    "f_c3_s3": {"type": "number"},
+                    "f_c3_s4": {"type": "number"},
+                    "f_c3_s5": {"type": "number"},
+                    "f_c3_s6": {"type": "number"},
+                    "f_c3_s7": {"type": "number"},
+                    "f_c3_s8": {"type": "number"},
+                    "f_c4_s1": {"type": "number"},
+                    "f_c4_s2": {"type": "number"},
+                    "f_c4_s3": {"type": "number"},
+                    "f_c4_s4": {"type": "number"},
+                    "f_c4_s5": {"type": "number"},
+                    "f_c4_s6": {"type": "number"},
+                    "f_c4_s7": {"type": "number"},
+                    "f_c4_s8": {"type": "number"}
+                }
+            }
+        }
+    }, {
+        "status": status_str,
+        "objective": float(obj_val),
+        "solution": solution
+    } | {}

@@ -1,0 +1,49 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    for warehouse in data['warehouses']:
+        for port in data['ports']:
+            variables[f'x_{warehouse}_{port}'] = model.addVar(vtype=gp.GRB.INTEGER, name=f'x_{warehouse}_{port}')
+            variables[f't_{warehouse}_{port}'] = model.addVar(vtype=gp.GRB.INTEGER, name=f't_{warehouse}_{port}')
+
+    for warehouse in data['warehouses']:
+        model.addConstr(gp.quicksum(variables[f'x_{warehouse}_{port}'] for port in data['ports']) <= data['supply'][warehouse], f'supply_{warehouse}')
+    
+    for port in data['ports']:
+        model.addConstr(gp.quicksum(variables[f'x_{warehouse}_{port}'] for warehouse in data['warehouses']) == data['demand'][port], f'demand_{port}')
+
+    for warehouse in data['warehouses']:
+        for port in data['ports']:
+            model.addConstr(variables[f'x_{warehouse}_{port}'] <= variables[f't_{warehouse}_{port}'] * data['truck_capacity_containers'], f'capacity_{warehouse}_{port}')
+    
+    objective = gp.quicksum(data['distance_km'][warehouse][port] * data['cost_per_km_per_truck'] * variables[f't_{warehouse}_{port}'] for warehouse in data['warehouses'] for port in data['ports'])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {}
+    for warehouse in data['warehouses']:
+        for port in data['ports']:
+            solution[f'x_{warehouse}_{port}'] = model.getVarByName(f'x_{warehouse}_{port}').X
+            solution[f't_{warehouse}_{port}'] = model.getVarByName(f't_{warehouse}_{port}').X
+    
+    return {
+        'status': status_map[model.Status],
+        'objective': model.ObjVal,
+        'solution': solution
+    }

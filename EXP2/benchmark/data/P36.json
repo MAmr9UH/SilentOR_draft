@@ -1,0 +1,80 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 36,
+  "scenario_id": "warehouse_contract_covering_binary_logic_mip",
+  "data_instance": {
+    "months": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "demand_100sqm": {
+      "1": 15,
+      "2": 10,
+      "3": 20,
+      "4": 12
+    },
+    "contract_lengths": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "fee_per_100sqm_by_length": {
+      "1": 4000,
+      "2": 7500,
+      "3": 10500,
+      "4": 13000
+    },
+    "feasible_start_length_pairs": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "min_distinct_lengths": 2,
+    "max_distinct_lengths": 3,
+    "mutually_exclusive_lengths": [
+      1,
+      4
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("recruitment_model")
+
+    # Decision variables
+    x = {}
+    for type_id in data["types"]:
+        for branch in data["branches"]:
+            for specialty in data["specialties"]:
+                x[f"x_{type_id}_{branch}_{specialty}"] = model.addVar(name=f"x_{type_id}_{branch}_{specialty}", lb=0, vtype=GRB.INTEGER)
+
+    p3_shortfall = model.addVar(name="p3_shortfall", lb=0, vtype=GRB.INTEGER)
+
+    # Available people
+    available_people = data["available_people"]
+
+    # Suitable specialties
+    suitable_specialties = data["suitable_specialties"]
+
+    # Preferred specialty
+    preferred_specialty = data["preferred_specialty"]
+
+    # Preferred city
+    preferred_city = data["preferred_city"]
+
+    # Demand
+    demand = data["demand"]
+
+    # P2 target
+    p2_target = data["p2_preferred_specialty_target"]
+
+    # P3 target
+    p3_target = data["p3_preferred_city_target"]
+
+    # Objective function: Lexicographic goal programming
+    # P1: Meet all specialty demands
+    for branch in data["branches"]:
+        for specialty in data["specialties"]:
+            model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types"] if specialty in suitable_specialties.get(type_id, [])) >= demand.get(f"{branch}_{specialty}", 0))
+
+    # P2: Maximize the number of recruited personnel assigned to their preferred specialty
+    for type_id in data["types"]:
+        model.addConstr(x[f"x_{type_id}_{data['preferred_city'][type_id]}_{preferred_specialty[type_id]}"] <= p2_target)
+
+    # P3: Maximize the number assigned to their preferred city
+    for type_id in data["types"]:
+        model.addConstr(x[f"x_{type_id}_{preferred_city[type_id]}_{preferred_specialty[type_id]}"] >= available_people[str(type_id)] - p3_shortfall)
+
+    # Total number of people
+    for type_id in data["types"]:
+        model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for branch in data["branches"] for specialty in data["specialties"] if specialty in suitable_specialties.get(type_id, [])) <= available_people[str(type_id)])
+
+    # Solve the model
+    return model, x, p3_shortfall
+
+def solve(data: dict) -> dict:
+    model, x, p3_shortfall = build_model(data)
+
+    # Optimize the model
+    model.optimize()
+
+    # Check if the model is optimal
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_1_Donghai_1": x["x_1_Donghai_1"].x,
+            "x_1_Donghai_2": x["x_1_Donghai_2"].x,
+            "x_1_Nanjiang_1": x["x_1_Nanjiang_1"].x,
+            "x_1_Nanjiang_2": x["x_1_Nanjiang_2"].x,
+            "x_2_Donghai_2": x["x_2_Donghai_2"].x,
+            "x_2_Donghai_3": x["x_2_Donghai_3"].x,
+            "x_2_Nanjiang_2": x["x_2_Nanjiang_2"].x,
+            "x_2_Nanjiang_3": x["x_2_Nanjiang_3"].x,
+            "x_3_Donghai_1": x["x_3_Donghai_1"].x,
+            "x_3_Donghai_3": x["x_3_Donghai_3"].x,
+            "x_3_Nanjiang_1": x["x_3_Nanjiang_1"].x,
+            "x_3_Nanjiang_3": x["x_3_Nanjiang_3"].x,
+            "x_4_Donghai_1": x["x_4_Donghai_1"].x,
+            "x_4_Donghai_3": x["x_4_Donghai_3"].x,
+            "x_4_Nanjiang_1": x["x_4_Nanjiang_1"].x,
+            "x_4_Nanjiang_3": x["x_4_Nanjiang_3"].x,
+            "x_5_Donghai_2": x["x_5_Donghai_2"].x,
+            "x_5_Donghai_3": x["x_5_Donghai_3"].x,
+            "x_5_Nanjiang_2": x["x_5_Nanjiang_2"].x,
+            "x_5_Nanjiang_3": x["x_5_Nanjiang_3"].x,
+            "x_6_Donghai_3": x["x_6_Donghai_3"].x,
+            "x_6_Nanjiang_3": x["x_6_Nanjiang_3"].x,
+            "p3_shortfall": p3_shortfall.x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": solution["p3_shortfall"],
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

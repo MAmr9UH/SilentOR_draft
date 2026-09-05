@@ -1,0 +1,5 @@
+verifier_model,track,detectability_stratum,mutant_n,detected_count,detection_recall,primary_exact_count,primary_exact_localization_percentage
+gemma3:12b,B,BEHAVIORALLY_DETECTABLE,15,8,0.533333,2,13.33
+gemma3:12b,B,LEGACY_ALL,62,34,0.548387,16,25.81
+gemma3:12b,B,PRIMARY_BEHAVIORAL,62,34,0.548387,16,25.81
+gemma3:12b,B,STANDARD,47,26,0.553191,14,29.79

@@ -1,0 +1,5 @@
+model,rows,problems,samples_per_problem,correct,silent_bug,loud_bug,code_failure,contract_failure,schema_failure,provider_failure,objective_match_true,silent_rate_among_objective_matches
+gpt5_nano,410,41,10,258,40,37,52,20,3,0,298,0.1342281879194631
+gemma3_12b,410,41,10,9,5,71,197,93,4,31,14,0.35714285714285715
+llama3_3_70b,410,41,10,145,24,60,142,16,23,0,169,0.14201183431952663
+sirl_gurobi,410,41,10,34,18,196,65,1,46,50,53,0.33962264150943394

@@ -1,0 +1,916 @@
+run_id,model,problem_id,original_problem_id,sample,label,raw_label,final_label,extraction_mode,code_ran,schema_ok,objective_match,has_build_model,failed_checks,failed_requirement_checks,formulation_violations,flagged_formulation_violations,audit_error,prompt_hash,response_time_sec,prompt_eval_count,eval_count,output_truncated,silent_bug_type,silent_bug_requirements,silent_bug_source,report_categories,total_requirement_count,layer1_requirement_count,canonical_layer1_requirement_count,layer2_active_probe_count,total_diagnostic_requirement_count,failed_requirement_check_count,formulation_violation_count,total_violation_count,error_type,error_detail
+p1__gpt-5-nano__s0,gpt-5-nano,1,1,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,R3,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,57.961,1229,10083,False,structural_constraint_error,fviol:R3,formulation_only,constraint_misspecification,7,6,6,6,12,0,1,1,,
+p1__gpt-5-nano__s1,gpt-5-nano,1,1,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,49.77,1229,8905,False,,,none,,7,6,6,6,12,0,0,0,,
+p1__gpt-5-nano__s2,gpt-5-nano,1,1,2,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,R5,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,48.308,1229,8644,False,domain_relaxation,fviol:R5,formulation_only,domain_or_bound_error,7,6,6,6,12,0,1,1,,
+p1__gpt-5-nano__s3,gpt-5-nano,1,1,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p1.R4.C1,p1.R7.C1,p1.R7.C2",p1.R4.C1,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,47.908,1229,7708,False,,,none,,7,6,6,6,12,1,0,1,,
+p1__gpt-5-nano__s4,gpt-5-nano,1,1,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,34.652,1229,6895,False,,,none,,7,6,6,6,12,0,0,0,,
+p1__gpt-5-nano__s5,gpt-5-nano,1,1,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,57.343,1229,10668,False,,,none,,7,6,6,6,12,0,0,0,,
+p1__gpt-5-nano__s6,gpt-5-nano,1,1,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,32.627,1229,5692,False,,,none,,7,6,6,6,12,0,0,0,,
+p1__gpt-5-nano__s7,gpt-5-nano,1,1,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,42.726,1229,8168,False,,,none,,7,6,6,6,12,0,0,0,,
+p1__gpt-5-nano__s8,gpt-5-nano,1,1,8,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p1.R4.C1,p1.R7.C1,p1.R7.C2",p1.R4.C1,,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,38.986,1229,6720,False,,,none,,7,6,6,6,12,1,0,1,,
+p1__gpt-5-nano__s9,gpt-5-nano,1,1,9,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,R1,,,7b8f2f9e2fc982b156775039f06a4cc975127aef503212a8931b5efa7398762b,57.059,1229,9361,False,structural_constraint_error,fviol:R1,formulation_only,constraint_omission,7,6,6,6,12,0,1,1,,
+p2__gpt-5-nano__s0,gpt-5-nano,2,2,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,87.24,1239,11187,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s1,gpt-5-nano,2,2,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,75.137,1239,9585,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s2,gpt-5-nano,2,2,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,80.072,1239,9755,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s3,gpt-5-nano,2,2,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,56.639,1239,6594,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s4,gpt-5-nano,2,2,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,84.684,1239,12919,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s5,gpt-5-nano,2,2,5,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p2.R5.C1,p2.R6.C1,p2.R8.C1,p2.obj.C2","p2.R5.C1,p2.R6.C1,p2.R8.C1",,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,71.513,1239,11131,False,,,none,,9,8,8,9,17,3,0,3,,
+p2__gpt-5-nano__s6,gpt-5-nano,2,2,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,57.471,1239,10979,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s7,gpt-5-nano,2,2,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,51.255,1239,10918,False,,,none,,9,8,8,9,17,0,0,0,,
+p2__gpt-5-nano__s8,gpt-5-nano,2,2,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,30.827,1239,5876,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p2__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p2__gpt-5-nano__s8\generated_model.py"", line 55, in solve
+    gp.GRB.INTERrupted if hasattr(gp.GRB, 'INTERRUPTED') else None: ""INTERRUPTED"",
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'INTERrupted'. Did you mean: 'INTERRUPTED'?"
+p2__gpt-5-nano__s9,gpt-5-nano,2,2,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,cb63d386a3ed192e2ffb4f5ffe3a89d2eace331a8499a26195661ce29656ccba,44.514,1239,9620,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s0,gpt-5-nano,3,3,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,27.462,1267,5297,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s1,gpt-5-nano,3,3,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,25.076,1267,4871,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s2,gpt-5-nano,3,3,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,28.458,1267,4569,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s3,gpt-5-nano,3,3,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p3.obj.C1,p3.obj.C2",,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,52.617,1267,9912,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s4,gpt-5-nano,3,3,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,57.848,1267,10741,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s5,gpt-5-nano,3,3,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,31.501,1267,6022,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s6,gpt-5-nano,3,3,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,204.273,1267,4569,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s7,gpt-5-nano,3,3,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,83.632,1267,14950,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s8,gpt-5-nano,3,3,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,31.68,1267,5455,False,,,none,,9,8,8,9,17,0,0,0,,
+p3__gpt-5-nano__s9,gpt-5-nano,3,3,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,06f21baafa3c1f9e7e43acc3898621e66105f47b1f9390380cc94ccadf2a4c92,37.108,1267,5844,False,,,none,,9,8,8,9,17,0,0,0,,
+p4__gpt-5-nano__s0,gpt-5-nano,4,4,0,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,39.779,1338,6267,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s1,gpt-5-nano,4,4,1,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,34.749,1338,5354,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s2,gpt-5-nano,4,4,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,22.771,1338,3163,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s3,gpt-5-nano,4,4,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,34.496,1338,5758,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s4,gpt-5-nano,4,4,4,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,33.82,1338,5268,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s5,gpt-5-nano,4,4,5,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,26.247,1338,4162,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s6,gpt-5-nano,4,4,6,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,18.055,1338,2591,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s7,gpt-5-nano,4,4,7,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,44.661,1338,7458,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s8,gpt-5-nano,4,4,8,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,24.391,1338,4159,False,,,none,,6,5,5,6,11,1,0,1,,
+p4__gpt-5-nano__s9,gpt-5-nano,4,4,9,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p4.R5.C1,p4.obj.C2",p4.R5.C1,,,,e7ae31c2078ac2d39ade9176596be7083d8914e6e38ab742030f7eafdb82d066,39.165,1338,5928,False,,,none,,6,5,5,6,11,1,0,1,,
+p5__gpt-5-nano__s0,gpt-5-nano,5,5,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,43.546,1253,6123,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s1,gpt-5-nano,5,5,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,40.354,1253,5909,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s2,gpt-5-nano,5,5,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,49.685,1253,7531,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s3,gpt-5-nano,5,5,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,40.92,1253,6153,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s4,gpt-5-nano,5,5,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,55.332,1253,7637,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s5,gpt-5-nano,5,5,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,62.893,1253,9620,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s6,gpt-5-nano,5,5,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,31.762,1253,4185,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s7,gpt-5-nano,5,5,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,41.665,1253,5902,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s8,gpt-5-nano,5,5,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,41.074,1253,5960,False,,,none,,9,8,8,9,17,0,0,0,,
+p5__gpt-5-nano__s9,gpt-5-nano,5,5,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,512e2f6930bdd918fae92238f808930fed1751a9458c5e94102d366c9945f680,61.322,1253,8613,False,,,none,,9,8,8,9,17,0,0,0,,
+p6__gpt-5-nano__s0,gpt-5-nano,6,6,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,41.957,2288,6719,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s1,gpt-5-nano,6,6,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,31.849,2288,4518,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s2,gpt-5-nano,6,6,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,25.454,2288,3908,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s3,gpt-5-nano,6,6,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,33.832,2288,5725,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s4,gpt-5-nano,6,6,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,46.775,2288,6288,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s5,gpt-5-nano,6,6,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,58.17,2288,9613,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s6,gpt-5-nano,6,6,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,27.247,2288,4495,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s7,gpt-5-nano,6,6,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,29.981,2288,4655,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s8,gpt-5-nano,6,6,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,26.572,2288,4407,False,,,none,,7,6,6,7,13,0,0,0,,
+p6__gpt-5-nano__s9,gpt-5-nano,6,6,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5da4c2f02a828486a6d609579a7fa4938f3301e8563e6f426f7f96f411d68931,29.988,2288,4516,False,,,none,,7,6,6,7,13,0,0,0,,
+p7__gpt-5-nano__s0,gpt-5-nano,7,7,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,95.131,2979,12238,False,structural_constraint_error,"fviol:R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_misspecification,25,24,24,25,49,0,12,12,,
+p7__gpt-5-nano__s1,gpt-5-nano,7,7,1,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,99.047,2979,12032,False,structural_constraint_error,"fviol:R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_omission,25,24,24,25,49,0,3,3,,
+p7__gpt-5-nano__s2,gpt-5-nano,7,7,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p7.R_nobacklog_end_I.C1,p7.R_nobacklog_end_II.C1,p7.R_nobacklog_end_III.C1,p7.obj.C2","p7.R_nobacklog_end_I.C1,p7.R_nobacklog_end_II.C1,p7.R_nobacklog_end_III.C1",,,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,121.34,2979,15565,False,,,none,,25,24,24,25,49,3,0,3,,
+p7__gpt-5-nano__s3,gpt-5-nano,7,7,3,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,151.422,2979,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p7__gpt-5-nano__s4,gpt-5-nano,7,7,4,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,110.718,2979,12356,False,structural_constraint_error,"fviol:R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_misspecification,25,24,24,25,49,0,12,12,,
+p7__gpt-5-nano__s5,gpt-5-nano,7,7,5,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,138.681,2979,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p7__gpt-5-nano__s6,gpt-5-nano,7,7,6,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,148.786,2979,15530,False,structural_constraint_error,"fviol:R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_misspecification,25,24,24,25,49,0,3,3,,
+p7__gpt-5-nano__s7,gpt-5-nano,7,7,7,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,83.352,2979,9681,False,structural_constraint_error,"fviol:R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_misspecification,25,24,24,25,49,0,12,12,,
+p7__gpt-5-nano__s8,gpt-5-nano,7,7,8,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,126.025,2979,13393,False,structural_constraint_error,"fviol:R_bal_I_2,R_bal_I_3,R_bal_I_4,R_bal_II_2,R_bal_II_3,R_bal_II_4,R_bal_III_2,R_bal_III_3,R_bal_III_4,R_nobacklog_end_I,R_nobacklog_end_II,R_nobacklog_end_III",formulation_only,constraint_misspecification,25,24,24,25,49,0,12,12,,
+p7__gpt-5-nano__s9,gpt-5-nano,7,7,9,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,892befbe62d04a1714971532caa8264c422382e126c29e8bdb237f761eed87e2,152.875,2979,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p8__gpt-5-nano__s0,gpt-5-nano,8,8,0,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,34.702,1458,5127,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s0\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s0\generated_model.py"", line 67, in solve
+    GRB.NODE_DOWN: ""NODE_DOWN"",
+    ^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'NODE_DOWN'"
+p8__gpt-5-nano__s1,gpt-5-nano,8,8,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,32.05,1458,4633,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s1\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s1\generated_model.py"", line 36, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s1\generated_model.py"", line 6, in build_model
+    s1 = m.addVar(vtype=gp.GRB.INT, name=""s1"", lb=0)
+                        ^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'INT'"
+p8__gpt-5-nano__s2,gpt-5-nano,8,8,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,27.404,1458,4139,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s3,gpt-5-nano,8,8,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,35.511,1458,4022,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s4,gpt-5-nano,8,8,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,37.205,1458,5561,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s5,gpt-5-nano,8,8,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,25.029,1458,3162,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s6,gpt-5-nano,8,8,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,33.363,1458,3262,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s7,gpt-5-nano,8,8,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,59.969,1458,7544,False,,,none,,11,10,10,11,21,0,0,0,,
+p8__gpt-5-nano__s8,gpt-5-nano,8,8,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,40.308,1458,5434,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p8__gpt-5-nano__s8\generated_model.py"", line 60, in solve
+    gp.GRB.FEASIBLE: ""FEASIBLE"",
+    ^^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'FEASIBLE'. Did you mean: 'INFEASIBLE'?"
+p8__gpt-5-nano__s9,gpt-5-nano,8,8,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0764e3c78fe3ba50ce63376b5a3a68ac50241aac91ae2d3ab72773f5d754b9c6,31.172,1458,4791,False,,,none,,11,10,10,11,21,0,0,0,,
+p9__gpt-5-nano__s0,gpt-5-nano,9,9,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,25.281,1224,3691,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s1,gpt-5-nano,9,9,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,32.191,1224,5621,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s2,gpt-5-nano,9,9,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,26.266,1224,4303,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s3,gpt-5-nano,9,9,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,23.434,1224,3858,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s4,gpt-5-nano,9,9,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,19.559,1224,3429,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s5,gpt-5-nano,9,9,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,24.941,1224,4239,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s6,gpt-5-nano,9,9,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,16.279,1224,2650,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s7,gpt-5-nano,9,9,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,26.538,1224,4170,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s8,gpt-5-nano,9,9,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,22.304,1224,4003,False,,,none,,10,9,9,10,19,0,0,0,,
+p9__gpt-5-nano__s9,gpt-5-nano,9,9,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,134c5de45298561ff7ce03dc5fdcd59712009c1c751edc8814c5190494cb8810,27.948,1224,4318,False,,,none,,10,9,9,10,19,0,0,0,,
+p10__gpt-5-nano__s0,gpt-5-nano,10,10,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,35.116,1352,5104,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s1,gpt-5-nano,10,10,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,52.287,1352,8115,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s2,gpt-5-nano,10,10,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,31.956,1352,4704,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s3,gpt-5-nano,10,10,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,66.619,1352,9855,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s4,gpt-5-nano,10,10,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,36.012,1352,5758,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s5,gpt-5-nano,10,10,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,22.796,1352,3506,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s6,gpt-5-nano,10,10,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,36.162,1352,5827,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s7,gpt-5-nano,10,10,7,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,27.28,1352,4175,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p10__gpt-5-nano__s7\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p10__gpt-5-nano__s7\generated_model.py"", line 85, in solve
+    GRB.UNKNOWN: ""UNKNOWN""
+    ^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'UNKNOWN'"
+p10__gpt-5-nano__s8,gpt-5-nano,10,10,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,55.04,1352,7693,False,,,none,,7,6,6,7,13,0,0,0,,
+p10__gpt-5-nano__s9,gpt-5-nano,10,10,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,9327588e2287d8ab61ffa62dff8a04a14601842b37c48d6a94a957d281d8634b,40.379,1352,6457,False,,,none,,7,6,6,7,13,0,0,0,,
+p11__gpt-5-nano__s0,gpt-5-nano,11,11,0,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p11.R_hard_max_Mar.C1,p11.R_hard_max_Apr.C1,p11.R_hard_max_May.C1,p11.R_hard_max_Jun.C1,p11.obj.C2","p11.R_hard_max_Mar.C1,p11.R_hard_max_Apr.C1,p11.R_hard_max_May.C1,p11.R_hard_max_Jun.C1",,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,95.744,7982,13549,False,,,none,,170,169,169,170,339,4,0,4,,
+p11__gpt-5-nano__s1,gpt-5-nano,11,11,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,87.023,7982,13372,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s1\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s1\generated_model.py"", line 127, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s1\generated_model.py"", line 93, in build_model
+    model.addConstr(H_m >= min_h * U_m, name=f""min_hard_{month}"")
+                           ^^^^^
+NameError: name 'min_h' is not defined"
+p11__gpt-5-nano__s2,gpt-5-nano,11,11,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p11.R_hard_max_Apr.C1,p11.R_hard_max_May.C1,p11.R_hard_max_Jun.C1,p11.R_uselink_VEG1_Mar.C1,p11.R_uselink_VEG1_Apr.C1,p11.R_uselink_VEG1_May.C1,p11.R_uselink_VEG1_Jun.C1,p11.R_uselink_VEG2_Jan.C1,p11.R_uselink_VEG2_Feb.C1,p11.R_uselink_VEG2_Mar.C1,p11.R_uselink_OIL2_Mar.C1,p11.R_uselink_OIL2_Apr.C1,p11.R_uselink_OIL2_May.C1,p11.R_uselink_OIL2_Jun.C1,p11.R_uselink_OIL3_Jan.C1,p11.R_uselink_OIL3_Feb.C1,p11.obj.C2","p11.R_hard_max_Apr.C1,p11.R_hard_max_May.C1,p11.R_hard_max_Jun.C1,p11.R_uselink_VEG1_Mar.C1,p11.R_uselink_VEG1_Apr.C1,p11.R_uselink_VEG1_May.C1,p11.R_uselink_VEG1_Jun.C1,p11.R_uselink_VEG2_Jan.C1,p11.R_uselink_VEG2_Feb.C1,p11.R_uselink_VEG2_Mar.C1,p11.R_uselink_OIL2_Mar.C1,p11.R_uselink_OIL2_Apr.C1,p11.R_uselink_OIL2_May.C1,p11.R_uselink_OIL2_Jun.C1,p11.R_uselink_OIL3_Jan.C1,p11.R_uselink_OIL3_Feb.C1",,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,77.082,7982,10660,False,,,none,,170,169,169,170,339,16,0,16,,
+p11__gpt-5-nano__s3,gpt-5-nano,11,11,3,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,79.983,7982,11826,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s3\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s3\generated_model.py"", line 138, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s3\generated_model.py"", line 61, in build_model
+    model.addConstr(  initial_store(oil) + v(buy_jan) - v(use_jan) == v(store_jan) )
+                      ^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not callable"
+p11__gpt-5-nano__s4,gpt-5-nano,11,11,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,71.072,7982,11793,False,,,none,,170,169,169,170,339,0,0,0,,
+p11__gpt-5-nano__s5,gpt-5-nano,11,11,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,68.49,7982,11624,False,,,none,,170,169,169,170,339,0,0,0,,
+p11__gpt-5-nano__s6,gpt-5-nano,11,11,6,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,69.39,7982,12203,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s6\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s6\generated_model.py"", line 138, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p11__gpt-5-nano__s6\generated_model.py"", line 39, in build_model
+    buy_var = m.addVar(lb=0.0, vtype=GRB.CONTINUOUS, name=f""buy_{oil}_{m}"")
+              ^^^^^^^^
+AttributeError: 'str' object has no attribute 'addVar'"
+p11__gpt-5-nano__s7,gpt-5-nano,11,11,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,74.165,7982,12582,False,,,none,,170,169,169,170,339,0,0,0,,
+p11__gpt-5-nano__s8,gpt-5-nano,11,11,8,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p11.R_bal_VEG1_Jan.C1,p11.R_bal_VEG1_Jun.C1,p11.R_endstore_VEG1.C1,p11.R_bal_VEG2_Jan.C1,p11.R_bal_VEG2_Jun.C1,p11.R_endstore_VEG2.C1,p11.R_bal_OIL1_Jan.C1,p11.R_endstore_OIL1.C1,p11.R_bal_OIL2_Jan.C1,p11.R_bal_OIL2_Jun.C1,p11.R_endstore_OIL2.C1,p11.R_bal_OIL3_Jan.C1,p11.R_bal_OIL3_Mar.C1,p11.R_bal_OIL3_May.C1,p11.R_endstore_OIL3.C1,p11.obj.C1,p11.obj.C2","p11.R_bal_VEG1_Jan.C1,p11.R_bal_VEG1_Jun.C1,p11.R_endstore_VEG1.C1,p11.R_bal_VEG2_Jan.C1,p11.R_bal_VEG2_Jun.C1,p11.R_endstore_VEG2.C1,p11.R_bal_OIL1_Jan.C1,p11.R_endstore_OIL1.C1,p11.R_bal_OIL2_Jan.C1,p11.R_bal_OIL2_Jun.C1,p11.R_endstore_OIL2.C1,p11.R_bal_OIL3_Jan.C1,p11.R_bal_OIL3_Mar.C1,p11.R_bal_OIL3_May.C1,p11.R_endstore_OIL3.C1",,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,65.503,7982,12095,False,,,none,,170,169,169,170,339,15,0,15,,
+p11__gpt-5-nano__s9,gpt-5-nano,11,11,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,f690f97ab88220fc4e6afd67c9c5647767aef832350ff96eda56f701be6fca4b,63.426,7982,12499,False,,,none,,170,169,169,170,339,0,0,0,,
+p12__gpt-5-nano__s0,gpt-5-nano,12,12,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,37.525,3098,5201,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s1,gpt-5-nano,12,12,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,31.084,3098,5028,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s2,gpt-5-nano,12,12,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,24.483,3098,3956,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s3,gpt-5-nano,12,12,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,32.647,3098,5668,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s4,gpt-5-nano,12,12,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,36.392,3098,6108,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s5,gpt-5-nano,12,12,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,23.11,3098,4018,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s6,gpt-5-nano,12,12,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,31.997,3098,5753,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s7,gpt-5-nano,12,12,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,37.388,3098,6064,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s8,gpt-5-nano,12,12,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,22.639,3098,4180,False,,,none,,5,17,4,18,35,0,0,0,,
+p12__gpt-5-nano__s9,gpt-5-nano,12,12,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0fb92aed8d55bd8f0f144eaf25547d7b76d7cae8d7bb297875e14af44a384753,23.466,3098,4175,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p12__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p12__gpt-5-nano__s9\generated_model.py"", line 69, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p12__gpt-5-nano__s9\generated_model.py"", line 35, in build_model
+    y[c] = model.AddVar(vtype=gp.GRB.BINARY, name=f""y_{c}"")
+           ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2212, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 37, in gurobipy._attrutil._getattrinfo
+AttributeError: 'gurobipy.Model' object has no attribute 'AddVar'. Did you mean: 'addVar'?"
+p13__gpt-5-nano__s0,gpt-5-nano,13,13,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,28.059,3056,5732,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s1,gpt-5-nano,13,13,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,24.773,3056,4967,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s2,gpt-5-nano,13,13,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,24.793,3056,4721,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s3,gpt-5-nano,13,13,3,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,39.837,3056,8280,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s3\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s3\generated_model.py"", line 84, in solve
+    GRB.CONTINUING: ""CONTINUING""
+    ^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'CONTINUING'. Did you mean: 'CONTINUOUS'?"
+p13__gpt-5-nano__s4,gpt-5-nano,13,13,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,23.702,3056,5309,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s5,gpt-5-nano,13,13,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,23.222,3056,5234,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s6,gpt-5-nano,13,13,6,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,29.023,3056,6463,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s6\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s6\generated_model.py"", line 52, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s6\generated_model.py"", line 47, in build_model
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= cap * variables[f""y_{c}""], name=f""cap_{c}"".replace(""-"", ""_""))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s6\generated_model.py"", line 47, in <genexpr>
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= cap * variables[f""y_{c}""], name=f""cap_{c}"".replace(""-"", ""_""))
+                                ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p13__gpt-5-nano__s7,gpt-5-nano,13,13,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,20.542,3056,4707,False,,,none,,5,16,4,17,33,0,0,0,,
+p13__gpt-5-nano__s8,gpt-5-nano,13,13,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,21.821,3056,5084,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s8\generated_model.py"", line 51, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s8\generated_model.py"", line 40, in build_model
+    expr = gp.quicksum(variables[f""{c}_{s}""] for s in stores)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p13__gpt-5-nano__s8\generated_model.py"", line 40, in <genexpr>
+    expr = gp.quicksum(variables[f""{c}_{s}""] for s in stores)
+                       ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p13__gpt-5-nano__s9,gpt-5-nano,13,13,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,10f76b9e88859cc988482f3a572d12fa880cb6abc0474b825bd7dfb620513fba,19.916,3056,4446,False,,,none,,5,16,4,17,33,0,0,0,,
+p14__gpt-5-nano__s0,gpt-5-nano,14,14,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,25.234,3572,4998,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s1,gpt-5-nano,14,14,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,24.199,3572,4898,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s2,gpt-5-nano,14,14,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,31.354,3572,5951,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s3,gpt-5-nano,14,14,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,19.593,3572,3962,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s4,gpt-5-nano,14,14,4,schema_failure,schema_failure,schema_failure,recovered_prose_slice,True,False,False,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,27.568,3572,5292,False,,,none,,,,,,,0,0,0,schema_failure,result is not a dict: list
+p14__gpt-5-nano__s5,gpt-5-nano,14,14,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,30.948,3572,6322,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s6,gpt-5-nano,14,14,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,25.095,3572,4868,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s7,gpt-5-nano,14,14,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,26.846,3572,5109,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s8,gpt-5-nano,14,14,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,23.077,3572,4380,False,,,none,,5,18,4,19,37,0,0,0,,
+p14__gpt-5-nano__s9,gpt-5-nano,14,14,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,56a6ec625dfaaef77be1b3ce0e49637fed624fd0d7a6049de94693e0db66d02c,33.86,3572,6068,False,,,none,,5,18,4,19,37,0,0,0,,
+p15__gpt-5-nano__s0,gpt-5-nano,15,15,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,23.741,3758,4246,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s1,gpt-5-nano,15,15,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,37.275,3758,6347,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s2,gpt-5-nano,15,15,2,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,32.48,3758,4925,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s2\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s2\generated_model.py"", line 63, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s2\generated_model.py"", line 29, in build_model
+    obj += gp.quicksum(transport_cost[c][s] * f_vars[f""{c}_{s}""] for c in centers for s in stores)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s2\generated_model.py"", line 29, in <genexpr>
+    obj += gp.quicksum(transport_cost[c][s] * f_vars[f""{c}_{s}""] for c in centers for s in stores)
+                                              ~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p15__gpt-5-nano__s3,gpt-5-nano,15,15,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,34.341,3758,5646,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s4,gpt-5-nano,15,15,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,41.342,3758,6253,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s5,gpt-5-nano,15,15,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,35.795,3758,4983,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s6,gpt-5-nano,15,15,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,31.12,3758,4891,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s7,gpt-5-nano,15,15,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,41.392,3758,6679,False,,,none,,5,19,4,20,39,0,0,0,,
+p15__gpt-5-nano__s8,gpt-5-nano,15,15,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,31.23,3758,4377,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s8\generated_model.py"", line 71, in solve
+    GRB.DELAYED: ""DELAYED""
+    ^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'DELAYED'"
+p15__gpt-5-nano__s9,gpt-5-nano,15,15,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,49204103b0bb8c868e2cd55c8b71c7adfd3b52fb506a3baaaa6ab5cdc6ea2e03,22.865,3758,3380,False,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s9\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p15__gpt-5-nano__s9\generated_model.py"", line 37
+    s key = f""s{j+1}""  # placeholder to show syntax error avoidance
+      ^^^
+SyntaxError: invalid syntax"
+p16__gpt-5-nano__s0,gpt-5-nano,16,16,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,32.619,3447,4184,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s1,gpt-5-nano,16,16,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,43.197,3447,5565,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s2,gpt-5-nano,16,16,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,32.632,3447,4000,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s3,gpt-5-nano,16,16,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,46.346,3447,6465,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s4,gpt-5-nano,16,16,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,52.799,3447,6408,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s5,gpt-5-nano,16,16,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,34.674,3447,5165,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s6,gpt-5-nano,16,16,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,70.687,3447,10288,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s7,gpt-5-nano,16,16,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,47.913,3447,6561,False,,,none,,5,20,4,21,41,0,0,0,,
+p16__gpt-5-nano__s8,gpt-5-nano,16,16,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,44.913,3447,6500,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p16__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p16__gpt-5-nano__s8\generated_model.py"", line 69, in solve
+    GRB.NODE_LIM: ""NODE_LIM"",
+    ^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'NODE_LIM'. Did you mean: 'NODE_LIMIT'?"
+p16__gpt-5-nano__s9,gpt-5-nano,16,16,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,d932a9ed2ba298372702cd0cc7c48b69f547ad617d47c04768469def4e2847ee,37.939,3447,5710,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p16__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p16__gpt-5-nano__s9\generated_model.py"", line 66, in solve
+    GRB.INTERMEDIATE: ""INTERMEDIATE"",
+    ^^^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'INTERMEDIATE'"
+p17__gpt-5-nano__s0,gpt-5-nano,17,17,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,94.544,5675,5104,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s1,gpt-5-nano,17,17,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,31.41,5675,4562,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s2,gpt-5-nano,17,17,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,31.644,5675,4426,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s3,gpt-5-nano,17,17,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,46.251,5675,7014,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s4,gpt-5-nano,17,17,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,29.724,5675,4240,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s5,gpt-5-nano,17,17,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,34.422,5675,5335,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s6,gpt-5-nano,17,17,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,32.108,5675,5532,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s7,gpt-5-nano,17,17,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,48.855,5675,8321,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s8,gpt-5-nano,17,17,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,24.2,5675,4482,False,,,none,,5,25,4,26,51,0,0,0,,
+p17__gpt-5-nano__s9,gpt-5-nano,17,17,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,7cedead140cd8323e58642f6e062e7bf93bb4f6e08791fd1ccc4183c0113e2b6,28.682,5675,5454,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p17__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p17__gpt-5-nano__s9\generated_model.py"", line 54, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p17__gpt-5-nano__s9\generated_model.py"", line 35, in build_model
+    objective += transport_cost[c][s] * variables[f""{c}_{s}""]
+                                        ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p18__gpt-5-nano__s0,gpt-5-nano,18,18,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,29.169,4354,3599,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s1,gpt-5-nano,18,18,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,41.233,4354,5534,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s1\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s1\generated_model.py"", line 54, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s1\generated_model.py"", line 31, in build_model
+    model.addConstr(gp.quicksum(f[f""{c}_{s}""] for c in centers) == demand[s], name=f""demand_{s}"")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s1\generated_model.py"", line 31, in <genexpr>
+    model.addConstr(gp.quicksum(f[f""{c}_{s}""] for c in centers) == demand[s], name=f""demand_{s}"")
+                                ~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p18__gpt-5-nano__s2,gpt-5-nano,18,18,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,41.155,4354,5118,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s3,gpt-5-nano,18,18,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,36.921,4354,4814,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s4,gpt-5-nano,18,18,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,42.015,4354,5716,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s5,gpt-5-nano,18,18,5,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,35.066,4354,4574,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s5\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s5\generated_model.py"", line 54, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s5\generated_model.py"", line 31, in build_model
+    obj_transport = gp.quicksum(transport_cost[c][s] * f[f""{c}_{s}""] for c in centers for s in stores)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s5\generated_model.py"", line 31, in <genexpr>
+    obj_transport = gp.quicksum(transport_cost[c][s] * f[f""{c}_{s}""] for c in centers for s in stores)
+                                                       ~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p18__gpt-5-nano__s6,gpt-5-nano,18,18,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,55.568,4354,6819,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s7,gpt-5-nano,18,18,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,68.927,4354,8299,False,,,none,,5,21,4,22,43,0,0,0,,
+p18__gpt-5-nano__s8,gpt-5-nano,18,18,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,40.168,4354,5052,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p18__gpt-5-nano__s8\generated_model.py"", line 62, in solve
+    GRB.UNFEASIBLE: ""UNFEASIBLE""  # alias, though GRB doesn't have UNFEASIBLE typically
+    ^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'UNFEASIBLE'. Did you mean: 'INFEASIBLE'?"
+p18__gpt-5-nano__s9,gpt-5-nano,18,18,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,356045ba36a1a33f53d5e30373881a1415e93e51876ff4c20883989a216cf058,47.972,4354,6639,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s0,gpt-5-nano,19,19,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,50.616,4425,6717,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s1,gpt-5-nano,19,19,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,31.696,4425,4104,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s2,gpt-5-nano,19,19,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,30.938,4425,4210,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s3,gpt-5-nano,19,19,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,36.739,4425,4512,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s4,gpt-5-nano,19,19,4,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,57.674,4425,7779,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s4\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s4\generated_model.py"", line 61, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s4\generated_model.py"", line 47, in build_model
+    expr = gp.quicksum(f[f""{c}_{s}""] for s in stores)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s4\generated_model.py"", line 47, in <genexpr>
+    expr = gp.quicksum(f[f""{c}_{s}""] for s in stores)
+                       ~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p19__gpt-5-nano__s5,gpt-5-nano,19,19,5,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,30.273,4425,4250,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s5\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s5\generated_model.py"", line 58, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s5\generated_model.py"", line 28, in build_model
+    quicksum(f_vars[f""{c}_{s}""] for c in centers) == demand,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s5\generated_model.py"", line 28, in <genexpr>
+    quicksum(f_vars[f""{c}_{s}""] for c in centers) == demand,
+             ~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p19__gpt-5-nano__s6,gpt-5-nano,19,19,6,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,39.629,4425,5670,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s6\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s6\generated_model.py"", line 58, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s6\generated_model.py"", line 52, in build_model
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= capacity[c] * variables[f""y_{c}""],
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s6\generated_model.py"", line 52, in <genexpr>
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= capacity[c] * variables[f""y_{c}""],
+                                ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p19__gpt-5-nano__s7,gpt-5-nano,19,19,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,41.95,4425,5045,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s8,gpt-5-nano,19,19,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,34.203,4425,5060,False,,,none,,5,21,4,22,43,0,0,0,,
+p19__gpt-5-nano__s9,gpt-5-nano,19,19,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,329e9365bc725e92f6036bd3fb35046b989feafb758003473f3d477079e82602,40.974,4425,5169,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s9\generated_model.py"", line 51, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s9\generated_model.py"", line 45, in build_model
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= data[""capacity""][c] * variables[f""y_{c}""],
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p19__gpt-5-nano__s9\generated_model.py"", line 45, in <genexpr>
+    model.addConstr(gp.quicksum(variables[f""{c}_{s}""] for s in stores) <= data[""capacity""][c] * variables[f""y_{c}""],
+                                ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'c1_s1'"
+p20__gpt-5-nano__s0,gpt-5-nano,20,20,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,30.423,3974,3712,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s1,gpt-5-nano,20,20,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,33.423,3974,4059,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s2,gpt-5-nano,20,20,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,40.329,3974,5582,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s3,gpt-5-nano,20,20,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,42.707,3974,6029,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s4,gpt-5-nano,20,20,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,45.022,3974,6173,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s5,gpt-5-nano,20,20,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,30.872,3974,4268,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s6,gpt-5-nano,20,20,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,39.926,3974,5584,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s7,gpt-5-nano,20,20,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,31.345,3974,4461,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s8,gpt-5-nano,20,20,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,43.566,3974,5993,False,,,none,,5,21,4,22,43,0,0,0,,
+p20__gpt-5-nano__s9,gpt-5-nano,20,20,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,66c96c625bdc123111a3fa68cd50853f2a8e21115c57c27c27a4c045efbfed6f,36.703,3974,5004,False,,,none,,5,21,4,22,43,0,0,0,,
+p21__gpt-5-nano__s0,gpt-5-nano,21,21,0,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p21.obj.C1,p21.obj.C2",,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,30.979,1293,4654,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s1,gpt-5-nano,21,21,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,27.283,1293,4501,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s1\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s1\generated_model.py"", line 78, in solve
+    objective_val = float(model.ObjVal) if model.ObjVal is not None else None
+                                           ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p21__gpt-5-nano__s2,gpt-5-nano,21,21,2,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,29.69,1293,4561,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s2\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s2\generated_model.py"", line 70, in solve
+    objective_value = float(model.ObjVal)
+                            ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p21__gpt-5-nano__s3,gpt-5-nano,21,21,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,32.337,1293,5041,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s4,gpt-5-nano,21,21,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,27.317,1293,4009,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s5,gpt-5-nano,21,21,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,32.951,1293,4870,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s6,gpt-5-nano,21,21,6,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,26.345,1293,4228,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s6\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p21__gpt-5-nano__s6\generated_model.py"", line 54, in solve
+    if model.ObjVal is not None:
+       ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p21__gpt-5-nano__s7,gpt-5-nano,21,21,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,24.543,1293,3771,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s8,gpt-5-nano,21,21,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,27.294,1293,3858,False,,,none,,10,9,9,10,19,0,0,0,,
+p21__gpt-5-nano__s9,gpt-5-nano,21,21,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,0e30946074d42b98b450c8cccaae06425803a0d26ddc41a49c2fa85dace78ee0,34.754,1293,5587,False,,,none,,10,9,9,10,19,0,0,0,,
+p22__gpt-5-nano__s0,gpt-5-nano,22,22,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,63.888,1958,8000,False,linking_or_logic_error,"fviol:R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",formulation_only,linking_or_logic_error,36,35,35,36,71,0,8,8,,
+p22__gpt-5-nano__s1,gpt-5-nano,22,22,1,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_pass_C_in,R_pass_C_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,64.662,1958,8830,False,structural_constraint_error,"fviol:R_pass_C_in,R_pass_C_out",formulation_only,constraint_misspecification,36,35,35,36,71,0,2,2,,
+p22__gpt-5-nano__s2,gpt-5-nano,22,22,2,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,117.975,1958,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p22__gpt-5-nano__s3,gpt-5-nano,22,22,3,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,84.995,1958,11153,False,linking_or_logic_error,"fviol:R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",formulation_only,linking_or_logic_error,36,35,35,36,71,0,8,8,,
+p22__gpt-5-nano__s4,gpt-5-nano,22,22,4,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,103.805,1958,12994,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p22__gpt-5-nano__s4\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p22__gpt-5-nano__s4\generated_model.py"", line 102, in solve
+    GRB.OPTIMAL: ""OPTIMAL"",
+    ^^^
+NameError: name 'GRB' is not defined"
+p22__gpt-5-nano__s5,gpt-5-nano,22,22,5,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,82.492,1958,11962,False,linking_or_logic_error,"fviol:R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",formulation_only,linking_or_logic_error,36,35,35,36,71,0,8,8,,
+p22__gpt-5-nano__s6,gpt-5-nano,22,22,6,contract_failure,contract_failure,contract_failure,recovered_prose_slice,False,False,False,True,,,,,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,120.592,1958,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function solve(data)
+p22__gpt-5-nano__s7,gpt-5-nano,22,22,7,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p22.R_visit_A_out.C1,p22.R_visit_A_out.C1,"R_pass_C_in,R_pass_C_out,R_flow_B,R_flow_D,R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_C_in,R_visit_C_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,88.439,1958,12645,False,unknown_or_mixed,"R_visit_A_out + fviol:R_pass_C_in,R_pass_C_out,R_flow_B,R_flow_D,R_visit_A_in,R_visit_B_in,R_visit_B_out,R_visit_C_in,R_visit_C_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",solution_and_formulation,constraint_misspecification;linking_or_logic_error,36,35,35,36,71,1,14,15,,
+p22__gpt-5-nano__s8,gpt-5-nano,22,22,8,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,55.507,1958,7888,False,linking_or_logic_error,"fviol:R_visit_A_in,R_visit_A_out,R_visit_B_in,R_visit_B_out,R_visit_D_in,R_visit_D_out,R_visit_E_in,R_visit_E_out",formulation_only,linking_or_logic_error,36,35,35,36,71,0,8,8,,
+p22__gpt-5-nano__s9,gpt-5-nano,22,22,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7b337f06c64fb758705aab538e19f97efb0b66bdfe84c7a08664a72b5c502924,117.864,1958,15827,False,,,none,,36,35,35,36,71,0,0,0,,
+p23__gpt-5-nano__s0,gpt-5-nano,23,23,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,38.02,13253,6101,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s1,gpt-5-nano,23,23,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,p23.obj.C1,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,44.475,13253,7352,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s2,gpt-5-nano,23,23,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,31.205,13253,5219,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s3,gpt-5-nano,23,23,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,p23.obj.C1,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,91.792,13253,14547,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s4,gpt-5-nano,23,23,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,44.366,13253,6154,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s5,gpt-5-nano,23,23,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,40.717,13253,6383,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s6,gpt-5-nano,23,23,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,32.747,13253,5031,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s7,gpt-5-nano,23,23,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,38.046,13253,5855,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s8,gpt-5-nano,23,23,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,34.771,13253,5368,False,,,none,,6,5,5,6,11,0,0,0,,
+p23__gpt-5-nano__s9,gpt-5-nano,23,23,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,5965945cd07907db2d0ba3c94735898b37a45813287347b6646826563a1c6df1,41.05,13253,6539,False,,,none,,6,5,5,6,11,0,0,0,,
+p24__gpt-5-nano__s0,gpt-5-nano,24,24,0,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,66.304,4241,11836,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p24__gpt-5-nano__s0\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p24__gpt-5-nano__s0\generated_model.py"", line 117, in solve
+    obj_val = float(model.ObjVal) if model.ObjVal is not None else None
+                                     ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p24__gpt-5-nano__s1,gpt-5-nano,24,24,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,51.576,4241,10141,False,,,none,,110,127,109,128,255,0,0,0,,
+p24__gpt-5-nano__s2,gpt-5-nano,24,24,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,47.058,4241,8999,False,,,none,,110,127,109,128,255,0,0,0,,
+p24__gpt-5-nano__s3,gpt-5-nano,24,24,3,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p24.R_D_min_1.C1,p24.R_D_min_2.C1,p24.R_D_min_8.C1,p24.R_D_min_9.C1,p24.R_D_min_10.C1","p24.R_D_min_1.C1,p24.R_D_min_2.C1,p24.R_D_min_8.C1,p24.R_D_min_9.C1,p24.R_D_min_10.C1","R_D_min_1,R_D_min_2,R_D_min_3,R_D_min_4,R_D_min_5,R_D_min_6,R_D_min_7,R_D_min_8,R_D_min_9,R_D_min_10",,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,37.494,4241,7767,False,linking_or_logic_error,"R_D_min_1,R_D_min_2,R_D_min_8,R_D_min_9,R_D_min_10 + fviol:R_D_min_3,R_D_min_4,R_D_min_5,R_D_min_6,R_D_min_7",solution_and_formulation,linking_or_logic_error,110,127,109,128,255,5,10,15,,
+p24__gpt-5-nano__s4,gpt-5-nano,24,24,4,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,49.508,4241,9930,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p24__gpt-5-nano__s4\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p24__gpt-5-nano__s4\generated_model.py"", line 86, in solve
+    GRB.NODELIMIT: ""NODE_LIMIT"",
+    ^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'NODELIMIT'. Did you mean: 'NODE_LIMIT'?"
+p24__gpt-5-nano__s5,gpt-5-nano,24,24,5,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p24.R_D_min_2.C1,p24.R_D_min_4.C1,p24.R_D_min_5.C1,p24.R_D_min_6.C1,p24.R_D_min_7.C1,p24.R_D_min_10.C1","p24.R_D_min_2.C1,p24.R_D_min_4.C1,p24.R_D_min_5.C1,p24.R_D_min_6.C1,p24.R_D_min_7.C1,p24.R_D_min_10.C1","R_D_min_1,R_D_min_2,R_D_min_3,R_D_min_4,R_D_min_5,R_D_min_6,R_D_min_7,R_D_min_8,R_D_min_9,R_D_min_10",,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,81.554,4241,12298,False,linking_or_logic_error,"R_D_min_2,R_D_min_4,R_D_min_5,R_D_min_6,R_D_min_7,R_D_min_10 + fviol:R_D_min_1,R_D_min_3,R_D_min_8,R_D_min_9",solution_and_formulation,linking_or_logic_error,110,127,109,128,255,6,10,16,,
+p24__gpt-5-nano__s6,gpt-5-nano,24,24,6,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p24.R_D_min_2.C1,p24.R_D_min_4.C1,p24.R_D_min_8.C1,p24.R_D_min_9.C1,p24.R_D_min_10.C1","p24.R_D_min_2.C1,p24.R_D_min_4.C1,p24.R_D_min_8.C1,p24.R_D_min_9.C1,p24.R_D_min_10.C1","R_D_min_1,R_D_min_2,R_D_min_3,R_D_min_4,R_D_min_5,R_D_min_6,R_D_min_7,R_D_min_8,R_D_min_9,R_D_min_10",,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,49.311,4241,7980,False,linking_or_logic_error,"R_D_min_2,R_D_min_4,R_D_min_8,R_D_min_9,R_D_min_10 + fviol:R_D_min_1,R_D_min_3,R_D_min_5,R_D_min_6,R_D_min_7",solution_and_formulation,linking_or_logic_error,110,127,109,128,255,5,10,15,,
+p24__gpt-5-nano__s7,gpt-5-nano,24,24,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,61.99,4241,9953,False,,,none,,110,127,109,128,255,0,0,0,,
+p24__gpt-5-nano__s8,gpt-5-nano,24,24,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,43.444,4241,8226,False,,,none,,110,127,109,128,255,0,0,0,,
+p24__gpt-5-nano__s9,gpt-5-nano,24,24,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,c792c6bc518aa1c35702d7b99f0ed912b16bf4ff92786c25c4796b3c12bbe21a,49.302,4241,8386,False,,,none,,110,127,109,128,255,0,0,0,,
+p25__gpt-5-nano__s0,gpt-5-nano,25,25,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p25.R_capacity_v1.C1,p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_5.C1,p25.R_flow_v1_7.C1,p25.R_flow_v1_12.C1,p25.R_flow_v1_20.C1,p25.R_depot_balance_v2.C1,p25.R_flow_v2_12.C1,p25.R_flow_v3_3.C1,p25.R_flow_v3_7.C1,p25.R_depot_balance_v4.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_1.C1,p25.R_flow_v5_5.C1","p25.R_capacity_v1.C1,p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_5.C1,p25.R_flow_v1_7.C1,p25.R_flow_v1_12.C1,p25.R_flow_v1_20.C1,p25.R_depot_balance_v2.C1,p25.R_flow_v2_12.C1,p25.R_flow_v3_3.C1,p25.R_flow_v3_7.C1,p25.R_depot_balance_v4.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_1.C1,p25.R_flow_v5_5.C1","R_depot_balance_v1,R_capacity_v1,R_flow_v1_1,R_flow_v1_2,R_flow_v1_3,R_flow_v1_4,R_flow_v1_5,R_flow_v1_6,R_flow_v1_7,R_flow_v1_8,R_flow_v1_9,R_flow_v1_10,R_flow_v1_11,R_flow_v1_12,R_flow_v1_13,R_flow_v1_14,R_flow_v1_15,R_flow_v1_16,R_flow_v1_17,R_flow_v1_18,R_flow_v1_19,R_flow_v1_20,R_depot_balance_v2,R_capacity_v2,R_flow_v2_1,R_flow_v2_2,R_flow_v2_3,R_flow_v2_4,R_flow_v2_5,R_flow_v2_6,R_flow_v2_7,R_flow_v2_8,R_flow_v2_9,R_flow_v2_10,R_flow_v2_11,R_flow_v2_12,R_flow_v2_13,R_flow_v2_14,R_flow_v2_15,R_flow_v2_16,R_flow_v2_17,R_flow_v2_18,R_flow_v2_19,R_flow_v2_20,R_depot_balance_v3,R_capacity_v3,R_flow_v3_1,R_flow_v3_2,R_flow_v3_3,R_flow_v3_4,R_flow_v3_5,R_flow_v3_6,R_flow_v3_7,R_flow_v3_8,R_flow_v3_9,R_flow_v3_10,R_flow_v3_11,R_flow_v3_12,R_flow_v3_13,R_flow_v3_14,R_flow_v3_15,R_flow_v3_16,R_flow_v3_17,R_flow_v3_18,R_flow_v3_19,R_flow_v3_20,R_depot_balance_v4,R_capacity_v4,R_flow_v4_1,R_flow_v4_2,R_flow_v4_3,R_flow_v4_4,R_flow_v4_5,R_flow_v4_6,R_flow_v4_7,R_flow_v4_8,R_flow_v4_9,R_flow_v4_10,R_flow_v4_11,R_flow_v4_12,R_flow_v4_13,R_flow_v4_14,R_flow_v4_15,R_flow_v4_16,R_flow_v4_17,R_flow_v4_18,R_flow_v4_19,R_flow_v4_20,R_depot_balance_v5,R_capacity_v5,R_flow_v5_1,R_flow_v5_2,R_flow_v5_3,R_flow_v5_4,R_flow_v5_5,R_flow_v5_6,R_flow_v5_7,R_flow_v5_8,R_flow_v5_9,R_flow_v5_10,R_flow_v5_11,R_flow_v5_12,R_flow_v5_13,R_flow_v5_14,R_flow_v5_15,R_flow_v5_16,R_flow_v5_17,R_flow_v5_18,R_flow_v5_19,R_flow_v5_20",,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,67.625,70464,12952,False,structural_constraint_error,"R_capacity_v1,R_flow_v1_1,R_flow_v1_3,R_flow_v1_5,R_flow_v1_7,R_flow_v1_12,R_flow_v1_20,R_depot_balance_v2,R_flow_v2_12,R_flow_v3_3,R_flow_v3_7,R_depot_balance_v4,R_flow_v4_20,R_flow_v5_1,R_flow_v5_5 + fviol:R_depot_balance_v1,R_flow_v1_2,R_flow_v1_4,R_flow_v1_6,R_flow_v1_8,R_flow_v1_9,R_flow_v1_10,R_flow_v1_11,R_flow_v1_13,R_flow_v1_14,R_flow_v1_15,R_flow_v1_16,R_flow_v1_17,R_flow_v1_18,R_flow_v1_19,R_capacity_v2,R_flow_v2_1,R_flow_v2_2,R_flow_v2_3,R_flow_v2_4,R_flow_v2_5,R_flow_v2_6,R_flow_v2_7,R_flow_v2_8,R_flow_v2_9,R_flow_v2_10,R_flow_v2_11,R_flow_v2_13,R_flow_v2_14,R_flow_v2_15,R_flow_v2_16,R_flow_v2_17,R_flow_v2_18,R_flow_v2_19,R_flow_v2_20,R_depot_balance_v3,R_capacity_v3,R_flow_v3_1,R_flow_v3_2,R_flow_v3_4,R_flow_v3_5,R_flow_v3_6,R_flow_v3_8,R_flow_v3_9,R_flow_v3_10,R_flow_v3_11,R_flow_v3_12,R_flow_v3_13,R_flow_v3_14,R_flow_v3_15,R_flow_v3_16,R_flow_v3_17,R_flow_v3_18,R_flow_v3_19,R_flow_v3_20,R_capacity_v4,R_flow_v4_1,R_flow_v4_2,R_flow_v4_3,R_flow_v4_4,R_flow_v4_5,R_flow_v4_6,R_flow_v4_7,R_flow_v4_8,R_flow_v4_9,R_flow_v4_10,R_flow_v4_11,R_flow_v4_12,R_flow_v4_13,R_flow_v4_14,R_flow_v4_15,R_flow_v4_16,R_flow_v4_17,R_flow_v4_18,R_flow_v4_19,R_depot_balance_v5,R_capacity_v5,R_flow_v5_2,R_flow_v5_3,R_flow_v5_4,R_flow_v5_6,R_flow_v5_7,R_flow_v5_8,R_flow_v5_9,R_flow_v5_10,R_flow_v5_11,R_flow_v5_12,R_flow_v5_13,R_flow_v5_14,R_flow_v5_15,R_flow_v5_16,R_flow_v5_17,R_flow_v5_18,R_flow_v5_19,R_flow_v5_20",solution_and_formulation,constraint_misspecification,339,337,337,338,675,15,110,125,,
+p25__gpt-5-nano__s1,gpt-5-nano,25,25,1,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,86.638,70464,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p25__gpt-5-nano__s2,gpt-5-nano,25,25,2,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_8.C1,p25.R_flow_v1_10.C1,p25.R_flow_v1_12.C1,p25.R_flow_v1_13.C1,p25.R_flow_v1_16.C1,p25.R_flow_v1_20.C1,p25.R_flow_v4_1.C1,p25.R_flow_v4_8.C1,p25.R_flow_v4_10.C1,p25.R_flow_v4_13.C1,p25.R_flow_v4_16.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_3.C1,p25.R_flow_v5_12.C1","p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_8.C1,p25.R_flow_v1_10.C1,p25.R_flow_v1_12.C1,p25.R_flow_v1_13.C1,p25.R_flow_v1_16.C1,p25.R_flow_v1_20.C1,p25.R_flow_v4_1.C1,p25.R_flow_v4_8.C1,p25.R_flow_v4_10.C1,p25.R_flow_v4_13.C1,p25.R_flow_v4_16.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_3.C1,p25.R_flow_v5_12.C1","R_flow_v1_1,R_flow_v1_2,R_flow_v1_3,R_flow_v1_4,R_flow_v1_5,R_flow_v1_6,R_flow_v1_7,R_flow_v1_8,R_flow_v1_9,R_flow_v1_10,R_flow_v1_11,R_flow_v1_12,R_flow_v1_13,R_flow_v1_14,R_flow_v1_15,R_flow_v1_16,R_flow_v1_17,R_flow_v1_18,R_flow_v1_19,R_flow_v1_20,R_flow_v2_1,R_flow_v2_2,R_flow_v2_3,R_flow_v2_4,R_flow_v2_5,R_flow_v2_6,R_flow_v2_7,R_flow_v2_8,R_flow_v2_9,R_flow_v2_10,R_flow_v2_11,R_flow_v2_12,R_flow_v2_13,R_flow_v2_14,R_flow_v2_15,R_flow_v2_16,R_flow_v2_17,R_flow_v2_18,R_flow_v2_19,R_flow_v2_20,R_flow_v3_1,R_flow_v3_2,R_flow_v3_3,R_flow_v3_4,R_flow_v3_5,R_flow_v3_6,R_flow_v3_7,R_flow_v3_8,R_flow_v3_9,R_flow_v3_10,R_flow_v3_11,R_flow_v3_12,R_flow_v3_13,R_flow_v3_14,R_flow_v3_15,R_flow_v3_16,R_flow_v3_17,R_flow_v3_18,R_flow_v3_19,R_flow_v3_20,R_flow_v4_1,R_flow_v4_2,R_flow_v4_3,R_flow_v4_4,R_flow_v4_5,R_flow_v4_6,R_flow_v4_7,R_flow_v4_8,R_flow_v4_9,R_flow_v4_10,R_flow_v4_11,R_flow_v4_12,R_flow_v4_13,R_flow_v4_14,R_flow_v4_15,R_flow_v4_16,R_flow_v4_17,R_flow_v4_18,R_flow_v4_19,R_flow_v4_20,R_flow_v5_1,R_flow_v5_2,R_flow_v5_3,R_flow_v5_4,R_flow_v5_5,R_flow_v5_6,R_flow_v5_7,R_flow_v5_8,R_flow_v5_9,R_flow_v5_10,R_flow_v5_11,R_flow_v5_12,R_flow_v5_13,R_flow_v5_14,R_flow_v5_15,R_flow_v5_16,R_flow_v5_17,R_flow_v5_18,R_flow_v5_19,R_flow_v5_20",,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,84.772,70464,15119,False,structural_constraint_error,"R_flow_v1_1,R_flow_v1_3,R_flow_v1_8,R_flow_v1_10,R_flow_v1_12,R_flow_v1_13,R_flow_v1_16,R_flow_v1_20,R_flow_v4_1,R_flow_v4_8,R_flow_v4_10,R_flow_v4_13,R_flow_v4_16,R_flow_v4_20,R_flow_v5_3,R_flow_v5_12 + fviol:R_flow_v1_2,R_flow_v1_4,R_flow_v1_5,R_flow_v1_6,R_flow_v1_7,R_flow_v1_9,R_flow_v1_11,R_flow_v1_14,R_flow_v1_15,R_flow_v1_17,R_flow_v1_18,R_flow_v1_19,R_flow_v2_1,R_flow_v2_2,R_flow_v2_3,R_flow_v2_4,R_flow_v2_5,R_flow_v2_6,R_flow_v2_7,R_flow_v2_8,R_flow_v2_9,R_flow_v2_10,R_flow_v2_11,R_flow_v2_12,R_flow_v2_13,R_flow_v2_14,R_flow_v2_15,R_flow_v2_16,R_flow_v2_17,R_flow_v2_18,R_flow_v2_19,R_flow_v2_20,R_flow_v3_1,R_flow_v3_2,R_flow_v3_3,R_flow_v3_4,R_flow_v3_5,R_flow_v3_6,R_flow_v3_7,R_flow_v3_8,R_flow_v3_9,R_flow_v3_10,R_flow_v3_11,R_flow_v3_12,R_flow_v3_13,R_flow_v3_14,R_flow_v3_15,R_flow_v3_16,R_flow_v3_17,R_flow_v3_18,R_flow_v3_19,R_flow_v3_20,R_flow_v4_2,R_flow_v4_3,R_flow_v4_4,R_flow_v4_5,R_flow_v4_6,R_flow_v4_7,R_flow_v4_9,R_flow_v4_11,R_flow_v4_12,R_flow_v4_14,R_flow_v4_15,R_flow_v4_17,R_flow_v4_18,R_flow_v4_19,R_flow_v5_1,R_flow_v5_2,R_flow_v5_4,R_flow_v5_5,R_flow_v5_6,R_flow_v5_7,R_flow_v5_8,R_flow_v5_9,R_flow_v5_10,R_flow_v5_11,R_flow_v5_13,R_flow_v5_14,R_flow_v5_15,R_flow_v5_16,R_flow_v5_17,R_flow_v5_18,R_flow_v5_19,R_flow_v5_20",solution_and_formulation,constraint_misspecification,339,337,337,338,675,16,100,116,,
+p25__gpt-5-nano__s3,gpt-5-nano,25,25,3,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,93.732,70464,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p25__gpt-5-nano__s4,gpt-5-nano,25,25,4,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,95.031,70464,16000,True,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s4\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s4\generated_model.py"", line 47
+    for i in range(1
+                  ^
+SyntaxError: '(' was never closed"
+p25__gpt-5-nano__s5,gpt-5-nano,25,25,5,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,80.21,70464,12812,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s5\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s5\generated_model.py"", line 122, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s5\generated_model.py"", line 93, in build_model
+    cap_expr += demand_i * quicksum(x[(v, i, j)] for (a, b) in arc_set if a == i)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/_helpers.pyx"", line 41, in gurobipy._helpers.quicksum
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s5\generated_model.py"", line 93, in <genexpr>
+    cap_expr += demand_i * quicksum(x[(v, i, j)] for (a, b) in arc_set if a == i)
+                                    ~^^^^^^^^^^^
+KeyError: (1, 1, 8)"
+p25__gpt-5-nano__s6,gpt-5-nano,25,25,6,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,104.635,70464,15361,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s6\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s6\generated_model.py"", line 149, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s6\generated_model.py"", line 132, in build_model
+    t_j = variables[t_key(k, j)]
+          ~~~~~~~~~^^^^^^^^^^^^^
+KeyError: 't_v1_0'"
+p25__gpt-5-nano__s7,gpt-5-nano,25,25,7,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,85.497,70464,12783,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s7\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s7\generated_model.py"", line 133, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s7\generated_model.py"", line 117, in build_model
+    ti = variables[f""t_v{v}_{i}""]
+         ~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 't_v1_0'"
+p25__gpt-5-nano__s8,gpt-5-nano,25,25,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,107.642,70464,16000,True,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s8\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p25__gpt-5-nano__s8\generated_model.py"", line 46
+    for j in customers:
+                       ^
+IndentationError: expected an indented block after 'for' statement on line 46"
+p25__gpt-5-nano__s9,gpt-5-nano,25,25,9,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p25.R_depot_balance_v1.C1,p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_6.C1,p25.R_flow_v1_8.C1,p25.R_flow_v1_9.C1,p25.R_flow_v1_11.C1,p25.R_flow_v1_14.C1,p25.R_flow_v1_16.C1,p25.R_depot_balance_v2.C1,p25.R_flow_v2_17.C1,p25.R_flow_v3_15.C1,p25.R_flow_v3_19.C1,p25.R_depot_balance_v4.C1,p25.R_flow_v4_12.C1,p25.R_flow_v4_14.C1,p25.R_flow_v4_15.C1,p25.R_flow_v4_16.C1,p25.R_flow_v4_18.C1,p25.R_flow_v4_19.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_17.C1,p25.R_flow_v5_18.C1,p25.obj.C2","p25.R_depot_balance_v1.C1,p25.R_flow_v1_1.C1,p25.R_flow_v1_3.C1,p25.R_flow_v1_6.C1,p25.R_flow_v1_8.C1,p25.R_flow_v1_9.C1,p25.R_flow_v1_11.C1,p25.R_flow_v1_14.C1,p25.R_flow_v1_16.C1,p25.R_depot_balance_v2.C1,p25.R_flow_v2_17.C1,p25.R_flow_v3_15.C1,p25.R_flow_v3_19.C1,p25.R_depot_balance_v4.C1,p25.R_flow_v4_12.C1,p25.R_flow_v4_14.C1,p25.R_flow_v4_15.C1,p25.R_flow_v4_16.C1,p25.R_flow_v4_18.C1,p25.R_flow_v4_19.C1,p25.R_flow_v4_20.C1,p25.R_flow_v5_17.C1,p25.R_flow_v5_18.C1",,,,b73d0822752e576d2d955f55e9893dc8727b9f21244be84ce28c6d91a1d10e4b,85.184,70464,12598,False,,,none,,339,337,337,338,675,23,0,23,,
+p26__gpt-5-nano__s0,gpt-5-nano,26,26,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,56.421,4493,8649,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s1,gpt-5-nano,26,26,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,53.895,4493,6625,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s2,gpt-5-nano,26,26,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,89.778,4493,10509,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s3,gpt-5-nano,26,26,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,73.12,4493,8755,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s4,gpt-5-nano,26,26,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,68.479,4493,8750,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s5,gpt-5-nano,26,26,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,62.963,4493,8269,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s6,gpt-5-nano,26,26,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,61.889,4493,7546,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s7,gpt-5-nano,26,26,7,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,68.767,4493,8105,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p26__gpt-5-nano__s7\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p26__gpt-5-nano__s7\generated_model.py"", line 88, in solve
+    solution[h_key] = float(variables[h_key].X)
+                            ^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/var.pxi"", line 128, in gurobipy._core.Var.__getattr__
+  File ""src/gurobipy/var.pxi"", line 156, in gurobipy._core.Var.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'X'. Did you mean: 'Xn'?"
+p26__gpt-5-nano__s8,gpt-5-nano,26,26,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,76.028,4493,10754,False,,,none,,56,84,55,85,169,0,0,0,,
+p26__gpt-5-nano__s9,gpt-5-nano,26,26,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d5839693463bfdbcb0d4963266969ce73cd2aa77362b984445e7e478daf0f78d,87.871,4493,10494,False,,,none,,56,84,55,85,169,0,0,0,,
+p27__gpt-5-nano__s0,gpt-5-nano,27,27,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,66.066,3652,6630,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s1,gpt-5-nano,27,27,1,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,46.311,3652,4965,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s2,gpt-5-nano,27,27,2,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,49.53,3652,5487,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s3,gpt-5-nano,27,27,3,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,46.385,3652,5060,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s4,gpt-5-nano,27,27,4,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,36.001,3652,4125,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s5,gpt-5-nano,27,27,5,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,59.47,3652,6606,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s6,gpt-5-nano,27,27,6,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,48.032,3652,5008,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s7,gpt-5-nano,27,27,7,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,57.945,3652,6138,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s8,gpt-5-nano,27,27,8,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,p27.R_u_ub_5.C1,p27.R_u_ub_5.C1,"R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_5,R_u_ub_6,R_u_ub_7",,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,50.212,3652,5279,False,domain_relaxation,"R_u_ub_5 + fviol:R_u_ub_2,R_u_ub_3,R_u_ub_4,R_u_ub_6,R_u_ub_7",solution_and_formulation,domain_or_bound_error,59,58,58,59,117,1,6,7,,
+p27__gpt-5-nano__s9,gpt-5-nano,27,27,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,4861c12f543fcce191f450127793fa1e6d0c5dda0aad28ad310e8e65874aff8c,52.514,3652,5699,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p27__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p27__gpt-5-nano__s9\generated_model.py"", line 74, in solve
+    gp.GRB.SOLVED: ""SOLVED"",
+    ^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'SOLVED'"
+p28__gpt-5-nano__s0,gpt-5-nano,28,28,0,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,45.902,4707,6745,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s1,gpt-5-nano,28,28,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,42.22,4707,5526,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s2,gpt-5-nano,28,28,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,38.084,4707,5472,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s3,gpt-5-nano,28,28,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,29.71,4707,4648,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s4,gpt-5-nano,28,28,4,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,41.558,4707,6160,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s5,gpt-5-nano,28,28,5,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,48.244,4707,7392,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s6,gpt-5-nano,28,28,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,49.712,4707,6221,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s7,gpt-5-nano,28,28,7,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,38.773,4707,5797,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s8,gpt-5-nano,28,28,8,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p28.obj.C1,p28.obj.C2",,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,42.735,4707,6410,False,,,none,,45,44,44,45,89,0,0,0,,
+p28__gpt-5-nano__s9,gpt-5-nano,28,28,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,357a8b20cce3eb7af3a34136f9998a7ef7ebf2032e9aaa9a7e60411831a0791a,33.004,4707,5192,False,,,none,,45,44,44,45,89,0,0,0,,
+p29__gpt-5-nano__s0,gpt-5-nano,29,29,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,23.695,2091,3379,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s1,gpt-5-nano,29,29,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,29.749,2091,4188,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p29__gpt-5-nano__s1\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p29__gpt-5-nano__s1\generated_model.py"", line 42, in solve
+    GRB.FEASIBLE: ""FEASIBLE"",
+    ^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'FEASIBLE'. Did you mean: 'INFEASIBLE'?"
+p29__gpt-5-nano__s2,gpt-5-nano,29,29,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,35.658,2091,3884,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s3,gpt-5-nano,29,29,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,24.886,2091,3172,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s4,gpt-5-nano,29,29,4,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,35.491,2091,3342,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p29__gpt-5-nano__s4\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p29__gpt-5-nano__s4\generated_model.py"", line 43, in solve
+    GRB.FEASIBLE: ""FEASIBLE"",
+    ^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'FEASIBLE'. Did you mean: 'INFEASIBLE'?"
+p29__gpt-5-nano__s5,gpt-5-nano,29,29,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,33.163,2091,3981,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s6,gpt-5-nano,29,29,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,43.299,2091,5490,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s7,gpt-5-nano,29,29,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,31.378,2091,3384,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s8,gpt-5-nano,29,29,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,35.257,2091,4462,False,,,none,,32,31,31,32,63,0,0,0,,
+p29__gpt-5-nano__s9,gpt-5-nano,29,29,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,a0611ef91cc680d486ab338e99e2075b779c12fe5b1ef5721e56e8a19bb17a03,25.839,2091,3689,False,,,none,,32,31,31,32,63,0,0,0,,
+p30__gpt-5-nano__s0,gpt-5-nano,30,30,0,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,93.921,1584,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p30__gpt-5-nano__s1,gpt-5-nano,30,30,1,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p30.R_year1_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1","p30.R_year1_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1","R_year1_budget,R_year2_budget,R_year3_budget,R_final_balance",,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,74.852,1584,13064,False,structural_constraint_error,"R_year1_budget,R_year3_budget,R_final_balance + fviol:R_year2_budget",solution_and_formulation,constraint_misspecification,9,8,8,9,17,3,4,7,,
+p30__gpt-5-nano__s2,gpt-5-nano,30,30,2,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,59.875,1584,9667,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p30__gpt-5-nano__s2\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p30__gpt-5-nano__s2\generated_model.py"", line 93, in solve
+    ""x_annual_y1"": float(variables[""x_annual_y1""].X),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""src/gurobipy/var.pxi"", line 128, in gurobipy._core.Var.__getattr__
+  File ""src/gurobipy/var.pxi"", line 156, in gurobipy._core.Var.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'X'. Did you mean: 'Xn'?"
+p30__gpt-5-nano__s3,gpt-5-nano,30,30,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p30.R_year1_budget.C1,p30.R_year2_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1,p30.obj.C2","p30.R_year1_budget.C1,p30.R_year2_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1",,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,92.666,1584,15560,False,,,none,,9,8,8,9,17,4,0,4,,
+p30__gpt-5-nano__s4,gpt-5-nano,30,30,4,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p30.R_year2_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1","p30.R_year2_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1","R_year2_budget,R_year3_budget,R_final_balance",,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,83.667,1584,15179,False,structural_constraint_error,"R_year2_budget,R_year3_budget,R_final_balance",solution_and_formulation,constraint_misspecification,9,8,8,9,17,3,3,6,,
+p30__gpt-5-nano__s5,gpt-5-nano,30,30,5,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p30.R_year1_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1,p30.obj.C2","p30.R_year1_budget.C1,p30.R_year3_budget.C1,p30.R_final_balance.C1",,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,83.902,1584,14708,False,,,none,,9,8,8,9,17,3,0,3,,
+p30__gpt-5-nano__s6,gpt-5-nano,30,30,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,90.043,1584,14320,False,,,none,,9,8,8,9,17,0,0,0,,
+p30__gpt-5-nano__s7,gpt-5-nano,30,30,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,75.114,1584,14105,False,,,none,,9,8,8,9,17,0,0,0,,
+p30__gpt-5-nano__s8,gpt-5-nano,30,30,8,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,50.787,1584,10327,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p30__gpt-5-nano__s8\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p30__gpt-5-nano__s8\generated_model.py"", line 91, in solve
+    objective_val = float(model.ObjVal) if model.ObjVal is not None else 0.0
+                                           ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p30__gpt-5-nano__s9,gpt-5-nano,30,30,9,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,3489c300b2e562f4274c68aee839f12de4681bdf8696a50a5e7a443af6f69bc5,79.908,1584,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s0,gpt-5-nano,31,31,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,R_p2_preferred_specialty_lexicographic_best,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,105.042,2798,13259,False,objective_or_solution_error,fviol:R_p2_preferred_specialty_lexicographic_best,formulation_only,objective_accounting_error,16,15,15,16,31,0,1,1,,
+p31__gpt-5-nano__s1,gpt-5-nano,31,31,1,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,118.794,2798,13188,False,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s1\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s1\generated_model.py"", line 43
+    if s in suitable_specialities := suitable_specialties[str(t)]
+                                  ^^
+SyntaxError: invalid syntax"
+p31__gpt-5-nano__s2,gpt-5-nano,31,31,2,contract_failure,contract_failure,contract_failure,recovered_prose_slice,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,92.807,2798,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s3,gpt-5-nano,31,31,3,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,117.948,2798,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s4,gpt-5-nano,31,31,4,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,p31.obj.C2,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,87.277,2798,12799,False,,,none,,16,15,15,16,31,0,0,0,,
+p31__gpt-5-nano__s5,gpt-5-nano,31,31,5,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,127.85,2798,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s6,gpt-5-nano,31,31,6,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,125.952,2798,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s7,gpt-5-nano,31,31,7,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,118.425,2798,15660,False,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s7\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s7\generated_model.py"", line 43
+    if str(s) in suitable_specialities := suitable_specialities[str(i)]
+                                       ^^
+SyntaxError: invalid syntax"
+p31__gpt-5-nano__s8,gpt-5-nano,31,31,8,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,142.873,2798,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p31__gpt-5-nano__s9,gpt-5-nano,31,31,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b8c33f838c0cbe9b22f23c34e347c88c6cdd20c505bd1ba32107c9f9d051bc42,133.691,2798,15896,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p31__gpt-5-nano__s9\generated_model.py"", line 131, in solve
+    GRB.FEASIBLE: ""FEASIBLE"",
+    ^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'FEASIBLE'. Did you mean: 'INFEASIBLE'?"
+p32__gpt-5-nano__s0,gpt-5-nano,32,32,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,73.12,3207,10344,False,,,none,,66,65,65,66,131,0,0,0,,
+p32__gpt-5-nano__s1,gpt-5-nano,32,32,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,63.57,3207,9044,False,,,none,,66,65,65,66,131,0,0,0,,
+p32__gpt-5-nano__s2,gpt-5-nano,32,32,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p32.R_vat1_order_pos_2.C1,p32.R_vat1_order_pos_3.C1,p32.R_vat1_order_pos_4.C1,p32.R_vat1_order_pos_5.C1,p32.R_same_vat_order_pos_2_vat_1.C1,p32.R_same_vat_order_pos_2_vat_2.C1,p32.R_same_vat_order_pos_2_vat_3.C1,p32.R_same_vat_order_pos_3_vat_1.C1,p32.R_same_vat_order_pos_3_vat_2.C1,p32.R_same_vat_order_pos_3_vat_3.C1,p32.R_same_vat_order_pos_4_vat_1.C1,p32.R_same_vat_order_pos_4_vat_2.C1,p32.R_same_vat_order_pos_4_vat_3.C1,p32.R_same_vat_order_pos_5_vat_1.C1,p32.R_same_vat_order_pos_5_vat_2.C1,p32.R_same_vat_order_pos_5_vat_3.C1,p32.obj.C2","p32.R_vat1_order_pos_2.C1,p32.R_vat1_order_pos_3.C1,p32.R_vat1_order_pos_4.C1,p32.R_vat1_order_pos_5.C1,p32.R_same_vat_order_pos_2_vat_1.C1,p32.R_same_vat_order_pos_2_vat_2.C1,p32.R_same_vat_order_pos_2_vat_3.C1,p32.R_same_vat_order_pos_3_vat_1.C1,p32.R_same_vat_order_pos_3_vat_2.C1,p32.R_same_vat_order_pos_3_vat_3.C1,p32.R_same_vat_order_pos_4_vat_1.C1,p32.R_same_vat_order_pos_4_vat_2.C1,p32.R_same_vat_order_pos_4_vat_3.C1,p32.R_same_vat_order_pos_5_vat_1.C1,p32.R_same_vat_order_pos_5_vat_2.C1,p32.R_same_vat_order_pos_5_vat_3.C1",,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,49.803,3207,7781,False,,,none,,66,65,65,66,131,16,0,16,,
+p32__gpt-5-nano__s3,gpt-5-nano,32,32,3,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p32.R_route_precedence_pos_1_vat_2.C1,p32.R_route_precedence_pos_1_vat_3.C1,p32.R_route_precedence_pos_2_vat_2.C1,p32.R_route_precedence_pos_2_vat_3.C1,p32.R_route_precedence_pos_3_vat_2.C1,p32.R_route_precedence_pos_3_vat_3.C1,p32.R_route_precedence_pos_4_vat_2.C1,p32.R_route_precedence_pos_4_vat_3.C1,p32.R_route_precedence_pos_5_vat_2.C1,p32.R_route_precedence_pos_5_vat_3.C1,p32.obj.C2","p32.R_route_precedence_pos_1_vat_2.C1,p32.R_route_precedence_pos_1_vat_3.C1,p32.R_route_precedence_pos_2_vat_2.C1,p32.R_route_precedence_pos_2_vat_3.C1,p32.R_route_precedence_pos_3_vat_2.C1,p32.R_route_precedence_pos_3_vat_3.C1,p32.R_route_precedence_pos_4_vat_2.C1,p32.R_route_precedence_pos_4_vat_3.C1,p32.R_route_precedence_pos_5_vat_2.C1,p32.R_route_precedence_pos_5_vat_3.C1",,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,72.5,3207,10144,False,,,none,,66,65,65,66,131,10,0,10,,
+p32__gpt-5-nano__s4,gpt-5-nano,32,32,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,89.719,3207,12791,False,,,none,,66,65,65,66,131,0,0,0,,
+p32__gpt-5-nano__s5,gpt-5-nano,32,32,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,90.562,3207,14230,False,,,none,,66,65,65,66,131,0,0,0,,
+p32__gpt-5-nano__s6,gpt-5-nano,32,32,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,60.086,3207,8387,False,,,none,,66,65,65,66,131,0,0,0,,
+p32__gpt-5-nano__s7,gpt-5-nano,32,32,7,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p32.R_route_precedence_pos_1_vat_2.C1,p32.R_route_precedence_pos_1_vat_3.C1","p32.R_route_precedence_pos_1_vat_2.C1,p32.R_route_precedence_pos_1_vat_3.C1","R_route_precedence_pos_1_vat_2,R_route_precedence_pos_1_vat_3",,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,54.049,3207,8148,False,structural_constraint_error,"R_route_precedence_pos_1_vat_2,R_route_precedence_pos_1_vat_3",solution_and_formulation,constraint_omission,66,65,65,66,131,2,2,4,,
+p32__gpt-5-nano__s8,gpt-5-nano,32,32,8,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p32.R_route_precedence_pos_1_vat_3.C1,p32.R_route_precedence_pos_4_vat_3.C1,p32.obj.C2","p32.R_route_precedence_pos_1_vat_3.C1,p32.R_route_precedence_pos_4_vat_3.C1",,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,75.063,3207,12326,False,,,none,,66,65,65,66,131,2,0,2,,
+p32__gpt-5-nano__s9,gpt-5-nano,32,32,9,schema_failure,schema_failure,schema_failure,recovered_prose_slice,True,False,False,True,,,,,,27cd7990e927cb79b581988e002dd2887370b203ad095ad060abc2fef68811f7,48.86,3207,8498,False,,,none,,,,,,,0,0,0,schema_failure,missing solution key: C_4_1; missing solution key: C_4_2; missing solution key: C_4_3; missing solution key: C_5_1; missing solution key: C_5_2; missing solution key: C_5_3
+p33__gpt-5-nano__s0,gpt-5-nano,33,33,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,55.777,1612,9267,False,,,none,,9,8,8,9,17,0,0,0,,
+p33__gpt-5-nano__s1,gpt-5-nano,33,33,1,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p33.R_year2_budget.C1,p33.obj.C2",p33.R_year2_budget.C1,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,52.688,1612,9373,False,,,none,,9,8,8,9,17,1,0,1,,
+p33__gpt-5-nano__s2,gpt-5-nano,33,33,2,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,p33.obj.C2,,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,66.954,1612,11486,False,,,none,,9,8,8,9,17,0,0,0,,
+p33__gpt-5-nano__s3,gpt-5-nano,33,33,3,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1,p33.R_final_balance.C1","p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1,p33.R_final_balance.C1","R_year1_budget,R_year2_budget,R_year3_budget,R_final_balance",,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,90.884,1612,15795,False,structural_constraint_error,"R_year1_budget,R_year2_budget,R_year3_budget,R_final_balance",solution_and_formulation,constraint_misspecification,9,8,8,9,17,4,4,8,,
+p33__gpt-5-nano__s4,gpt-5-nano,33,33,4,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1,p33.R_final_balance.C1,p33.obj.C2","p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1,p33.R_final_balance.C1",,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,70.495,1612,11565,False,,,none,,9,8,8,9,17,4,0,4,,
+p33__gpt-5-nano__s5,gpt-5-nano,33,33,5,contract_failure,contract_failure,contract_failure,recovered_prose_slice,False,False,False,True,,,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,130.655,1612,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function solve(data)
+p33__gpt-5-nano__s6,gpt-5-nano,33,33,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,68.296,1612,9227,False,,,none,,9,8,8,9,17,0,0,0,,
+p33__gpt-5-nano__s7,gpt-5-nano,33,33,7,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,115.891,1612,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p33__gpt-5-nano__s8,gpt-5-nano,33,33,8,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1","p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1","R_year1_budget,R_year2_budget,R_year3_budget",,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,79.699,1612,10089,False,structural_constraint_error,"R_year1_budget,R_year2_budget,R_year3_budget",solution_and_formulation,constraint_misspecification,9,8,8,9,17,3,3,6,,
+p33__gpt-5-nano__s9,gpt-5-nano,33,33,9,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,"p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1","p33.R_year1_budget.C1,p33.R_year2_budget.C1,p33.R_year3_budget.C1","R_year1_budget,R_year2_budget,R_year3_budget",,,ea393c4deb4322533c78397f420a9381f7e5a1d12798be65059308d715c806f6,98.798,1612,13492,False,structural_constraint_error,"R_year1_budget,R_year2_budget,R_year3_budget",solution_and_formulation,constraint_misspecification,9,8,8,9,17,3,3,6,,
+p34__gpt-5-nano__s0,gpt-5-nano,34,34,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,61.116,1128,7367,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s1,gpt-5-nano,34,34,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,86.661,1128,8735,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s2,gpt-5-nano,34,34,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,32.999,1128,3999,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s3,gpt-5-nano,34,34,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,45.761,1128,5546,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s4,gpt-5-nano,34,34,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,49.639,1128,6175,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s5,gpt-5-nano,34,34,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,33.393,1128,4736,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s6,gpt-5-nano,34,34,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,53.651,1128,7485,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s7,gpt-5-nano,34,34,7,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,50.605,1128,6362,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p34__gpt-5-nano__s7\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p34__gpt-5-nano__s7\generated_model.py"", line 63, in solve
+    GRB.POSSIBLE_SOLUTION: ""POSSIBLE_SOLUTION"",
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'POSSIBLE_SOLUTION'"
+p34__gpt-5-nano__s8,gpt-5-nano,34,34,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,57.009,1128,7505,False,,,none,,6,5,5,6,11,0,0,0,,
+p34__gpt-5-nano__s9,gpt-5-nano,34,34,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,b6609641d8d903b4caf2b18925bdb5919e180535f141cae0386381b7d2cddb54,38.03,1128,4421,False,,,none,,6,5,5,6,11,0,0,0,,
+p35__gpt-5-nano__s0,gpt-5-nano,35,35,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,74.456,1730,8416,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s1,gpt-5-nano,35,35,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,51.82,1730,5507,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s2,gpt-5-nano,35,35,2,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,63.481,1730,6131,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p35__gpt-5-nano__s2\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p35__gpt-5-nano__s2\generated_model.py"", line 108, in solve
+    objective_val = model.ObjVal
+                    ^^^^^^^^^^^^
+  File ""src/gurobipy/_model.pyx"", line 399, in gurobipy._model.Model.__getattr__
+  File ""src/gurobipy/_model.pyx"", line 2226, in gurobipy._model.Model.getAttr
+  File ""src/gurobipy/_attrutil.pyx"", line 119, in gurobipy._attrutil._getattr
+AttributeError: Unable to retrieve attribute 'ObjVal'. Did you mean: 'ObjNVal'?"
+p35__gpt-5-nano__s3,gpt-5-nano,35,35,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,67.442,1730,5912,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s4,gpt-5-nano,35,35,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,125.135,1730,13436,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s5,gpt-5-nano,35,35,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,67.44,1730,6762,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s6,gpt-5-nano,35,35,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,64.427,1730,6127,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s7,gpt-5-nano,35,35,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,55.892,1730,5645,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s8,gpt-5-nano,35,35,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,69.581,1730,6880,False,,,none,,13,12,12,13,25,0,0,0,,
+p35__gpt-5-nano__s9,gpt-5-nano,35,35,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,3c61bd4942e6e32ccee80bee1c35a64d1e4f7b75856a34e7edf9a01c15646a8d,39.502,1730,4404,False,,,none,,13,12,12,13,25,0,0,0,,
+p36__gpt-5-nano__s0,gpt-5-nano,36,36,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,64.973,2016,9804,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s1,gpt-5-nano,36,36,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,71.143,2016,10737,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s2,gpt-5-nano,36,36,2,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_link_lower_len_2,R_link_lower_len_3",,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,56.986,2016,9216,False,linking_or_logic_error,"fviol:R_link_lower_len_2,R_link_lower_len_3",formulation_only,linking_or_logic_error,23,22,22,23,45,0,2,2,,
+p36__gpt-5-nano__s3,gpt-5-nano,36,36,3,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,60.799,2016,9233,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s3\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s3\generated_model.py"", line 92, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s3\generated_model.py"", line 63, in build_model
+    for (a, b) in mutually_exclusive:
+        ^^^^^^
+TypeError: cannot unpack non-iterable int object"
+p36__gpt-5-nano__s4,gpt-5-nano,36,36,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,66.807,2016,9613,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s5,gpt-5-nano,36,36,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,69.613,2016,9683,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s6,gpt-5-nano,36,36,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,69.467,2016,9805,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s7,gpt-5-nano,36,36,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,85.023,2016,11499,False,,,none,,23,22,22,23,45,0,0,0,,
+p36__gpt-5-nano__s8,gpt-5-nano,36,36,8,schema_failure,schema_failure,schema_failure,recovered_prose_slice,True,False,False,True,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,91.303,2016,12889,False,,,none,,,,,,,0,0,0,schema_failure,missing top-level key: status; missing required experiment key: status
+p36__gpt-5-nano__s9,gpt-5-nano,36,36,9,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,1741849203fbf3e6069f8706cfcba89240297e96c2b5094448785840a75bbe51,71.111,2016,9395,False,,,none,,,,,,,0,0,0,runtime_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s9\execute_generated.py"", line 48, in <module>
+    result = module.solve(data)
+             ^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s9\generated_model.py"", line 73, in solve
+    model, variables = build_model(data)
+                       ^^^^^^^^^^^^^^^^^
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p36__gpt-5-nano__s9\generated_model.py"", line 22, in build_model
+    x_vars[key] = model.addVar(vtype=gp.GRB.INT, lb=0, name=key)
+                                     ^^^^^^^^^^
+AttributeError: type object 'GRB' has no attribute 'INT'"
+p37__gpt-5-nano__s0,gpt-5-nano,37,37,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,78.364,1483,8369,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s1,gpt-5-nano,37,37,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,103.936,1483,12356,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s2,gpt-5-nano,37,37,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,68.513,1483,7524,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s3,gpt-5-nano,37,37,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,72.005,1483,8570,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s4,gpt-5-nano,37,37,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,77.288,1483,9241,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s5,gpt-5-nano,37,37,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,86.958,1483,9183,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s6,gpt-5-nano,37,37,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,68.606,1483,6690,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s7,gpt-5-nano,37,37,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,51.707,1483,6208,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s8,gpt-5-nano,37,37,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,47.442,1483,9107,False,,,none,,16,15,15,16,31,0,0,0,,
+p37__gpt-5-nano__s9,gpt-5-nano,37,37,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7074a3c288e27997c8ca33783d68aac2ca27e5304017768b74f0b427349653bc,42.443,1483,7374,False,,,none,,16,15,15,16,31,0,0,0,,
+p38__gpt-5-nano__s0,gpt-5-nano,38,38,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,49.394,2587,7741,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s1,gpt-5-nano,38,38,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,56.038,2587,8731,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s2,gpt-5-nano,38,38,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,50.163,2587,8017,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s3,gpt-5-nano,38,38,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,46.566,2587,7460,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s4,gpt-5-nano,38,38,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,62.815,2587,10058,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s5,gpt-5-nano,38,38,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,92.408,2587,14761,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s6,gpt-5-nano,38,38,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,53.304,2587,7928,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s7,gpt-5-nano,38,38,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,60.012,2587,7982,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s8,gpt-5-nano,38,38,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,62.542,2587,9388,False,,,none,,32,31,31,32,63,0,0,0,,
+p38__gpt-5-nano__s9,gpt-5-nano,38,38,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,00d230ac67d88ddccbde01d7eaeb306a33e8f15ea9b642f343eb656dd0cf6efe,55.341,2587,9048,False,,,none,,32,31,31,32,63,0,0,0,,
+p39__gpt-5-nano__s0,gpt-5-nano,39,39,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,26.221,1400,4540,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s1,gpt-5-nano,39,39,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,27.441,1400,5181,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s2,gpt-5-nano,39,39,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,26.057,1400,4367,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s3,gpt-5-nano,39,39,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,29.07,1400,5098,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s4,gpt-5-nano,39,39,4,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,38.077,1400,5902,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s5,gpt-5-nano,39,39,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,33.118,1400,5700,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s6,gpt-5-nano,39,39,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,32.347,1400,5885,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s7,gpt-5-nano,39,39,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,35.166,1400,7292,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s8,gpt-5-nano,39,39,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,33.36,1400,6367,False,,,none,,17,16,16,17,33,0,0,0,,
+p39__gpt-5-nano__s9,gpt-5-nano,39,39,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,d7f2323e3280451a0ee3c343967405eabe5108e6262c32b8e897b31946c56d49,34.937,1400,7154,False,,,none,,17,16,16,17,33,0,0,0,,
+p40__gpt-5-nano__s0,gpt-5-nano,40,40,0,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_t1B_skilled,R_t1B_labor",,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,109.569,1994,15583,False,structural_constraint_error,"fviol:R_t1B_skilled,R_t1B_labor",formulation_only,constraint_misspecification,27,26,26,27,53,0,2,2,,
+p40__gpt-5-nano__s1,gpt-5-nano,40,40,1,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,108.735,1994,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p40__gpt-5-nano__s2,gpt-5-nano,40,40,2,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,R_integer_workers_and_choices,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,100.412,1994,14690,False,domain_relaxation,fviol:R_integer_workers_and_choices,formulation_only,domain_or_bound_error,27,26,26,27,53,0,1,1,,
+p40__gpt-5-nano__s3,gpt-5-nano,40,40,3,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,109.547,1994,16000,True,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p40__gpt-5-nano__s3\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p40__gpt-5-nano__s3\generated_model.py"", line 46
+    m.addConstr(42 * skilled_t2_A ==
+               ^
+SyntaxError: '(' was never closed"
+p40__gpt-5-nano__s4,gpt-5-nano,40,40,4,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,98.869,1994,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p40__gpt-5-nano__s5,gpt-5-nano,40,40,5,code_failure,code_failure,code_failure,recovered_prose_slice,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,100.967,1994,16000,True,,,none,,,,,,,0,0,0,syntax_error,"Traceback (most recent call last):
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p40__gpt-5-nano__s5\execute_generated.py"", line 11, in <module>
+    spec.loader.exec_module(module)
+  File ""<frozen importlib._bootstrap_external>"", line 995, in exec_module
+  File ""<frozen importlib._bootstrap_external>"", line 1133, in get_code
+  File ""<frozen importlib._bootstrap_external>"", line 1063, in source_to_code
+  File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+  File ""C:\Users\maamr\Desktop\g5\Exp_1\gpt5_nano_final\execution_workdirs\p40__gpt-5-nano__s5\generated_model.py"", line 59
+    model.addConstr(total_skilled <= data[""
+                                          ^
+SyntaxError: unterminated string literal (detected at line 59)"
+p40__gpt-5-nano__s6,gpt-5-nano,40,40,6,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,100.385,1994,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p40__gpt-5-nano__s7,gpt-5-nano,40,40,7,code_failure,code_failure,code_failure,recovered_prose_slice_trimmed,False,False,False,True,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,108.533,1994,16000,True,,,none,,,,,,,0,0,0,,
+p40__gpt-5-nano__s8,gpt-5-nano,40,40,8,contract_failure,contract_failure,contract_failure,no_code_found,False,False,False,False,,,,,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,128.466,1994,16000,True,,,none,,,,,,,0,0,0,contract_failure,missing required function build_model(data)
+p40__gpt-5-nano__s9,gpt-5-nano,40,40,9,silent_bug,contract_failure,silent_bug,recovered_prose_slice,True,True,True,True,,,"R_t1B_skilled,R_t1B_labor,R_t3B_skilled,R_t3B_labor",,,fbf640ca83aab7a2419bf405eef5e31aba5a9061b64b7e934b304cb71a94cf30,117.216,1994,15009,False,structural_constraint_error,"fviol:R_t1B_skilled,R_t1B_labor,R_t3B_skilled,R_t3B_labor",formulation_only,constraint_misspecification,27,26,26,27,53,0,4,4,,
+p41__gpt-5-nano__s0,gpt-5-nano,41,41,0,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,36.93,1172,4561,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s1,gpt-5-nano,41,41,1,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,35.531,1172,4153,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s2,gpt-5-nano,41,41,2,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,62.715,1172,7870,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s3,gpt-5-nano,41,41,3,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,37.045,1172,4479,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s4,gpt-5-nano,41,41,4,loud_bug,contract_failure,loud_bug,recovered_prose_slice,True,True,False,True,"p41.R_nonneg.C1,p41.obj.C2",p41.R_nonneg.C1,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,68.186,1172,7415,False,,,none,,6,5,5,6,11,1,0,1,,
+p41__gpt-5-nano__s5,gpt-5-nano,41,41,5,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,50.863,1172,5582,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s6,gpt-5-nano,41,41,6,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,40.339,1172,4463,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s7,gpt-5-nano,41,41,7,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,42.752,1172,4620,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s8,gpt-5-nano,41,41,8,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,53.242,1172,5485,False,,,none,,6,5,5,6,11,0,0,0,,
+p41__gpt-5-nano__s9,gpt-5-nano,41,41,9,correct,contract_failure,correct,recovered_prose_slice,True,True,True,True,,,,,,7614afc6cc1999fa96fc7e84c3397e8ac5ae78f99fe17e25dcf01e1a57c70f43,46.625,1172,4739,False,,,none,,6,5,5,6,11,0,0,0,,

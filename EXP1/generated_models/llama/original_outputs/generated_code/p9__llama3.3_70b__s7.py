@@ -1,0 +1,50 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    variables = {
+        "s0": model.addVar(vtype=gp.GRB.INTEGER, name="s0"),
+        "s1": model.addVar(vtype=gp.GRB.INTEGER, name="s1"),
+        "s2": model.addVar(vtype=gp.GRB.INTEGER, name="s2"),
+        "s3": model.addVar(vtype=gp.GRB.INTEGER, name="s3"),
+        "s4": model.addVar(vtype=gp.GRB.INTEGER, name="s4"),
+        "s5": model.addVar(vtype=gp.GRB.INTEGER, name="s5"),
+        "s6": model.addVar(vtype=gp.GRB.INTEGER, name="s6")
+    }
+    
+    for d in range(len(data["days"])):
+        constraint = gp.quicksum([variables[f"s{i}"] for i in range(7) if (i <= d and d - i < data["work_days_consecutive"]) or (i > d and 7 + i - d <= data["work_days_consecutive"])])
+        model.addConstr(constraint >= data["employees_needed"][d], f"day_{d}_constraint")
+    
+    objective = gp.quicksum([variables[f"s{i}"] for i in range(7)])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {
+        "s0": model.getVarByName("s0").X,
+        "s1": model.getVarByName("s1").X,
+        "s2": model.getVarByName("s2").X,
+        "s3": model.getVarByName("s3").X,
+        "s4": model.getVarByName("s4").X,
+        "s5": model.getVarByName("s5").X,
+        "s6": model.getVarByName("s6").X
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }

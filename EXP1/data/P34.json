@@ -1,0 +1,36 @@
+{
+  "problem_id": 34,
+  "scenario_id": "raw_material_two_warehouse_truck_dispatch_mip",
+  "data_instance": {
+    "warehouses": [
+      "A",
+      "B"
+    ],
+    "raw_materials": [
+      "A",
+      "B",
+      "C"
+    ],
+    "requirements": {
+      "A": 240,
+      "B": 80,
+      "C": 120
+    },
+    "truck_contents": {
+      "A": {
+        "A": 4,
+        "B": 2,
+        "C": 6
+      },
+      "B": {
+        "A": 7,
+        "B": 2,
+        "C": 2
+      }
+    },
+    "freight_cost": {
+      "A": 200,
+      "B": 160
+    }
+  }
+}

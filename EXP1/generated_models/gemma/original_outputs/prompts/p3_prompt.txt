@@ -1,0 +1,167 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+The number of salespeople required at a 24-hour convenience store in different time periods is as follows: 2:00-6:00 - 10 people, 6:00-10:00 - 15 people, 10:00-14:00 - 25 people, 14:00-18:00 - 20 people, 18:00-22:00 - 18 people, 22:00-2:00 - 12 people. Salespeople start their shifts at 2:00, 6:00, 10:00, 14:00, 18:00, and 22:00, working continuously for 8 hours. Determine the minimum number of salespeople needed to meet the requirements.
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "s2": "integer Var: number starting at that hour",
+    "s6": "integer Var: number starting at that hour",
+    "s10": "integer Var: number starting at that hour",
+    "s14": "integer Var: number starting at that hour",
+    "s18": "integer Var: number starting at that hour",
+    "s22": "integer Var: number starting at that hour"
+  },
+  "note": "Scalar variables under EXACTLY these flat keys (not tuple/dict keys). The returned solution uses the same keys. Declare integer/binary/continuous per the problem."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "reported objective"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "s2",
+        "s6",
+        "s10",
+        "s14",
+        "s18",
+        "s22"
+      ],
+      "properties": {
+        "s2": {
+          "type": "number"
+        },
+        "s6": {
+          "type": "number"
+        },
+        "s10": {
+          "type": "number"
+        },
+        "s14": {
+          "type": "number"
+        },
+        "s18": {
+          "type": "number"
+        },
+        "s22": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "shift_start_times": [
+    2,
+    6,
+    10,
+    14,
+    18,
+    22
+  ],
+  "shift_length_hours": 8,
+  "period_start_times": [
+    2,
+    6,
+    10,
+    14,
+    18,
+    22
+  ],
+  "period_length_hours": 4,
+  "demand_by_period_start": {
+    "2": 10,
+    "6": 15,
+    "10": 25,
+    "14": 20,
+    "18": 18,
+    "22": 12
+  }
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

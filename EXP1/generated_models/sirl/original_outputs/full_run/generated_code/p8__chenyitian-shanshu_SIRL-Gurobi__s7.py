@@ -1,0 +1,68 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("fast_food_shift_model")
+
+    # Define decision variables
+    variables = {
+        "s1": model.addVar(name="s1", vtype=GRB.INTEGER, lb=0),
+        "s2": model.addVar(name="s2", vtype=GRB.INTEGER, lb=0),
+        "s3": model.addVar(name="s3", vtype=GRB.INTEGER, lb=0),
+        "s4": model.addVar(name="s4", vtype=GRB.INTEGER, lb=0)
+    }
+
+    # Workers required in each time window
+    workers_required_by_window = data["workers_required_by_window"]
+
+    # Shift wages
+    shift_wage = data["shift_wage"]
+
+    # Shift coverage
+    shift_coverage = data["shift_coverage"]
+
+    # Objective function: Minimize total wage cost
+    model.setObjective(
+        shift_wage["1"] * variables["s1"] + 
+        shift_wage["2"] * variables["s2"] + 
+        shift_wage["3"] * variables["s3"] + 
+        shift_wage["4"] * variables["s4"],
+        GRB.MINIMIZE)
+
+    # Constraints: Number of workers in each time window
+    for window in range(8):
+        model.addConstr(
+            variables["s1"] * (window in shift_coverage["1"]) +
+            variables["s2"] * (window in shift_coverage["2"]) +
+            variables["s3"] * (window in shift_coverage["3"]) +
+            variables["s4"] * (window in shift_coverage["4"]) >= workers_required_by_window[window])
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "s1": variables["s1"].x,
+                "s2": variables["s2"].x,
+                "s3": variables["s3"].x,
+                "s4": variables["s4"].x
+            }
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {
+                "s1": None,
+                "s2": None,
+                "s3": None,
+                "s4": None
+            }
+        }

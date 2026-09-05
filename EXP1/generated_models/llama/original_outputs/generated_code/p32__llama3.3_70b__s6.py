@@ -1,0 +1,153 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    batches = data['batches']
+    vats = data['vats']
+    positions = data['positions']
+    processing_time = data['processing_time']
+
+    y = {}
+    for batch in batches:
+        for position in positions:
+            y[f'y_{batch}_{position}'] = model.addVar(vtype=gp.GRB.BINARY, name=f'y_{batch}_{position}')
+
+    C = {}
+    for position in positions:
+        for vat in vats:
+            C[f'C_{position}_{vat}'] = model.addVar(vtype=gp.GRB.CONTINUOUS, lb=0, name=f'C_{position}_{vat}')
+
+    Cmax = model.addVar(vtype=gp.GRB.CONTINUOUS, lb=0, name='Cmax')
+
+    for batch in batches:
+        model.addConstr(gp.quicksum(y[f'y_{batch}_{position}'] for position in positions) == 1)
+
+    for position in positions:
+        model.addConstr(gp.quicksum(y[f'y_{batch}_{position}'] for batch in batches) == 1)
+
+    for vat in vats:
+        for position in range(2, len(positions) + 1):
+            model.addConstr(C[f'C_{position}_{vat}'] >= C[f'C_{position-1}_{vat}'])
+
+    for position in positions:
+        for batch in batches:
+            for vat in vats:
+                if vat == 1:
+                    model.addConstr(C[f'C_{position}_{vat}'] >= processing_time[str(batch)][str(vat)] * y[f'y_{batch}_{position}'])
+                else:
+                    model.addConstr(C[f'C_{position}_{vat}'] >= C[f'C_{position}_{vat-1}'] + processing_time[str(batch)][str(vat)] * y[f'y_{batch}_{position}'])
+
+    for position in positions:
+        model.addConstr(Cmax >= C[f'C_{position}_3'])
+
+    model.setObjective(Cmax, gp.GRB.MINIMIZE)
+
+    variables = {
+        'y_1_1': y['y_1_1'],
+        'y_1_2': y['y_1_2'],
+        'y_1_3': y['y_1_3'],
+        'y_1_4': y['y_1_4'],
+        'y_1_5': y['y_1_5'],
+        'y_2_1': y['y_2_1'],
+        'y_2_2': y['y_2_2'],
+        'y_2_3': y['y_2_3'],
+        'y_2_4': y['y_2_4'],
+        'y_2_5': y['y_2_5'],
+        'y_3_1': y['y_3_1'],
+        'y_3_2': y['y_3_2'],
+        'y_3_3': y['y_3_3'],
+        'y_3_4': y['y_3_4'],
+        'y_3_5': y['y_3_5'],
+        'y_4_1': y['y_4_1'],
+        'y_4_2': y['y_4_2'],
+        'y_4_3': y['y_4_3'],
+        'y_4_4': y['y_4_4'],
+        'y_4_5': y['y_4_5'],
+        'y_5_1': y['y_5_1'],
+        'y_5_2': y['y_5_2'],
+        'y_5_3': y['y_5_3'],
+        'y_5_4': y['y_5_4'],
+        'y_5_5': y['y_5_5'],
+        'C_1_1': C['C_1_1'],
+        'C_1_2': C['C_1_2'],
+        'C_1_3': C['C_1_3'],
+        'C_2_1': C['C_2_1'],
+        'C_2_2': C['C_2_2'],
+        'C_2_3': C['C_2_3'],
+        'C_3_1': C['C_3_1'],
+        'C_3_2': C['C_3_2'],
+        'C_3_3': C['C_3_3'],
+        'C_4_1': C['C_4_1'],
+        'C_4_2': C['C_4_2'],
+        'C_4_3': C['C_4_3'],
+        'C_5_1': C['C_5_1'],
+        'C_5_2': C['C_5_2'],
+        'C_5_3': C['C_5_3'],
+        'Cmax': Cmax
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {
+        'y_1_1': variables['y_1_1'].X,
+        'y_1_2': variables['y_1_2'].X,
+        'y_1_3': variables['y_1_3'].X,
+        'y_1_4': variables['y_1_4'].X,
+        'y_1_5': variables['y_1_5'].X,
+        'y_2_1': variables['y_2_1'].X,
+        'y_2_2': variables['y_2_2'].X,
+        'y_2_3': variables['y_2_3'].X,
+        'y_2_4': variables['y_2_4'].X,
+        'y_2_5': variables['y_2_5'].X,
+        'y_3_1': variables['y_3_1'].X,
+        'y_3_2': variables['y_3_2'].X,
+        'y_3_3': variables['y_3_3'].X,
+        'y_3_4': variables['y_3_4'].X,
+        'y_3_5': variables['y_3_5'].X,
+        'y_4_1': variables['y_4_1'].X,
+        'y_4_2': variables['y_4_2'].X,
+        'y_4_3': variables['y_4_3'].X,
+        'y_4_4': variables['y_4_4'].X,
+        'y_4_5': variables['y_4_5'].X,
+        'y_5_1': variables['y_5_1'].X,
+        'y_5_2': variables['y_5_2'].X,
+        'y_5_3': variables['y_5_3'].X,
+        'y_5_4': variables['y_5_4'].X,
+        'y_5_5': variables['y_5_5'].X,
+        'C_1_1': variables['C_1_1'].X,
+        'C_1_2': variables['C_1_2'].X,
+        'C_1_3': variables['C_1_3'].X,
+        'C_2_1': variables['C_2_1'].X,
+        'C_2_2': variables['C_2_2'].X,
+        'C_2_3': variables['C_2_3'].X,
+        'C_3_1': variables['C_3_1'].X,
+        'C_3_2': variables['C_3_2'].X,
+        'C_3_3': variables['C_3_3'].X,
+        'C_4_1': variables['C_4_1'].X,
+        'C_4_2': variables['C_4_2'].X,
+        'C_4_3': variables['C_4_3'].X,
+        'C_5_1': variables['C_5_1'].X,
+        'C_5_2': variables['C_5_2'].X,
+        'C_5_3': variables['C_5_3'].X,
+        'Cmax': variables['Cmax'].X
+    }
+    
+    return {
+        'status': status_map[model.Status],
+        'objective': model.ObjVal,
+        'solution': solution
+    }

@@ -1,0 +1,54 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 38,
+  "scenario_id": "two_product_july_december_inventory_production_storage_lp",
+  "data_instance": {
+    "months": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "products": [
+      "I",
+      "II"
+    ],
+    "demand": {
+      "I": {
+        "7": 30000,
+        "8": 30000,
+        "9": 30000,
+        "10": 100000,
+        "11": 100000,
+        "12": 100000
+      },
+      "II": {
+        "7": 15000,
+        "8": 15000,
+        "9": 15000,
+        "10": 50000,
+        "11": 50000,
+        "12": 50000
+      }
+    },
+    "initial_inventory": {
+      "I": 0,
+      "II": 0
+    },
+    "production_cost": {
+      "I": 4.5,
+      "II": 7.0
+    },
+    "monthly_total_production_capacity": 120000,
+    "unit_volume": {
+      "I": 0.2,
+      "II": 0.4
+    },
+    "own_warehouse_capacity_cubic_m": 15000,
+    "own_storage_cost_per_cubic_m_month": 1.0,
+    "external_storage_cost_per_cubic_m_month": 1.5
+  }
+}

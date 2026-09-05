@@ -1,0 +1,66 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("post_office_hiring_model")
+    
+    # Define decision variables
+    variables = {}
+    for day in range(7):
+        variables[f"s{day}"] = model.addVar(name=f"s{day}", vtype=GRB.INTEGER, lb=0)
+
+    # Employees needed each day
+    employees_needed = {
+        0: data["employees_needed"][0],
+        1: data["employees_needed"][1],
+        2: data["employees_needed"][2],
+        3: data["employees_needed"][3],
+        4: data["employees_needed"][4],
+        5: data["employees_needed"][5],
+        6: data["employees_needed"][6]
+    }
+
+    # Constraint: Number of employees working each day
+    for day in range(7):
+        model.addConstr(
+            variables[f"s0"] + variables[f"s1"] + variables[f"s2"] + variables[f"s3"] + variables[f"s4"] +
+            variables[f"s5"] + variables[f"s6"] - 
+            (variables[f"s{day}"] + variables[f"s{(day + 1) % 7}"] + variables[f"s{(day + 2) % 7}"] + variables[f"s{(day + 3) % 7}"] + variables[f"s{(day + 4) % 7}"]) == 
+            -employees_needed[day]
+        )
+
+    # Objective function: Minimize total number of employees
+    model.setObjective(
+        variables[f"s0"] + variables[f"s1"] + variables[f"s2"] + variables[f"s3"] + variables[f"s4"] +
+        variables[f"s5"] + variables[f"s6"],
+        GRB.MINIMIZE
+    )
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "s0": variables["s0"].x,
+            "s1": variables["s1"].x,
+            "s2": variables["s2"].x,
+            "s3": variables["s3"].x,
+            "s4": variables["s4"].x,
+            "s5": variables["s5"].x,
+            "s6": variables["s6"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

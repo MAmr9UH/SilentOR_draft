@@ -1,0 +1,119 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("grain_trading_model")
+
+    variables = {
+        "buy_1": model.addVar(name="buy_1", vtype=GRB.CONTINUOUS, lb=0),
+        "buy_2": model.addVar(name="buy_2", vtype=GRB.CONTINUOUS, lb=0),
+        "buy_3": model.addVar(name="buy_3", vtype=GRB.CONTINUOUS, lb=0),
+        "sell_1": model.addVar(name="sell_1", vtype=GRB.CONTINUOUS, lb=0),
+        "sell_2": model.addVar(name="sell_2", vtype=GRB.CONTINUOUS, lb=0),
+        "sell_3": model.addVar(name="sell_3", vtype=GRB.CONTINUOUS, lb=0),
+        "inventory_1": model.addVar(name="inventory_1", vtype=GRB.CONTINUOUS, lb=0),
+        "inventory_2": model.addVar(name="inventory_2", vtype=GRB.CONTINUOUS, lb=0),
+        "inventory_3": model.addVar(name="inventory_3", vtype=GRB.CONTINUOUS, lb=0),
+        "cash_1": model.addVar(name="cash_1", vtype=GRB.CONTINUOUS, lb=0),
+        "cash_2": model.addVar(name="cash_2", vtype=GRB.CONTINUOUS, lb=0),
+        "cash_3": model.addVar(name="cash_3", vtype=GRB.CONTINUOUS, lb=0),
+        "profit": model.addVar(name="profit", vtype=GRB.CONTINUOUS, lb=0)
+    }
+
+    # Initial inventory and cash
+    model.addConstr(variables["inventory_1"] == data["initial_inventory"])
+    model.addConstr(variables["cash_1"] == data["initial_cash"])
+
+    # Purchase prices
+    purchase_prices = {
+        1: data["purchase_price"]["1"],
+        2: data["purchase_price"]["2"],
+        3: data["purchase_price"]["3"]
+    }
+
+    # Selling prices
+    selling_prices = {
+        1: data["selling_price"]["1"],
+        2: data["selling_price"]["2"],
+        3: data["selling_price"]["3"]
+    }
+
+    # Capacity constraint
+    model.addConstr(variables["inventory_1"] + variables["buy_1"] <= data["capacity"])
+
+    # Inventory balance for month 1
+    model.addConstr(variables["inventory_1"] - variables["buy_1"] + variables["sell_1"] == variables["inventory_2"])
+
+    # Cash balance for month 1
+    model.addConstr(variables["cash_1"] - variables["buy_1"] * purchase_prices[1] == variables["cash_2"])
+
+    # Inventory balance for month 2
+    model.addConstr(variables["inventory_2"] - variables["buy_2"] + variables["sell_2"] == variables["inventory_3"])
+
+    # Cash balance for month 2
+    model.addConstr(variables["cash_2"] - variables["buy_2"] * purchase_prices[2] == variables["cash_3"])
+
+    # Inventory balance for month 3
+    model.addConstr(variables["inventory_3"] - variables["buy_3"] + variables["sell_3"] == data["final_inventory_required"])
+
+    # Cash balance for month 3
+    model.addConstr(variables["cash_3"] - variables["buy_3"] * purchase_prices[3] == variables["profit"])
+
+    # Selling in month 2 can only use inventory from month 1
+    model.addConstr(variables["sell_1"] <= variables["inventory_1"])
+
+    # Selling in month 3 can only use inventory from month 2
+    model.addConstr(variables["sell_2"] <= variables["inventory_2"])
+
+    # Profit calculation
+    model.setObjective(
+        variables["profit"],
+        GRB.MAXIMIZE)
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "buy_1": variables["buy_1"].x,
+                "buy_2": variables["buy_2"].x,
+                "buy_3": variables["buy_3"].x,
+                "sell_1": variables["sell_1"].x,
+                "sell_2": variables["sell_2"].x,
+                "sell_3": variables["sell_3"].x,
+                "inventory_1": variables["inventory_1"].x,
+                "inventory_2": variables["inventory_2"].x,
+                "inventory_3": variables["inventory_3"].x,
+                "cash_1": variables["cash_1"].x,
+                "cash_2": variables["cash_2"].x,
+                "cash_3": variables["cash_3"].x,
+                "profit": variables["profit"].x
+            }
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {
+                "buy_1": None,
+                "buy_2": None,
+                "buy_3": None,
+                "sell_1": None,
+                "sell_2": None,
+                "sell_3": None,
+                "inventory_1": None,
+                "inventory_2": None,
+                "inventory_3": None,
+                "cash_1": None,
+                "cash_2": None,
+                "cash_3": None,
+                "profit": None
+            }
+        }

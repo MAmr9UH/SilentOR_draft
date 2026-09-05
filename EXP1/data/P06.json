@@ -1,0 +1,50 @@
+{
+  "problem_id": 6,
+  "scenario_id": "china_railroad_car_relocation",
+  "data_instance": {
+    "regions": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "move_cost": {
+      "1_2": 10,
+      "1_3": 12,
+      "1_4": 17,
+      "1_5": 34,
+      "2_1": 10,
+      "2_3": 18,
+      "2_4": 8,
+      "2_5": 46,
+      "3_1": 12,
+      "3_2": 18,
+      "3_4": 9,
+      "3_5": 27,
+      "4_1": 17,
+      "4_2": 8,
+      "4_3": 9,
+      "4_5": 20,
+      "5_1": 34,
+      "5_2": 46,
+      "5_3": 27,
+      "5_4": 20
+    },
+    "current_cars": {
+      "1": 115,
+      "2": 385,
+      "3": 410,
+      "4": 480,
+      "5": 610
+    },
+    "cars_needed": {
+      "1": 300,
+      "2": 400,
+      "3": 800,
+      "4": 200,
+      "5": 300
+    },
+    "note": "move_cost['i_j'] is the cost to move one car from region i to region j. Decision variable keys are x_i_j = number of cars moved from region i to region j (i != j)."
+  }
+}

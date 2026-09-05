@@ -1,0 +1,58 @@
+{
+  "problem_id": 23,
+  "scenario_id": "spare_component_reliability_budget_weight",
+  "data_instance": {
+    "components": [
+      1,
+      2,
+      3
+    ],
+    "spare_levels": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "reliability": {
+      "1": [
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "2": [
+        0.6,
+        0.75,
+        0.95,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "3": [
+        0.7,
+        0.9,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "unit_price": {
+      "1": 20,
+      "2": 30,
+      "3": 40
+    },
+    "unit_weight": {
+      "1": 2,
+      "2": 4,
+      "3": 6
+    },
+    "budget": 150,
+    "weight_limit": 20,
+    "note": "Decision variable keys w_a_b_c select the complete combination with a spares for component 1, b for component 2, c for component 3. Exactly one combination is selected."
+  }
+}

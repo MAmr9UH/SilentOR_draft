@@ -1,0 +1,106 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("traveling_salesman_problem")
+    
+    nodes = data["nodes"]
+    start_node = data["start_node"]
+    distance = data["distance"]
+    mtz_big_m = data["mtz_big_m"]
+    
+    # Initialize decision variables
+    x = {}
+    for (i, j) in distance.keys():
+        x[i, j] = model.addVar(name=f"x_{i}_{j}", vtype=GRB.BINARY)
+    
+    u = {}
+    for node in nodes:
+        if node != start_node:
+            u[node] = model.addVar(name=f"u_{node}", lb=0)
+
+    # Objective function: Minimize total distance traveled
+    model.setObjective(gp.quicksum(distance[f"{i},{j}]"] * x[i, j] for (i, j) in distance.keys()), GRB.MINIMIZE)
+
+    # Each node is entered and exited exactly once
+    for node in nodes:
+        if node != start_node:
+            model.addConstr(gp.quicksum(x[node, j] for j in nodes if (node, j) in distance.keys()) == 1)
+            model.addConstr(gp.quicksum(x[j, node] for j in nodes if (j, node) in distance.keys()) == 1)
+
+    # MTZ constraints
+    for i in nodes:
+        if i != start_node:
+            for j in nodes:
+                if j != start_node and (i, j) in distance.keys():
+                    model.addConstr(u[i] - u[j] + 7 * x[i, j] <= mtz_big_m - 1)
+
+    return model, x, u
+
+def solve(data: dict) -> dict:
+    model, x, u = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "x_1_2": x[1, 2].x,
+                "x_1_3": x[1, 3].x,
+                "x_1_4": x[1, 4].x,
+                "x_1_5": x[1, 5].x,
+                "x_1_6": x[1, 6].x,
+                "x_1_7": x[1, 7].x,
+                "x_2_1": x[2, 1].x,
+                "x_2_3": x[2, 3].x,
+                "x_2_4": x[2, 4].x,
+                "x_2_5": x[2, 5].x,
+                "x_2_6": x[2, 6].x,
+                "x_2_7": x[2, 7].x,
+                "x_3_1": x[3, 1].x,
+                "x_3_2": x[3, 2].x,
+                "x_3_4": x[3, 4].x,
+                "x_3_5": x[3, 5].x,
+                "x_3_6": x[3, 6].x,
+                "x_3_7": x[3, 7].x,
+                "x_4_1": x[4, 1].x,
+                "x_4_2": x[4, 2].x,
+                "x_4_3": x[4, 3].x,
+                "x_4_5": x[4, 5].x,
+                "x_4_6": x[4, 6].x,
+                "x_4_7": x[4, 7].x,
+                "x_5_1": x[5, 1].x,
+                "x_5_2": x[5, 2].x,
+                "x_5_3": x[5, 3].x,
+                "x_5_4": x[5, 4].x,
+                "x_5_6": x[5, 6].x,
+                "x_5_7": x[5, 7].x,
+                "x_6_1": x[6, 1].x,
+                "x_6_2": x[6, 2].x,
+                "x_6_3": x[6, 3].x,
+                "x_6_4": x[6, 4].x,
+                "x_6_5": x[6, 5].x,
+                "x_6_7": x[6, 7].x,
+                "x_7_1": x[7, 1].x,
+                "x_7_2": x[7, 2].x,
+                "x_7_3": x[7, 3].x,
+                "x_7_4": x[7, 4].x,
+                "x_7_5": x[7, 5].x,
+                "x_7_6": x[7, 6].x,
+                "u_2": u[2].x,
+                "u_3": u[3].x,
+                "u_4": u[4].x,
+                "u_5": u[5].x,
+                "u_6": u[6].x,
+                "u_7": u[7].x
+            }
+        }
+        return solution
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

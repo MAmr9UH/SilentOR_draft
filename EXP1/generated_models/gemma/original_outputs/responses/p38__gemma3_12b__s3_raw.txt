@@ -1,0 +1,170 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    months = data["months"]
+    products = data["products"]
+    demand = data["demand"]
+    initial_inventory = data["initial_inventory"]
+    production_cost = data["production_cost"]
+    monthly_total_production_capacity = data["monthly_total_production_capacity"]
+    unit_volume = data["unit_volume"]
+    own_warehouse_capacity_cubic_m = data["own_warehouse_capacity_cubic_m"]
+    own_storage_cost_per_cubic_m_month = data["own_storage_cost_per_cubic_m_month"]
+    external_storage_cost_per_cubic_m_month = data["external_storage_cost_per_cubic_m_month"]
+
+    # Decision variables
+    prod_I = {}
+    prod_II = {}
+    inv_I = {}
+    inv_II = {}
+    own_storage = {}
+    external_storage = {}
+
+    for month in months:
+        prod_I[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"prod_I_{month}")
+        prod_II[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"prod_II_{month}")
+        inv_I[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"inv_I_{month}")
+        inv_II[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"inv_II_{month}")
+        own_storage[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"own_storage_{month}")
+        external_storage[month] = model.addVar(vtype=GRB.CONTINUOUS, name=f"external_storage_{month}")
+
+    # Objective function
+    objective = gp.quicksum(
+        production_cost["I"] * prod_I[month] for month in months
+    ) + gp.quicksum(
+        production_cost["II"] * prod_II[month] for month in months
+    ) + gp.quicksum(
+        own_storage_cost_per_cubic_m_month * own_storage[month] for month in months
+    ) + gp.quicksum(
+        external_storage_cost_per_cubic_m_month * external_storage[month] for month in months
+    )
+
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # Constraints
+    for month in months:
+        # Demand constraints
+        product = "I"
+        demand_value = demand[product][month]
+        model.addConstr(
+            inv_I[month - 1] + prod_I[month] >= demand_value, name=f"{product}_demand_{month}"
+        )
+
+        product = "II"
+        demand_value = demand[product][month]
+        model.addConstr(
+            inv_II[month - 1] + prod_II[month] >= demand_value, name=f"{product}_demand_{month}"
+        )
+
+        # Inventory flow constraints
+        model.addConstr(
+            inv_I[month] == inv_I[month - 1] + prod_I[month] - demand[
+                "I"
+            ][month], name=f"inv_I_{month}_flow"
+        )
+        model.addConstr(
+            inv_II[month] == inv_II[month - 1] + prod_II[month] - demand[
+                "II"
+            ][month], name=f"inv_II_{month}_flow"
+        )
+
+    # Production capacity constraint
+    for month in months:
+        model.addConstr(
+            prod_I[month] + prod_II[month] <= monthly_total_production_capacity,
+            name=f"production_capacity_{month}",
+        )
+
+    # Inventory volume constraints
+    for month in months:
+        model.addConstr(
+            own_storage[month] + external_storage[month] >= (
+                unit_volume["I"] * inv_I[month] + unit_volume["II"] * inv_II[month]
+            ), name=f"inventory_volume_{month}"
+        )
+
+    # Warehouse capacity constraint
+    for month in months:
+        model.addConstr(
+            own_storage[month] <= own_warehouse_capacity_cubic_m,
+            name=f"own_warehouse_{month}",
+        )
+
+    variables = {
+        "variables_keys": {
+            "prod_I_7": "continuous variable",
+            "prod_I_8": "continuous variable",
+            "prod_I_9": "continuous variable",
+            "prod_I_10": "continuous variable",
+            "prod_I_11": "continuous variable",
+            "prod_I_12": "continuous variable",
+            "prod_II_7": "continuous variable",
+            "prod_II_8": "continuous variable",
+            "prod_II_9": "continuous variable",
+            "prod_II_10": "continuous variable",
+            "prod_II_11": "continuous variable",
+            "prod_II_12": "continuous variable",
+            "inv_I_7": "continuous variable",
+            "inv_I_8": "continuous variable",
+            "inv_I_9": "continuous variable",
+            "inv_I_10": "continuous variable",
+            "inv_I_11": "continuous variable",
+            "inv_I_12": "continuous variable",
+            "inv_II_7": "continuous variable",
+            "inv_II_8": "continuous variable",
+            "inv_II_9": "continuous variable",
+            "inv_II_10": "continuous variable",
+            "inv_II_11": "continuous variable",
+            "inv_II_12": "continuous variable",
+            "own_storage_7": "continuous variable",
+            "own_storage_8": "continuous variable",
+            "own_storage_9": "continuous variable",
+            "own_storage_10": "continuous variable",
+            "own_storage_11": "continuous variable",
+            "own_storage_12": "continuous variable",
+            "external_storage_7": "continuous variable",
+            "external_storage_8": "continuous variable",
+            "external_storage_9": "continuous variable",
+            "external_storage_10": "continuous variable",
+            "external_storage_11": "continuous variable",
+            "external_storage_12": "continuous variable",
+        },
+        "note": "Use flat continuous variables prod_I_7..prod_II_12, inv_I_7..inv_II_12, own_storage_7..own_storage_12, and external_storage_7..external_storage_12.",
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {},
+        }
+
+    solution = {}
+    months = data["months"]
+    products = data["products"]
+
+    for month in months:
+        solution[f"prod_I_{month}"] = float(prod_I[month].X)
+        solution[f"prod_II_{month}"] = float(prod_II[month].X)
+        solution[f"inv_I_{month}"] = float(inv_I[month].X)
+        solution[f"inv_II_{month}"] = float(inv_II[month].X)
+        solution[f"own_storage_{month}"] = float(own_storage[month].X)
+        solution[f"external_storage_{month}"] = float(external_storage[month].X)
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution,
+    }

@@ -1,0 +1,276 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "y_c1": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c2": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c3": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c4": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c5": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c6": model.addVar(vtype=gp.GRB.BINARY),
+        "y_c7": model.addVar(vtype=gp.GRB.BINARY),
+        "f_c1_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c1_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c2_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c3_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c4_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c5_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c6_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s6": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s7": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s8": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "f_c7_s9": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Objective function
+    obj = gp.quicksum([data["fixed_opening_cost"]["c1"] * variables["y_c1"],
+                       data["fixed_opening_cost"]["c2"] * variables["y_c2"],
+                       data["fixed_opening_cost"]["c3"] * variables["y_c3"],
+                       data["fixed_opening_cost"]["c4"] * variables["y_c4"],
+                       data["fixed_opening_cost"]["c5"] * variables["y_c5"],
+                       data["fixed_opening_cost"]["c6"] * variables["y_c6"],
+                       data["fixed_opening_cost"]["c7"] * variables["y_c7"],
+                       data["transport_cost"]["c1"]["s1"] * variables["f_c1_s1"],
+                       data["transport_cost"]["c1"]["s2"] * variables["f_c1_s2"],
+                       data["transport_cost"]["c1"]["s3"] * variables["f_c1_s3"],
+                       data["transport_cost"]["c1"]["s4"] * variables["f_c1_s4"],
+                       data["transport_cost"]["c1"]["s5"] * variables["f_c1_s5"],
+                       data["transport_cost"]["c1"]["s6"] * variables["f_c1_s6"],
+                       data["transport_cost"]["c1"]["s7"] * variables["f_c1_s7"],
+                       data["transport_cost"]["c1"]["s8"] * variables["f_c1_s8"],
+                       data["transport_cost"]["c1"]["s9"] * variables["f_c1_s9"],
+                       data["transport_cost"]["c2"]["s1"] * variables["f_c2_s1"],
+                       data["transport_cost"]["c2"]["s2"] * variables["f_c2_s2"],
+                       data["transport_cost"]["c2"]["s3"] * variables["f_c2_s3"],
+                       data["transport_cost"]["c2"]["s4"] * variables["f_c2_s4"],
+                       data["transport_cost"]["c2"]["s5"] * variables["f_c2_s5"],
+                       data["transport_cost"]["c2"]["s6"] * variables["f_c2_s6"],
+                       data["transport_cost"]["c2"]["s7"] * variables["f_c2_s7"],
+                       data["transport_cost"]["c2"]["s8"] * variables["f_c2_s8"],
+                       data["transport_cost"]["c2"]["s9"] * variables["f_c2_s9"],
+                       data["transport_cost"]["c3"]["s1"] * variables["f_c3_s1"],
+                       data["transport_cost"]["c3"]["s2"] * variables["f_c3_s2"],
+                       data["transport_cost"]["c3"]["s3"] * variables["f_c3_s3"],
+                       data["transport_cost"]["c3"]["s4"] * variables["f_c3_s4"],
+                       data["transport_cost"]["c3"]["s5"] * variables["f_c3_s5"],
+                       data["transport_cost"]["c3"]["s6"] * variables["f_c3_s6"],
+                       data["transport_cost"]["c3"]["s7"] * variables["f_c3_s7"],
+                       data["transport_cost"]["c3"]["s8"] * variables["f_c3_s8"],
+                       data["transport_cost"]["c3"]["s9"] * variables["f_c3_s9"],
+                       data["transport_cost"]["c4"]["s1"] * variables["f_c4_s1"],
+                       data["transport_cost"]["c4"]["s2"] * variables["f_c4_s2"],
+                       data["transport_cost"]["c4"]["s3"] * variables["f_c4_s3"],
+                       data["transport_cost"]["c4"]["s4"] * variables["f_c4_s4"],
+                       data["transport_cost"]["c4"]["s5"] * variables["f_c4_s5"],
+                       data["transport_cost"]["c4"]["s6"] * variables["f_c4_s6"],
+                       data["transport_cost"]["c4"]["s7"] * variables["f_c4_s7"],
+                       data["transport_cost"]["c4"]["s8"] * variables["f_c4_s8"],
+                       data["transport_cost"]["c4"]["s9"] * variables["f_c4_s9"],
+                       data["transport_cost"]["c5"]["s1"] * variables["f_c5_s1"],
+                       data["transport_cost"]["c5"]["s2"] * variables["f_c5_s2"],
+                       data["transport_cost"]["c5"]["s3"] * variables["f_c5_s3"],
+                       data["transport_cost"]["c5"]["s4"] * variables["f_c5_s4"],
+                       data["transport_cost"]["c5"]["s5"] * variables["f_c5_s5"],
+                       data["transport_cost"]["c5"]["s6"] * variables["f_c5_s6"],
+                       data["transport_cost"]["c5"]["s7"] * variables["f_c5_s7"],
+                       data["transport_cost"]["c5"]["s8"] * variables["f_c5_s8"],
+                       data["transport_cost"]["c5"]["s9"] * variables["f_c5_s9"],
+                       data["transport_cost"]["c6"]["s1"] * variables["f_c6_s1"],
+                       data["transport_cost"]["c6"]["s2"] * variables["f_c6_s2"],
+                       data["transport_cost"]["c6"]["s3"] * variables["f_c6_s3"],
+                       data["transport_cost"]["c6"]["s4"] * variables["f_c6_s4"],
+                       data["transport_cost"]["c6"]["s5"] * variables["f_c6_s5"],
+                       data["transport_cost"]["c6"]["s6"] * variables["f_c6_s6"],
+                       data["transport_cost"]["c6"]["s7"] * variables["f_c6_s7"],
+                       data["transport_cost"]["c6"]["s8"] * variables["f_c6_s8"],
+                       data["transport_cost"]["c6"]["s9"] * variables["f_c6_s9"],
+                       data["transport_cost"]["c7"]["s1"] * variables["f_c7_s1"],
+                       data["transport_cost"]["c7"]["s2"] * variables["f_c7_s2"],
+                       data["transport_cost"]["c7"]["s3"] * variables["f_c7_s3"],
+                       data["transport_cost"]["c7"]["s4"] * variables["f_c7_s4"],
+                       data["transport_cost"]["c7"]["s5"] * variables["f_c7_s5"],
+                       data["transport_cost"]["c7"]["s6"] * variables["f_c7_s6"],
+                       data["transport_cost"]["c7"]["s7"] * variables["f_c7_s7"],
+                       data["transport_cost"]["c7"]["s8"] * variables["f_c7_s8"],
+                       data["transport_cost"]["c7"]["s9"] * variables["f_c7_s9"]
+                      ])
+    model.setObjective(obj, gp.GRB.MINIMIZE)
+    
+    # Constraints
+    model.addConstr(variables["f_c1_s1"] + variables["f_c2_s1"] + variables["f_c3_s1"] +
+                    variables["f_c4_s1"] + variables["f_c5_s1"] + variables["f_c6_s1"] +
+                    variables["f_c7_s1"] == data["demand"]["s1"])
+    model.addConstr(variables["f_c1_s2"] + variables["f_c2_s2"] + variables["f_c3_s2"] +
+                    variables["f_c4_s2"] + variables["f_c5_s2"] + variables["f_c6_s2"] +
+                    variables["f_c7_s2"] == data["demand"]["s2"])
+    model.addConstr(variables["f_c1_s3"] + variables["f_c2_s3"] + variables["f_c3_s3"] +
+                    variables["f_c4_s3"] + variables["f_c5_s3"] + variables["f_c6_s3"] +
+                    variables["f_c7_s3"] == data["demand"]["s3"])
+    model.addConstr(variables["f_c1_s4"] + variables["f_c2_s4"] + variables["f_c3_s4"] +
+                    variables["f_c4_s4"] + variables["f_c5_s4"] + variables["f_c6_s4"] +
+                    variables["f_c7_s4"] == data["demand"]["s4"])
+    model.addConstr(variables["f_c1_s5"] + variables["f_c2_s5"] + variables["f_c3_s5"] +
+                    variables["f_c4_s5"] + variables["f_c5_s5"] + variables["f_c6_s5"] +
+                    variables["f_c7_s5"] == data["demand"]["s5"])
+    model.addConstr(variables["f_c1_s6"] + variables["f_c2_s6"] + variables["f_c3_s6"] +
+                    variables["f_c4_s6"] + variables["f_c5_s6"] + variables["f_c6_s6"] +
+                    variables["f_c7_s6"] == data["demand"]["s6"])
+    model.addConstr(variables["f_c1_s7"] + variables["f_c2_s7"] + variables["f_c3_s7"] +
+                    variables["f_c4_s7"] + variables["f_c5_s7"] + variables["f_c6_s7"] +
+                    variables["f_c7_s7"] == data["demand"]["s7"])
+    model.addConstr(variables["f_c1_s8"] + variables["f_c2_s8"] + variables["f_c3_s8"] +
+                    variables["f_c4_s8"] + variables["f_c5_s8"] + variables["f_c6_s8"] +
+                    variables["f_c7_s8"] == data["demand"]["s8"])
+    model.addConstr(variables["f_c1_s9"] + variables["f_c2_s9"] + variables["f_c3_s9"] +
+                    variables["f_c4_s9"] + variables["f_c5_s9"] + variables["f_c6_s9"] +
+                    variables["f_c7_s9"] == data["demand"]["s9"])
+    
+    model.addConstr(variables["f_c1_s1"] + variables["f_c1_s2"] + variables["f_c1_s3"] +
+                    variables["f_c1_s4"] + variables["f_c1_s5"] + variables["f_c1_s6"] +
+                    variables["f_c1_s7"] + variables["f_c1_s8"] + variables["f_c1_s9"] <=
+                    data["capacity"]["c1"] * variables["y_c1"])
+    model.addConstr(variables["f_c2_s1"] + variables["f_c2_s2"] + variables["f_c2_s3"] +
+                    variables["f_c2_s4"] + variables["f_c2_s5"] + variables["f_c2_s6"] +
+                    variables["f_c2_s7"] + variables["f_c2_s8"] + variables["f_c2_s9"] <=
+                    data["capacity"]["c2"] * variables["y_c2"])
+    model.addConstr(variables["f_c3_s1"] + variables["f_c3_s2"] + variables["f_c3_s3"] +
+                    variables["f_c3_s4"] + variables["f_c3_s5"] + variables["f_c3_s6"] +
+                    variables["f_c3_s7"] + variables["f_c3_s8"] + variables["f_c3_s9"] <=
+                    data["capacity"]["c3"] * variables["y_c3"])
+    model.addConstr(variables["f_c4_s1"] + variables["f_c4_s2"] + variables["f_c4_s3"] +
+                    variables["f_c4_s4"] + variables["f_c4_s5"] + variables["f_c4_s6"] +
+                    variables["f_c4_s7"] + variables["f_c4_s8"] + variables["f_c4_s9"] <=
+                    data["capacity"]["c4"] * variables["y_c4"])
+    model.addConstr(variables["f_c5_s1"] + variables["f_c5_s2"] + variables["f_c5_s3"] +
+                    variables["f_c5_s4"] + variables["f_c5_s5"] + variables["f_c5_s6"] +
+                    variables["f_c5_s7"] + variables["f_c5_s8"] + variables["f_c5_s9"] <=
+                    data["capacity"]["c5"] * variables["y_c5"])
+    model.addConstr(variables["f_c6_s1"] + variables["f_c6_s2"] + variables["f_c6_s3"] +
+                    variables["f_c6_s4"] + variables["f_c6_s5"] + variables["f_c6_s6"] +
+                    variables["f_c6_s7"] + variables["f_c6_s8"] + variables["f_c6_s9"] <=
+                    data["capacity"]["c6"] * variables["y_c6"])
+    model.addConstr(variables["f_c7_s1"] + variables["f_c7_s2"] + variables["f_c7_s3"] +
+                    variables["f_c7_s4"] + variables["f_c7_s5"] + variables["f_c7_s6"] +
+                    variables["f_c7_s7"] + variables["f_c7_s8"] + variables["f_c7_s9"] <=
+                    data["capacity"]["c7"] * variables["y_c7"])
+    
+    return model, variables
+
+def solve_model(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    if model.Status == gp.GRB.OPTIMAL:
+        status = "OPTIMAL"
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = "UNBOUNDED"
+    else:
+        status = "INF_OR_UNBD"
+    
+    solution = {
+        "status": status,
+        "objective_value": model.ObjVal,
+        "y_c1": _.get("y_c1", None).X if _ else None,
+        "y_c2": _.get("y_c2", None).X if _ else None,
+        "y_c3": _.get("y_c3", None).X if _ else None,
+        "y_c4": _.get("y_c4", None).X if _ else None,
+        "y_c5": _.get("y_c5", None).X if _ else None,
+        "y_c6": _.get("y_c6", None).X if _ else None,
+        "y_c7": _.get("y_c7", None).X if _ else None,
+        "f_c1_s1": _.get("f_c1_s1", None).X if _ else None,
+        "f_c1_s2": _.get("f_c1_s2", None).X if _ else None,
+        "f_c1_s3": _.get("f_c1_s3", None).X if _ else None,
+        "f_c1_s4": _.get("f_c1_s4", None).X if _ else None,
+        "f_c1_s5": _.get("f_c1_s5", None).X if _ else None,
+        "f_c1_s6": _.get("f_c1_s6", None).X if _ else None,
+        "f_c1_s7": _.get("f_c1_s7", None).X if _ else None,
+        "f_c1_s8": _.get("f_c1_s8", None).X if _ else None,
+        "f_c1_s9": _.get("f_c1_s9", None).X if _ else None,
+        "f_c2_s1": _.get("f_c2_s1", None).X if _ else None,
+        "f_c2_s2": _.get("f_c2_s2", None).X if _ else None,
+        "f_c2_s3": _.get("f_c2_s3", None).X if _ else None,
+        "f_c2_s4": _.get("f_c2_s4", None).X if _ else None,
+        "f_c2_s5": _.get("f_c2_s5", None).X if _ else None,
+        "f_c2_s6": _.get("f_c2_s6", None).X if _ else None,
+        "f_c2_s7": _.get("f_c2_s7", None).X if _ else None,
+        "f_c2_s8": _.get("f_c2_s8", None).X if _ else None,
+        "f_c2_s9": _.get("f_c2_s9", None).X if _ else None,
+        "f_c3_s1": _.get("f_c3_s1", None).X if _ else None,
+        "f_c3_s2": _.get("f_c3_s2", None).X if _ else None,
+        "f_c3_s3": _.get("f_c3_s3", None).X if _ else None,
+        "f_c3_s4": _.get("f_c3_s4", None).X if _ else None,
+        "f_c3_s5": _.get("f_c3_s5", None).X if _ else None,
+        "f_c3_s6": _.get("f_c3_s6", None).X if _ else None,
+        "f_c3_s7": _.get("f_c3_s7", None).X if _ else None,
+        "f_c3_s8": _.get("f_c3_s8", None).X if _ else None,
+        "f_c3_s9": _.get("f_c3_s9", None).X if _ else None,
+        "f_c4_s1": _.get("f_c4_s1", None).X if _ else None,
+        "f_c4_s2": _.get("f_c4_s2", None).X if _ else None,
+        "f_c4_s3": _.get("f_c4_s3", None).X if _ else None,
+        "f_c4_s4": _.get("f_c4_s4", None).X if _ else None,
+        "f_c4_s5": _.get("f_c4_s5", None).X if _ else None,
+        "f_c4_s6": _.get("f_c4_s6", None).X if _ else None,
+        "f_c4_s7": _.get("f_c4_s7", None).X if _ else None,
+        "f_c4_s8": _.get("f_c4_s8", None).X if _ else None,
+        "f_c4_s9": _.get("f_c4_s9", None).X if _ else None,
+        "f_c5_s1": _.get("f_c5_s1", None).X if _ else None,
+        "f_c5_s2": _.get("f_c5_s2", None).X if _ else None,
+        "f_c5_s3": _.get("f_c5_s3", None).X if _ else None,
+        "f_c5_s4": _.get("f_c5_s4", None).X if _ else None,
+        "f_c5_s5": _.get("f

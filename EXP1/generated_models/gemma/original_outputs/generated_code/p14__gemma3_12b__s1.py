@@ -1,0 +1,189 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    y_c1 = model.addVar(vtype=GRB.BINARY, name="y_c1")
+    y_c2 = model.addVar(vtype=GRB.BINARY, name="y_c2")
+    y_c3 = model.addVar(vtype=GRB.BINARY, name="y_c3")
+    y_c4 = model.addVar(vtype=GRB.BINARY, name="y_c4")
+
+    f_c1_s1 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s1")
+    f_c1_s2 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s2")
+    f_c1_s3 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s3")
+    f_c1_s4 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s4")
+    f_c1_s5 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s5")
+    f_c1_s6 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s6")
+    f_c1_s7 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s7")
+    f_c1_s8 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c1_s8")
+
+    f_c2_s1 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s1")
+    f_c2_s2 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s2")
+    f_c2_s3 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s3")
+    f_c2_s4 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s4")
+    f_c2_s5 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s5")
+    f_c2_s6 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s6")
+    f_c2_s7 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s7")
+    f_c2_s8 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c2_s8")
+
+    f_c3_s1 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s1")
+    f_c3_s2 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s2")
+    f_c3_s3 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s3")
+    f_c3_s4 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s4")
+    f_c3_s5 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s5")
+    f_c3_s6 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s6")
+    f_c3_s7 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s7")
+    f_c3_s8 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c3_s8")
+
+    f_c4_s1 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s1")
+    f_c4_s2 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s2")
+    f_c4_s3 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s3")
+    f_c4_s4 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s4")
+    f_c4_s5 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s5")
+    f_c4_s6 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s6")
+    f_c4_s7 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s7")
+    f_c4_s8 = model.addVar(vtype=GRB.CONTINUOUS, lb=0, name="f_c4_s8")
+
+    # Objective function
+    obj = gp.quicksum(
+        data["fixed_opening_cost"][center] * y_c[0]
+        for center, y_c in zip(data["centers"], [y_c1, y_c2, y_c3, y_c4])
+    ) + gp.quicksum(
+        data["transport_cost"][center][store] * f_c[0]
+        for center in data["centers"]
+        for store in data["stores"]
+        for f_c in [f_c1_s1, f_c2_s1, f_c3_s1, f_c4_s1] if center == "c1" else
+        [f_c1_s2, f_c2_s2, f_c3_s2, f_c4_s2] if center == "c2" else
+        [f_c1_s3, f_c2_s3, f_c3_s3, f_c4_s3] if center == "c3" else
+        [f_c1_s4, f_c2_s4, f_c3_s4, f_c4_s4]
+    )
+
+    model.setObjective(obj, GRB.MINIMIZE)
+
+    # Constraints
+    for store in data["stores"]:
+        demand = data["demand"][store]
+        model.addConstr(
+            gp.quicksum(f_c[0] for f_c in [f_c1_s1, f_c2_s1, f_c3_s1, f_c4_s1] if store == "s1" else
+                        [f_c1_s2, f_c2_s2, f_c3_s2, f_c4_s2] if store == "s2" else
+                        [f_c1_s3, f_c2_s3, f_c3_s3, f_c4_s3] if store == "s3" else
+                        [f_c1_s4, f_c2_s4, f_c3_s4, f_c4_s4] if store == "s4" else
+                        [f_c1_s5, f_c2_s5, f_c3_s5, f_c4_s5] if store == "s5" else
+                        [f_c1_s6, f_c2_s6, f_c3_s6, f_c4_s6] if store == "s6" else
+                        [f_c1_s7, f_c2_s7, f_c3_s7, f_c4_s7] if store == "s7" else
+                        [f_c1_s8, f_c2_s8, f_c3_s8, f_c4_s8])
+            == demand, name=f"demand_{store}")
+
+    for center in data["centers"]:
+        capacity = data["capacity"][center]
+        model.addConstr(
+            gp.quicksum(f_c[0] for f_c in [f_c1_s1, f_c2_s1, f_c3_s1, f_c4_s1] if center == "c1" else
+                        [f_c1_s2, f_c2_s2, f_c3_s2, f_c4_s2] if center == "c2" else
+                        [f_c1_s3, f_c2_s3, f_c3_s3, f_c4_s3] if center == "c3" else
+                        [f_c1_s4, f_c2_s4, f_c3_s4, f_c4_s4])
+            <= capacity * y_c[0] for y_c in [y_c1, y_c2, y_c3, y_c4] if center == "c1" else
+                        [f_c1_s2, f_c2_s2, f_c3_s2, f_c4_s2] if center == "c2" else
+                        [f_c1_s3, f_c2_s3, f_c3_s3, f_c4_s3] if center == "c3" else
+                        [f_c1_s4, f_c2_s4, f_c3_s4, f_c4_s4], name=f"capacity_{center}")
+
+    variables = {
+        "y_c1": y_c1,
+        "y_c2": y_c2,
+        "y_c3": y_c3,
+        "y_c4": y_c4,
+        "f_c1_s1": f_c1_s1,
+        "f_c1_s2": f_c1_s2,
+        "f_c1_s3": f_c1_s3,
+        "f_c1_s4": f_c1_s4,
+        "f_c1_s5": f_c1_s5,
+        "f_c1_s6": f_c1_s6,
+        "f_c1_s7": f_c1_s7,
+        "f_c1_s8": f_c1_s8,
+        "f_c2_s1": f_c2_s1,
+        "f_c2_s2": f_c2_s2,
+        "f_c2_s3": f_c2_s3,
+        "f_c2_s4": f_c2_s4,
+        "f_c2_s5": f_c2_s5,
+        "f_c2_s6": f_c2_s6,
+        "f_c2_s7": f_c2_s7,
+        "f_c2_s8": f_c2_s8,
+        "f_c3_s1": f_c3_s1,
+        "f_c3_s2": f_c3_s2,
+        "f_c3_s3": f_c3_s3,
+        "f_c3_s4": f_c3_s4,
+        "f_c3_s5": f_c3_s5,
+        "f_c3_s6": f_c3_s6,
+        "f_c3_s7": f_c3_s7,
+        "f_c3_s8": f_c3_s8,
+        "f_c4_s1": f_c4_s1,
+        "f_c4_s2": f_c4_s2,
+        "f_c4_s3": f_c4_s3,
+        "f_c4_s4": f_c4_s4,
+        "f_c4_s5": f_c4_s5,
+        "f_c4_s6": f_c4_s6,
+        "f_c4_s7": f_c4_s7,
+        "f_c4_s8": f_c4_s8
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "y_c1": float(variables["y_c1"].X),
+        "y_c2": float(variables["y_c2"].X),
+        "y_c3": float(variables["y_c3"].X),
+        "y_c4": float(variables["y_c4"].X),
+        "f_c1_s1": float(variables["f_c1_s1"].X),
+        "f_c1_s2": float(variables["f_c1_s2"].X),
+        "f_c1_s3": float(variables["f_c1_s3"].X),
+        "f_c1_s4": float(variables["f_c1_s4"].X),
+        "f_c1_s5": float(variables["f_c1_s5"].X),
+        "f_c1_s6": float(variables["f_c1_s6"].X),
+        "f_c1_s7": float(variables["f_c1_s7"].X),
+        "f_c1_s8": float(variables["f_c1_s8"].X),
+        "f_c2_s1": float(variables["f_c2_s1"].X),
+        "f_c2_s2": float(variables["f_c2_s2"].X),
+        "f_c2_s3": float(variables["f_c2_s3"].X),
+        "f_c2_s4": float(variables["f_c2_s4"].X),
+        "f_c2_s5": float(variables["f_c2_s5"].X),
+        "f_c2_s6": float(variables["f_c2_s6"].X),
+        "f_c2_s7": float(variables["f_c2_s7"].X),
+        "f_c2_s8": float(variables["f_c2_s8"].X),
+        "f_c3_s1": float(variables["f_c3_s1"].X),
+        "f_c3_s2": float(variables["f_c3_s2"].X),
+        "f_c3_s3": float(variables["f_c3_s3"].X),
+        "f_c3_s4": float(variables["f_c3_s4"].X),
+        "f_c3_s5": float(variables["f_c3_s5"].X),
+        "f_c3_s6": float(variables["f_c3_s6"].X),
+        "f_c3_s7": float(variables["f_c3_s7"].X),
+        "f_c3_s8": float(variables["f_c3_s8"].X),
+        "f_c4_s1": float(variables["f_c4_s1"].X),
+        "f_c4_s2": float(variables["f_c4_s2"].X),
+        "f_c4_s3": float(variables["f_c4_s3"].X),
+        "f_c4_s4": float(variables["f_c4_s4"].X),
+        "f_c4_s5": float(variables["f_c4_s5"].X),
+        "f_c4_s6": float(variables["f_c4_s6"].X),
+        "f_c4_s7": float(variables["f_c4_s7"].X),
+        "f_c4_s8": float(variables["f_c4_s8"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

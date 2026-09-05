@@ -1,0 +1,59 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    for student in data["students"]:
+        for day in data["days"]:
+            variables[f"h_{student}_{day}"] = model.addVar(lb=0, ub=data["availability_hours"][str(student)][day], vtype=gp.GRB.CONTINUOUS)
+            variables[f"y_{student}_{day}"] = model.addVar(vtype=gp.GRB.BINARY)
+
+    for day in data["days"]:
+        model.addConstr(gp.quicksum(variables[f"h_{student}_{day}"] for student in data["students"]) == data["open_hours_per_day"])
+    
+    for student in data["undergraduates"]:
+        model.addConstr(gp.quicksum(variables[f"h_{student}_{day}"] for day in data["days"]) >= data["minimum_weekly_hours_undergrad"])
+    
+    for student in data["graduates"]:
+        model.addConstr(gp.quicksum(variables[f"h_{student}_{day}"] for day in data["days"]) >= data["minimum_weekly_hours_grad"])
+
+    for student in data["students"]:
+        model.addConstr(gp.quicksum(variables[f"y_{student}_{day}"] for day in data["days"]) <= data["max_shifts_per_week"])
+    
+    for day in data["days"]:
+        model.addConstr(gp.quicksum(variables[f"y_{student}_{day}"] for student in data["students"]) <= data["max_students_per_day"])
+
+    for student in data["students"]:
+        for day in data["days"]:
+            model.addConstr(variables[f"h_{student}_{day}"] <= variables[f"y_{student}_{day}"] * data["availability_hours"][str(student)][day])
+
+    objective = gp.quicksum(data["wage"][str(student)] * variables[f"h_{student}_{day}"] for student in data["students"] for day in data["days"])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {}
+    for var_name in _:
+        solution[var_name] = _.get(var_name).X
+    
+    return {
+        "status": status_map.get(model.Status, "UNKNOWN"),
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

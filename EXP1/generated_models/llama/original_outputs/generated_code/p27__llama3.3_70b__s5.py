@@ -1,0 +1,158 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    nodes = data['nodes']
+    start_node = data['start_node']
+    distance = data['distance']
+    mtz_big_m = data['mtz_big_m']
+
+    variables = {
+        "x_1_2": model.addVar(vtype=gp.GRB.BINARY, name="x_1_2"),
+        "x_1_3": model.addVar(vtype=gp.GRB.BINARY, name="x_1_3"),
+        "x_1_4": model.addVar(vtype=gp.GRB.BINARY, name="x_1_4"),
+        "x_1_5": model.addVar(vtype=gp.GRB.BINARY, name="x_1_5"),
+        "x_1_6": model.addVar(vtype=gp.GRB.BINARY, name="x_1_6"),
+        "x_1_7": model.addVar(vtype=gp.GRB.BINARY, name="x_1_7"),
+        "x_2_1": model.addVar(vtype=gp.GRB.BINARY, name="x_2_1"),
+        "x_2_3": model.addVar(vtype=gp.GRB.BINARY, name="x_2_3"),
+        "x_2_4": model.addVar(vtype=gp.GRB.BINARY, name="x_2_4"),
+        "x_2_5": model.addVar(vtype=gp.GRB.BINARY, name="x_2_5"),
+        "x_2_6": model.addVar(vtype=gp.GRB.BINARY, name="x_2_6"),
+        "x_2_7": model.addVar(vtype=gp.GRB.BINARY, name="x_2_7"),
+        "x_3_1": model.addVar(vtype=gp.GRB.BINARY, name="x_3_1"),
+        "x_3_2": model.addVar(vtype=gp.GRB.BINARY, name="x_3_2"),
+        "x_3_4": model.addVar(vtype=gp.GRB.BINARY, name="x_3_4"),
+        "x_3_5": model.addVar(vtype=gp.GRB.BINARY, name="x_3_5"),
+        "x_3_6": model.addVar(vtype=gp.GRB.BINARY, name="x_3_6"),
+        "x_3_7": model.addVar(vtype=gp.GRB.BINARY, name="x_3_7"),
+        "x_4_1": model.addVar(vtype=gp.GRB.BINARY, name="x_4_1"),
+        "x_4_2": model.addVar(vtype=gp.GRB.BINARY, name="x_4_2"),
+        "x_4_3": model.addVar(vtype=gp.GRB.BINARY, name="x_4_3"),
+        "x_4_5": model.addVar(vtype=gp.GRB.BINARY, name="x_4_5"),
+        "x_4_6": model.addVar(vtype=gp.GRB.BINARY, name="x_4_6"),
+        "x_4_7": model.addVar(vtype=gp.GRB.BINARY, name="x_4_7"),
+        "x_5_1": model.addVar(vtype=gp.GRB.BINARY, name="x_5_1"),
+        "x_5_2": model.addVar(vtype=gp.GRB.BINARY, name="x_5_2"),
+        "x_5_3": model.addVar(vtype=gp.GRB.BINARY, name="x_5_3"),
+        "x_5_4": model.addVar(vtype=gp.GRB.BINARY, name="x_5_4"),
+        "x_5_6": model.addVar(vtype=gp.GRB.BINARY, name="x_5_6"),
+        "x_5_7": model.addVar(vtype=gp.GRB.BINARY, name="x_5_7"),
+        "x_6_1": model.addVar(vtype=gp.GRB.BINARY, name="x_6_1"),
+        "x_6_2": model.addVar(vtype=gp.GRB.BINARY, name="x_6_2"),
+        "x_6_3": model.addVar(vtype=gp.GRB.BINARY, name="x_6_3"),
+        "x_6_4": model.addVar(vtype=gp.GRB.BINARY, name="x_6_4"),
+        "x_6_5": model.addVar(vtype=gp.GRB.BINARY, name="x_6_5"),
+        "x_6_7": model.addVar(vtype=gp.GRB.BINARY, name="x_6_7"),
+        "x_7_1": model.addVar(vtype=gp.GRB.BINARY, name="x_7_1"),
+        "x_7_2": model.addVar(vtype=gp.GRB.BINARY, name="x_7_2"),
+        "x_7_3": model.addVar(vtype=gp.GRB.BINARY, name="x_7_3"),
+        "x_7_4": model.addVar(vtype=gp.GRB.BINARY, name="x_7_4"),
+        "x_7_5": model.addVar(vtype=gp.GRB.BINARY, name="x_7_5"),
+        "x_7_6": model.addVar(vtype=gp.GRB.BINARY, name="x_7_6"),
+        "u_2": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_2"),
+        "u_3": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_3"),
+        "u_4": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_4"),
+        "u_5": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_5"),
+        "u_6": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_6"),
+        "u_7": model.addVar(vtype=gp.GRB.INTEGER, lb=1, ub=mtz_big_m, name="u_7")
+    }
+
+    # Objective function
+    obj = gp.quicksum([distance[f"{i},{j}"] * variables[f"x_{i}_{j}"] for i in nodes for j in nodes if f"{i},{j}" in distance])
+    model.setObjective(obj)
+
+    # Constraints
+    model.addConstr(gp.quicksum([variables[f"x_{start_node}_{j}"] for j in nodes[1:]]), gp.GRB.EQUAL, 1)
+    model.addConstr(gp.quicksum([variables[f"x_{i}_{start_node}"] for i in nodes[1:]]), gp.GRB.EQUAL, 1)
+
+    for node in nodes[1:]:
+        model.addConstr(gp.quicksum([variables[f"x_{node}_{j}"] for j in nodes if f"{node},{j}" in distance]), gp.GRB.EQUAL,
+                         gp.quicksum([variables[f"x_{j}_{node}"] for j in nodes if f"{j},{node}" in distance]))
+
+    model.addConstr(variables["u_2"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+    model.addConstr(variables["u_3"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+    model.addConstr(variables["u_4"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+    model.addConstr(variables["u_5"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+    model.addConstr(variables["u_6"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+    model.addConstr(variables["u_7"], gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+
+    for i in nodes[2:]:
+        for j in nodes[2:]:
+            if i != j:
+                model.addConstr(variables[f"u_{i}"] - variables[f"u_{j}"] + mtz_big_m * (variables[f"x_{i}_{j}"]), gp.GRB.LESS_EQUAL, mtz_big_m - 1)
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = "OPTIMAL"
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = "UNBOUNDED"
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = "INF_OR_UNBD"
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = "TIME_LIMIT"
+
+    solution = {
+        "x_1_2": variables["x_1_2"].X,
+        "x_1_3": variables["x_1_3"].X,
+        "x_1_4": variables["x_1_4"].X,
+        "x_1_5": variables["x_1_5"].X,
+        "x_1_6": variables["x_1_6"].X,
+        "x_1_7": variables["x_1_7"].X,
+        "x_2_1": variables["x_2_1"].X,
+        "x_2_3": variables["x_2_3"].X,
+        "x_2_4": variables["x_2_4"].X,
+        "x_2_5": variables["x_2_5"].X,
+        "x_2_6": variables["x_2_6"].X,
+        "x_2_7": variables["x_2_7"].X,
+        "x_3_1": variables["x_3_1"].X,
+        "x_3_2": variables["x_3_2"].X,
+        "x_3_4": variables["x_3_4"].X,
+        "x_3_5": variables["x_3_5"].X,
+        "x_3_6": variables["x_3_6"].X,
+        "x_3_7": variables["x_3_7"].X,
+        "x_4_1": variables["x_4_1"].X,
+        "x_4_2": variables["x_4_2"].X,
+        "x_4_3": variables["x_4_3"].X,
+        "x_4_5": variables["x_4_5"].X,
+        "x_4_6": variables["x_4_6"].X,
+        "x_4_7": variables["x_4_7"].X,
+        "x_5_1": variables["x_5_1"].X,
+        "x_5_2": variables["x_5_2"].X,
+        "x_5_3": variables["x_5_3"].X,
+        "x_5_4": variables["x_5_4"].X,
+        "x_5_6": variables["x_5_6"].X,
+        "x_5_7": variables["x_5_7"].X,
+        "x_6_1": variables["x_6_1"].X,
+        "x_6_2": variables["x_6_2"].X,
+        "x_6_3": variables["x_6_3"].X,
+        "x_6_4": variables["x_6_4"].X,
+        "x_6_5": variables["x_6_5"].X,
+        "x_6_7": variables["x_6_7"].X,
+        "x_7_1": variables["x_7_1"].X,
+        "x_7_2": variables["x_7_2"].X,
+        "x_7_3": variables["x_7_3"].X,
+        "x_7_4": variables["x_7_4"].X,
+        "x_7_5": variables["x_7_5"].X,
+        "x_7_6": variables["x_7_6"].X,
+        "u_2": variables["u_2"].X,
+        "u_3": variables["u_3"].X,
+        "u_4": variables["u_4"].X,
+        "u_5": variables["u_5"].X,
+        "u_6": variables["u_6"].X,
+        "u_7": variables["u_7"].X
+    }
+
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }

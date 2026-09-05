@@ -1,0 +1,67 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    variables = {}
+
+    # Create decision variable z (bottleneck bandwidth)
+    variables['z'] = model.addVar(lb=0, ub=data['big_m'], vtype=gp.GRB.CONTINUOUS)
+
+    # Create binary decision variables x_<from>_<to>
+    for from_node in data['nodes']:
+        for to_node in data['nodes']:
+            if from_node != to_node and data['bandwidth'][from_node][to_node] > 0:
+                var_name = f'x_{from_node}_{to_node}'
+                variables[var_name] = model.addVar(vtype=gp.GRB.BINARY)
+
+    # Add constraints
+    for node in data['nodes']:
+        if node == data['source']:
+            model.addConstr(gp.quicksum([variables[f'x_{node}_{to_node}'] for to_node in data['nodes'] if node != to_node and data['bandwidth'][node][to_node] > 0]) == 1)
+        elif node == data['sink']:
+            model.addConstr(gp.quicksum([variables[f'x_{from_node}_{node}'] for from_node in data['nodes'] if from_node != node and data['bandwidth'][from_node][node] > 0]) == 1)
+        else:
+            model.addConstr(gp.quicksum([variables[f'x_{from_node}_{node}'] for from_node in data['nodes'] if from_node != node and data['bandwidth'][from_node][node] > 0]) - gp.quicksum([variables[f'x_{node}_{to_node}'] for to_node in data['nodes'] if node != to_node and data['bandwidth'][node][to_node] > 0]) == 0)
+
+    # Add constraints for required service node
+    model.addConstr(variables[f'x_{data["source"]}_{data["required_service_node"]}'] + gp.quicksum([variables[f'x_{from_node}_{data["required_service_node"]}'] for from_node in data['nodes'] if from_node != data['source'] and from_node != data['required_service_node'] and data['bandwidth'][from_node][data['required_service_node']] > 0]) >= 1)
+
+    # Add constraints for bottleneck bandwidth
+    for from_node in data['nodes']:
+        for to_node in data['nodes']:
+            if from_node != to_node and data['bandwidth'][from_node][to_node] > 0:
+                var_name = f'x_{from_node}_{to_node}'
+                model.addConstr(variables[var_name] * data['big_m'] - variables['z'] <= data['big_m'] - data['bandwidth'][from_node][to_node])
+
+    # Set objective
+    model.setObjective(variables['z'], gp.GRB.MAXIMIZE)
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    solution = {
+        'status': None,
+        'objective': None,
+        'solution': {}
+    }
+
+    if model.Status == gp.GRB.OPTIMAL:
+        solution['status'] = 'OPTIMAL'
+        solution['objective'] = model.ObjVal
+        for var_name, var in variables.items():
+            solution['solution'][var_name] = var.X
+    elif model.Status == gp.GRB.INFEASIBLE:
+        solution['status'] = 'INFEASIBLE'
+    elif model.Status == gp.GRB.UNBOUNDED:
+        solution['status'] = 'UNBOUNDED'
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        solution['status'] = 'INF_OR_UNBD'
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        solution['status'] = 'TIME_LIMIT'
+
+    return solution
+```

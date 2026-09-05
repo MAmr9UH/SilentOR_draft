@@ -1,0 +1,36 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 43,
+  "scenario_id": "person_project_hour_assignment_integer_min_cost",
+  "data_instance": {
+    "supply": [
+      8,
+      7
+    ],
+    "demand": [
+      5,
+      10
+    ],
+    "cost": [
+      [
+        10,
+        20
+      ],
+      [
+        15,
+        25
+      ]
+    ],
+    "limit": [
+      [
+        5,
+        6
+      ],
+      [
+        4,
+        7
+      ]
+    ]
+  }
+}

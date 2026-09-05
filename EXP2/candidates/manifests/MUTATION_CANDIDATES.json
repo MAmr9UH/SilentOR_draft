@@ -1,0 +1,2060 @@
+{
+  "schema_version": 1,
+  "status": "STAGING_REQUIRES_LICENSED_GUROBI_CERTIFICATION",
+  "selection_policy": "up to two silent and one loud candidate per certified base; attrition allowed",
+  "mutants": [
+    {
+      "mutant_file": "mut_p1_R5_domain.py",
+      "problem_id": 1,
+      "injected_requirement": "R5",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p1.py",
+      "mutation_family": "domain_relaxation(integrality)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 4,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p35_Rbinary_y_domain.py",
+      "problem_id": 35,
+      "injected_requirement": "R_binary_y",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p35.py",
+      "mutation_family": "domain_relaxation(binary)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p35_Rcaplink1_linking.py",
+      "problem_id": 35,
+      "injected_requirement": "R_capacity_link_station_1",
+      "category": "linking_or_logic_error",
+      "base_file": "exp2_bases/base_p35.py",
+      "mutation_family": "epsilon_slack(fixed_charge_link)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p35_Rdemand1_misspec.py",
+      "problem_id": 35,
+      "injected_requirement": "R_demand_1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p35.py",
+      "mutation_family": "coef_zero_var(demand_equality)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p30_Ryear2_misspec.py",
+      "problem_id": 30,
+      "injected_requirement": "R_year2_budget",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p30.py",
+      "mutation_family": "operator(==->:<=)(flow_balance)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p30_Rlimit2_misspec.py",
+      "problem_id": 30,
+      "injected_requirement": "R_limit_project2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p30.py",
+      "mutation_family": "nonbinding_rhs_loosen(budget)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p30_Rfinal_misspec.py",
+      "problem_id": 30,
+      "injected_requirement": "R_final_balance",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p30.py",
+      "mutation_family": "operator(==->:<=)(flow_balance)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": []
+    },
+    {
+      "mutant_file": "mut_p3_R7_s2_domain.py",
+      "problem_id": 3,
+      "injected_requirement": "R7",
+      "detailed_requirement": "R7",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p3.py",
+      "mutation_family": "domain_relaxation(s2:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 53.0,
+        "mutant_objective": 53.0,
+        "witness": {
+          "variable": "s2",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p3_R2_constraint.py",
+      "problem_id": 3,
+      "injected_requirement": "R2",
+      "detailed_requirement": "R2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p3.py",
+      "mutation_family": "rhs_loosen(-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 53.0,
+        "mutant_objective": 53.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {
+            "s2": 14.0,
+            "s10": 25.0,
+            "s14": 6.0,
+            "s18": 12.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p3_R9_s2_objective.py",
+      "problem_id": 3,
+      "injected_requirement": "R9",
+      "detailed_requirement": "R9",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p3.py",
+      "mutation_family": "objective_coefficient(s2:1_to_0)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 53.0,
+        "mutant_objective": 43.0,
+        "witness": {
+          "objective_difference": -10.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p5_R8_sel_calculus_domain.py",
+      "problem_id": 5,
+      "injected_requirement": "R8",
+      "detailed_requirement": "R8",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p5.py",
+      "mutation_family": "domain_relaxation(sel_calculus:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 4.0,
+        "mutant_objective": 4.0,
+        "witness": {
+          "variable": "sel_calculus",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p5_R3_constraint.py",
+      "problem_id": 5,
+      "injected_requirement": "R3",
+      "detailed_requirement": "R3",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p5.py",
+      "mutation_family": "rhs_loosen(-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 4.0,
+        "mutant_objective": 4.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {
+            "sel_calculus": 1.0,
+            "sel_or": 1.0,
+            "sel_bs": 1.0,
+            "sel_cp": 1.0,
+            "sel_fc": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p5_R9_sel_calculus_objective.py",
+      "problem_id": 5,
+      "injected_requirement": "R9",
+      "detailed_requirement": "R9",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p5.py",
+      "mutation_family": "objective_coefficient(sel_calculus:1_to_0)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 4.0,
+        "mutant_objective": 3.0,
+        "witness": {
+          "objective_difference": -1.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p6_R_bal_5_constraint.py",
+      "problem_id": 6,
+      "injected_requirement": "R_bal_5",
+      "detailed_requirement": "R_bal_5",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p6.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 12170.0,
+        "mutant_objective": 12170.0,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "below",
+          "nonzero_values": {
+            "x_1_2": 15.0,
+            "x_1_3": 390.0,
+            "x_4_1": 590.001,
+            "x_5_4": 310.001
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p6_R_obj_x_4_1_objective.py",
+      "problem_id": 6,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p6.py",
+      "mutation_family": "objective_coefficient(x_4_1:17_to_15.3)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 12170.0,
+        "mutant_objective": 12040.5,
+        "witness": {
+          "objective_difference": -129.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p8_R_obj_s1_objective.py",
+      "problem_id": 8,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p8.py",
+      "mutation_family": "objective_coefficient(s1:135_to_136)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 22290.0,
+        "mutant_objective": 22336.0,
+        "witness": {
+          "objective_difference": 46.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p9_R_int_s0_domain.py",
+      "problem_id": 9,
+      "injected_requirement": "R_int",
+      "detailed_requirement": "R_int",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p9.py",
+      "mutation_family": "domain_relaxation(s0:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 22.0,
+        "mutant_objective": 22.0,
+        "witness": {
+          "variable": "s0",
+          "fractional_value": 6.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p9_R_day1_constraint.py",
+      "problem_id": 9,
+      "injected_requirement": "R_day1",
+      "detailed_requirement": "R_day1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p9.py",
+      "mutation_family": "rhs_loosen(-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 22.0,
+        "mutant_objective": 22.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {
+            "s0": 12.0,
+            "s2": 13.0,
+            "s3": 3.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p9_R_obj_s0_objective.py",
+      "problem_id": 9,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p9.py",
+      "mutation_family": "objective_coefficient(s0:1_to_0)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 22.0,
+        "mutant_objective": 16.0,
+        "witness": {
+          "objective_difference": -6.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p10_R_cloth_constraint.py",
+      "problem_id": 10,
+      "injected_requirement": "R_cloth",
+      "detailed_requirement": "R_cloth",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p10.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 75.0,
+        "mutant_objective": 75.0,
+        "witness": {
+          "violation": 0.0010000000000047748,
+          "direction": "above",
+          "nonzero_values": {
+            "shirts": 40.00025,
+            "y_shirts": 1.0,
+            "y_shorts_m": 1.0,
+            "y_pants": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p10_R_labor_constraint.py",
+      "problem_id": 10,
+      "injected_requirement": "R_labor",
+      "detailed_requirement": "R_labor",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p10.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 75.0,
+        "mutant_objective": 75.00116666666668,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "above",
+          "nonzero_values": {
+            "shorts": 35.9996,
+            "pants": 13.0003,
+            "y_shirts": 1.0,
+            "y_shorts_m": 1.0,
+            "y_pants": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p10_R_obj_shirts_objective.py",
+      "problem_id": 10,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p10.py",
+      "mutation_family": "objective_coefficient(shirts:6_to_7)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 75.0,
+        "mutant_objective": 80.0,
+        "witness": {
+          "objective_difference": 5.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p12_R_cap_c1_constraint.py",
+      "problem_id": 12,
+      "injected_requirement": "R_capacity_open_link",
+      "detailed_requirement": "R_cap_c1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p12.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 446011.0,
+        "mutant_objective": 446011.0,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "above",
+          "nonzero_values": {
+            "y_c1": 1.0,
+            "y_c2": 1.0,
+            "y_c3": 1.0,
+            "y_c4": 1.0,
+            "y_c5": 1.0,
+            "f_c1_s1": 589.0,
+            "f_c1_s2": 962.0,
+            "f_c1_s4": 403.001,
+            "f_c3_s3": 239.999,
+            "f_c4_s5": 904.0,
+            "f_c5_s3": 726.001,
+            "f_c5_s4": 239.999
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p12_R_dem_s1_constraint.py",
+      "problem_id": 12,
+      "injected_requirement": "R_demand",
+      "detailed_requirement": "R_dem_s1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p12.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 446011.0,
+        "mutant_objective": 446010.99600000004,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "below",
+          "nonzero_values": {
+            "y_c1": 1.0,
+            "y_c2": 1.0,
+            "y_c3": 1.0,
+            "y_c4": 1.0,
+            "y_c5": 1.0,
+            "f_c1_s3": 146.0,
+            "f_c1_s5": 226.0,
+            "f_c2_s4": 265.999,
+            "f_c3_s3": 820.0,
+            "f_c4_s2": 962.0,
+            "f_c4_s5": 678.0,
+            "f_c5_s1": 588.999,
+            "f_c5_s4": 377.001
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p12_R_obj_y_c1_objective.py",
+      "problem_id": 12,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p12.py",
+      "mutation_family": "objective_coefficient(y_c1:151000_to_151001)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 446011.0,
+        "mutant_objective": 446012.0,
+        "witness": {
+          "objective_difference": 1.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p22_R_bottleneck_B_C_constraint.py",
+      "problem_id": 22,
+      "injected_requirement": "R_bottleneck_B_C",
+      "detailed_requirement": "R_bottleneck_B_C",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p22.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84.0,
+        "mutant_objective": 84.0,
+        "witness": {
+          "violation": 0.0010000000000047748,
+          "direction": "above",
+          "nonzero_values": {
+            "z": 70.001,
+            "x_A_B": 1.0,
+            "x_B_C": 1.0,
+            "x_C_E": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p22_R_bottleneck_C_E_constraint.py",
+      "problem_id": 22,
+      "injected_requirement": "R_bottleneck_C_E",
+      "detailed_requirement": "R_bottleneck_C_E",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p22.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84.0,
+        "mutant_objective": 84.0,
+        "witness": {
+          "violation": 0.0010000000000047748,
+          "direction": "above",
+          "nonzero_values": {
+            "z": 80.001,
+            "x_A_C": 1.0,
+            "x_C_E": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p22_R_obj_z_objective.py",
+      "problem_id": 22,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p22.py",
+      "mutation_family": "objective_coefficient(z:1_to_2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84.0,
+        "mutant_objective": 168.0,
+        "witness": {
+          "objective_difference": 84.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p23_R_choose_one_combo_constraint.py",
+      "problem_id": 23,
+      "injected_requirement": "R_choose_one_combo",
+      "detailed_requirement": "R_choose_one_combo",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p23.py",
+      "mutation_family": "operator(==_to_<=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 0.6075000000000002,
+        "mutant_objective": 0.6075000000000002,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {}
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p23_R_weight_constraint.py",
+      "problem_id": 23,
+      "injected_requirement": "R_weight",
+      "detailed_requirement": "R_weight",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p23.py",
+      "mutation_family": "rhs_loosen(+2)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 0.6075000000000002,
+        "mutant_objective": 0.6075,
+        "witness": {
+          "violation": 2.0,
+          "direction": "above",
+          "nonzero_values": {
+            "w_0_1_3": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p23_R_obj_w_0_0_0_objective.py",
+      "problem_id": 23,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p23.py",
+      "mutation_family": "objective_coefficient(w_0_0_0:0.21_to_1.21)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 0.6075000000000002,
+        "mutant_objective": 1.21,
+        "witness": {
+          "objective_difference": 0.6024999999999998
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p29_R_task_A_constraint.py",
+      "problem_id": 29,
+      "injected_requirement": "R_task_A",
+      "detailed_requirement": "R_task_A",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p29.py",
+      "mutation_family": "operator(==_to_>=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.0,
+        "mutant_objective": 14.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "above",
+          "nonzero_values": {
+            "x_I_D": 1.0,
+            "x_II_B": 1.0,
+            "x_III_A": 1.0,
+            "x_IV_C": 1.0,
+            "x_V_A": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p29_R_task_B_constraint.py",
+      "problem_id": 29,
+      "injected_requirement": "R_task_B",
+      "detailed_requirement": "R_task_B",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p29.py",
+      "mutation_family": "operator(==_to_>=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.0,
+        "mutant_objective": 14.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "above",
+          "nonzero_values": {
+            "x_I_B": 1.0,
+            "x_II_C": 1.0,
+            "x_III_D": 1.0,
+            "x_IV_A": 1.0,
+            "x_V_B": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p29_R_obj_x_I_B_objective.py",
+      "problem_id": 29,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p29.py",
+      "mutation_family": "objective_coefficient(x_I_B:4_to_3)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.0,
+        "mutant_objective": 13.0,
+        "witness": {
+          "objective_difference": -1.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p31_R_demand_Donghai_1_constraint.py",
+      "problem_id": 31,
+      "injected_requirement": "R_demand_Donghai_1",
+      "detailed_requirement": "R_demand_Donghai_1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p31.py",
+      "mutation_family": "equality_rhs_shift(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 2500.0,
+        "mutant_objective": 2499.9979999999996,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "above",
+          "nonzero_values": {
+            "x_1_Nanjiang_1": 1500.0,
+            "x_2_Donghai_2": 1500.0,
+            "x_3_Donghai_1": 1000.001,
+            "x_3_Nanjiang_1": 499.999,
+            "x_4_Donghai_3": 499.999,
+            "x_4_Nanjiang_1": 0.001,
+            "x_4_Nanjiang_3": 1000.0,
+            "x_5_Donghai_2": 500.0,
+            "x_5_Nanjiang_2": 1000.0,
+            "x_6_Donghai_3": 1000.001,
+            "p3_shortfall": 4500.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p31_R_demand_Donghai_2_constraint.py",
+      "problem_id": 31,
+      "injected_requirement": "R_demand_Donghai_2",
+      "detailed_requirement": "R_demand_Donghai_2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p31.py",
+      "mutation_family": "operator(==_to_<=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 2500.0,
+        "mutant_objective": 2500.0,
+        "witness": {
+          "violation": 1500.0,
+          "direction": "below",
+          "nonzero_values": {
+            "x_1_Donghai_1": 1000.0,
+            "x_1_Nanjiang_1": 500.0,
+            "x_2_Donghai_2": 500.0,
+            "x_2_Nanjiang_2": 1000.0,
+            "x_3_Nanjiang_1": 1500.0,
+            "x_4_Nanjiang_3": 1000.0,
+            "x_6_Donghai_3": 1500.0,
+            "p3_shortfall": 4000.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p31_R_obj_p3_shortfall_objective.py",
+      "problem_id": 31,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p31.py",
+      "mutation_family": "objective_coefficient(p3_shortfall:1_to_2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 2500.0,
+        "mutant_objective": 5000.0,
+        "witness": {
+          "objective_difference": 2500.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p34_R_integer_trucks_trucks_A_domain.py",
+      "problem_id": 34,
+      "injected_requirement": "R_integer_trucks",
+      "detailed_requirement": "R_integer_trucks",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p34.py",
+      "mutation_family": "domain_relaxation(trucks_A:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 6800.0,
+        "mutant_objective": 6800.0,
+        "witness": {
+          "variable": "trucks_A",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p34_R_raw_A_constraint.py",
+      "problem_id": 34,
+      "injected_requirement": "R_raw_A",
+      "detailed_requirement": "R_raw_A",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p34.py",
+      "mutation_family": "rhs_loosen(-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 6800.0,
+        "mutant_objective": 6800.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {
+            "trucks_A": 16.0,
+            "trucks_B": 25.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p34_R_obj_trucks_A_objective.py",
+      "problem_id": 34,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p34.py",
+      "mutation_family": "objective_coefficient(trucks_A:200_to_201)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 6800.0,
+        "mutant_objective": 6810.0,
+        "witness": {
+          "objective_difference": 10.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p36_R_binary_y_y_1_domain.py",
+      "problem_id": 36,
+      "injected_requirement": "R_binary_y",
+      "detailed_requirement": "R_binary_y",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p36.py",
+      "mutation_family": "domain_relaxation(y_1:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 208000.0,
+        "mutant_objective": 208000.0,
+        "witness": {
+          "variable": "y_1",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p36_R_at_least_two_lengths_constraint.py",
+      "problem_id": 36,
+      "injected_requirement": "R_at_least_two_lengths",
+      "detailed_requirement": "R_at_least_two_lengths",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p36.py",
+      "mutation_family": "rhs_loosen(-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 208000.0,
+        "mutant_objective": 208000.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "below",
+          "nonzero_values": {
+            "x_1_1": 15.0,
+            "x_2_1": 10.0,
+            "x_3_1": 20.0,
+            "x_4_1": 12.0,
+            "y_1": 1.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p36_R_obj_x_1_1_objective.py",
+      "problem_id": 36,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p36.py",
+      "mutation_family": "objective_coefficient(x_1_1:4000_to_4001)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 208000.0,
+        "mutant_objective": 208005.0,
+        "witness": {
+          "objective_difference": 5.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p37_R_capacity_1_constraint.py",
+      "problem_id": 37,
+      "injected_requirement": "R_capacity_1",
+      "detailed_requirement": "R_capacity_1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p37.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": -700.0,
+        "mutant_objective": -699.9995999999992,
+        "witness": {
+          "violation": 0.0010000000002037268,
+          "direction": "above",
+          "nonzero_values": {
+            "buy_1": 4000.001,
+            "sell_2": 0.001,
+            "sell_3": 3000.0,
+            "inventory_1": 5000.001,
+            "inventory_2": 5000.0,
+            "inventory_3": 2000.0,
+            "cash_1": 8599.99715,
+            "cash_2": 8600.0004,
+            "cash_3": 17450.0004,
+            "profit": -2549.9996
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p37_R_capacity_2_constraint.py",
+      "problem_id": 37,
+      "injected_requirement": "R_capacity_2",
+      "detailed_requirement": "R_capacity_2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p37.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": -700.0,
+        "mutant_objective": -700.0,
+        "witness": {
+          "violation": 0.0010000000002037268,
+          "direction": "above",
+          "nonzero_values": {
+            "buy_1": 4000.0,
+            "buy_2": 0.001,
+            "sell_3": 3000.001,
+            "inventory_1": 5000.0,
+            "inventory_2": 5000.001,
+            "inventory_3": 2000.0,
+            "cash_1": 8600.0,
+            "cash_2": 8599.99695,
+            "cash_3": 17449.9999,
+            "profit": -2550.0001
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p37_R_profit_definition_profit_objective.py",
+      "problem_id": 37,
+      "injected_requirement": "R_profit_definition",
+      "detailed_requirement": "R_profit_definition",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p37.py",
+      "mutation_family": "objective_coefficient(profit:1_to_2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": -700.0,
+        "mutant_objective": -1400.0,
+        "witness": {
+          "objective_difference": -700.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p39_R_cmax_B_constraint.py",
+      "problem_id": 39,
+      "injected_requirement": "R_cmax_B",
+      "detailed_requirement": "R_cmax_B",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p39.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 115000.0,
+        "mutant_objective": 115000.0,
+        "witness": {
+          "violation": 0.0010000000000012221,
+          "direction": "below",
+          "nonzero_values": {
+            "start_B": 22.001,
+            "start_C": 20.0,
+            "start_D": 4.0,
+            "start_F": 10.0,
+            "start_G": 4.0,
+            "Cmax": 25.0,
+            "machine_span": 25.001
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p39_R_prec_A_D_constraint.py",
+      "problem_id": 39,
+      "injected_requirement": "R_prec_A_D",
+      "detailed_requirement": "R_prec_A_D",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p39.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 115000.0,
+        "mutant_objective": 115000.0,
+        "witness": {
+          "violation": 0.0009999999999998899,
+          "direction": "below",
+          "nonzero_values": {
+            "start_B": 20.0,
+            "start_C": 20.0,
+            "start_D": 3.999,
+            "start_F": 10.0,
+            "start_G": 4.0,
+            "Cmax": 25.0,
+            "machine_span": 23.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p39_R_obj_Cmax_objective.py",
+      "problem_id": 39,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p39.py",
+      "mutation_family": "objective_coefficient(Cmax:1000_to_1001)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 115000.0,
+        "mutant_objective": 115025.0,
+        "witness": {
+          "objective_difference": 25.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p40_R_max_labor_constraint.py",
+      "problem_id": 40,
+      "injected_requirement": "R_max_labor",
+      "detailed_requirement": "R_max_labor",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p40.py",
+      "mutation_family": "rhs_loosen(+1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84000.0,
+        "mutant_objective": 84000.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "above",
+          "nonzero_values": {
+            "y1_A": 1.0,
+            "y2_B": 1.0,
+            "y3_A": 1.0,
+            "skilled_t1_A": 200.0,
+            "skilled_t3_B": 200.0,
+            "labor_t1_B": 1.0,
+            "labor_t2_B": 300.0,
+            "labor_t3_A": 500.0,
+            "total_skilled": 400.0,
+            "total_labor": 801.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p40_R_max_skilled_constraint.py",
+      "problem_id": 40,
+      "injected_requirement": "R_max_skilled",
+      "detailed_requirement": "R_max_skilled",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p40.py",
+      "mutation_family": "rhs_loosen(+1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84000.0,
+        "mutant_objective": 84000.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "above",
+          "nonzero_values": {
+            "y1_A": 1.0,
+            "y2_B": 1.0,
+            "y3_A": 1.0,
+            "skilled_t1_A": 200.0,
+            "skilled_t3_B": 201.0,
+            "labor_t2_B": 300.0,
+            "labor_t3_A": 500.0,
+            "total_skilled": 401.0,
+            "total_labor": 800.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p40_R_obj_skilled_t1_A_objective.py",
+      "problem_id": 40,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p40.py",
+      "mutation_family": "objective_coefficient(skilled_t1_A:100_to_101)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 84000.0,
+        "mutant_objective": 84200.0,
+        "witness": {
+          "objective_difference": 200.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p41_R_liquid_balance_constraint.py",
+      "problem_id": 41,
+      "injected_requirement": "R_liquid_balance",
+      "detailed_requirement": "R_liquid_balance",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p41.py",
+      "mutation_family": "operator(==_to_<=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 1.25,
+        "mutant_objective": 1.25,
+        "witness": {
+          "violation": 0.6000000000000014,
+          "direction": "below",
+          "nonzero_values": {
+            "produce_liquid": 45.6,
+            "produce_solid": 5.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p41_R_machine1_capacity_constraint.py",
+      "problem_id": 41,
+      "injected_requirement": "R_machine1_capacity",
+      "detailed_requirement": "R_machine1_capacity",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p41.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 1.25,
+        "mutant_objective": 1.2500416666666752,
+        "witness": {
+          "violation": 0.0010000000002037268,
+          "direction": "above",
+          "nonzero_values": {
+            "produce_liquid": 45.60002,
+            "produce_solid": 5.0,
+            "ending_liquid": 0.60002
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p41_R_obj_ending_solid_objective.py",
+      "problem_id": 41,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p41.py",
+      "mutation_family": "objective_coefficient(ending_solid:1_to_2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 1.25,
+        "mutant_objective": 2.5,
+        "witness": {
+          "objective_difference": 1.25
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p17_R_open_binary_y_c1_domain.py",
+      "problem_id": 17,
+      "injected_requirement": "R_open_binary",
+      "detailed_requirement": "R_open_binary",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p17.py",
+      "mutation_family": "domain_relaxation(y_c1:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 485771.0,
+        "mutant_objective": 485771.0,
+        "witness": {
+          "variable": "y_c1",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p17_R_cap_c1_constraint.py",
+      "problem_id": 17,
+      "injected_requirement": "R_capacity_open_link",
+      "detailed_requirement": "R_cap_c1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p17.py",
+      "mutation_family": "rhs_loosen(+0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 485771.0,
+        "mutant_objective": 485770.998,
+        "witness": {
+          "violation": 0.0009999999999763531,
+          "direction": "above",
+          "nonzero_values": {
+            "y_c1": 1.0,
+            "y_c2": 1.0,
+            "y_c3": 1.0,
+            "y_c4": 1.0,
+            "y_c5": 1.0,
+            "y_c6": 1.0,
+            "y_c7": 1.0,
+            "f_c1_s2": 374.001,
+            "f_c1_s8": 440.0,
+            "f_c2_s4": 276.0,
+            "f_c2_s7": 588.0,
+            "f_c3_s3": 452.0,
+            "f_c4_s1": 695.0,
+            "f_c5_s5": 587.0,
+            "f_c5_s7": 304.0,
+            "f_c5_s9": 556.0,
+            "f_c6_s2": 362.999,
+            "f_c6_s6": 779.0,
+            "f_c7_s4": 340.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p17_R_obj_y_c4_objective.py",
+      "problem_id": 17,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p17.py",
+      "mutation_family": "objective_coefficient(y_c4:171000_to_171001)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 485771.0,
+        "mutant_objective": 485772.0,
+        "witness": {
+          "objective_difference": 1.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p27_R_mtz_2_3_constraint.py",
+      "problem_id": 27,
+      "injected_requirement": "R_mtz_2_3",
+      "detailed_requirement": "R_mtz_2_3",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p27.py",
+      "mutation_family": "rhs_loosen(+1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 153.0,
+        "mutant_objective": 153.0,
+        "witness": {
+          "violation": 1.0000000000000018,
+          "direction": "above",
+          "nonzero_values": {
+            "x_1_6": 1.0,
+            "x_2_3": 1.0,
+            "x_3_4": 1.0,
+            "x_4_1": 1.0,
+            "x_5_7": 1.0,
+            "x_6_5": 1.0,
+            "x_7_2": 1.0,
+            "u_2": 4.0,
+            "u_3": 4.0,
+            "u_4": 5.0,
+            "u_5": 2.0,
+            "u_6": 1.0,
+            "u_7": 3.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p27_R_mtz_2_4_constraint.py",
+      "problem_id": 27,
+      "injected_requirement": "R_mtz_2_4",
+      "detailed_requirement": "R_mtz_2_4",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p27.py",
+      "mutation_family": "rhs_loosen(+1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 153.0,
+        "mutant_objective": 153.0,
+        "witness": {
+          "violation": 1.0,
+          "direction": "above",
+          "nonzero_values": {
+            "x_1_2": 1.0,
+            "x_2_4": 1.0,
+            "x_3_1": 1.0,
+            "x_4_6": 1.0,
+            "x_5_3": 1.0,
+            "x_6_7": 1.0,
+            "x_7_5": 1.0,
+            "u_2": 1.0,
+            "u_3": 6.0,
+            "u_4": 1.0,
+            "u_5": 4.0,
+            "u_6": 2.0,
+            "u_7": 3.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p27_R_obj_x_1_5_objective.py",
+      "problem_id": 27,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p27.py",
+      "mutation_family": "objective_coefficient(x_1_5:31_to_30)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 153.0,
+        "mutant_objective": 152.0,
+        "witness": {
+          "objective_difference": -1.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p28_R_integer_t_t_Verona_Genoa_domain.py",
+      "problem_id": 28,
+      "injected_requirement": "R_integer_t",
+      "detailed_requirement": "R_integer_t",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p28.py",
+      "mutation_family": "domain_relaxation(t_Verona_Genoa:integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 468510.0,
+        "mutant_objective": 468510.0,
+        "witness": {
+          "variable": "t_Verona_Genoa",
+          "fractional_value": 0.5
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p28_R_demand_Ancona_constraint.py",
+      "problem_id": 28,
+      "injected_requirement": "R_demand_Ancona",
+      "detailed_requirement": "R_demand_Ancona",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p28.py",
+      "mutation_family": "operator(==_to_>=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 468510.0,
+        "mutant_objective": 468510.0,
+        "witness": {
+          "violation": 10.0,
+          "direction": "above",
+          "nonzero_values": {
+            "x_Verona_Naples": 10.0,
+            "x_Perugia_Ancona": 12.0,
+            "x_Rome_Genoa": 20.0,
+            "x_Pescara_Venice": 15.0,
+            "x_Pescara_Naples": 9.0,
+            "x_Taranto_Ancona": 18.0,
+            "x_Lamezia_Ancona": 5.0,
+            "x_Lamezia_Naples": 14.0,
+            "x_Lamezia_Bari": 21.0,
+            "t_Verona_Naples": 5.0,
+            "t_Perugia_Ancona": 6.0,
+            "t_Rome_Genoa": 10.0,
+            "t_Pescara_Venice": 8.0,
+            "t_Pescara_Naples": 5.0,
+            "t_Taranto_Ancona": 9.0,
+            "t_Lamezia_Ancona": 3.0,
+            "t_Lamezia_Naples": 7.0,
+            "t_Lamezia_Bari": 11.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p28_R_obj_t_Verona_Venice_objective.py",
+      "problem_id": 28,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p28.py",
+      "mutation_family": "objective_coefficient(t_Verona_Venice:3450_to_3451)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 468510.0,
+        "mutant_objective": 468515.0,
+        "witness": {
+          "objective_difference": 5.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p32_R_route_precedence_pos_1_vat_2_constraint.py",
+      "problem_id": 32,
+      "injected_requirement": "R_route_precedence_pos_1_vat_2",
+      "detailed_requirement": "R_route_precedence_pos_1_vat_2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p32.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.1,
+        "mutant_objective": 14.1,
+        "witness": {
+          "violation": 0.0009999999999998899,
+          "direction": "below",
+          "nonzero_values": {
+            "y_1_3": 1.0,
+            "y_2_2": 1.0,
+            "y_3_4": 1.0,
+            "y_4_1": 1.0,
+            "y_5_5": 1.0,
+            "C_1_1": 2.0,
+            "C_1_2": 3.999,
+            "C_1_3": 5.999,
+            "C_2_1": 4.0,
+            "C_2_2": 5.5,
+            "C_2_3": 6.999,
+            "C_3_1": 7.0,
+            "C_3_2": 8.0,
+            "C_3_3": 9.0,
+            "C_4_1": 10.0,
+            "C_4_2": 11.2,
+            "C_4_3": 12.5,
+            "C_5_1": 12.1,
+            "C_5_2": 14.1,
+            "C_5_3": 17.1,
+            "Cmax": 17.1
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p32_R_route_precedence_pos_1_vat_3_constraint.py",
+      "problem_id": 32,
+      "injected_requirement": "R_route_precedence_pos_1_vat_3",
+      "detailed_requirement": "R_route_precedence_pos_1_vat_3",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p32.py",
+      "mutation_family": "rhs_loosen(-0.001)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.1,
+        "mutant_objective": 14.1,
+        "witness": {
+          "violation": 0.0009999999999998899,
+          "direction": "below",
+          "nonzero_values": {
+            "y_1_3": 1.0,
+            "y_2_2": 1.0,
+            "y_3_4": 1.0,
+            "y_4_1": 1.0,
+            "y_5_5": 1.0,
+            "C_1_1": 2.0,
+            "C_1_2": 4.0,
+            "C_1_3": 5.999,
+            "C_2_1": 4.0,
+            "C_2_2": 5.5,
+            "C_2_3": 6.999,
+            "C_3_1": 7.0,
+            "C_3_2": 8.0,
+            "C_3_3": 9.0,
+            "C_4_1": 10.0,
+            "C_4_2": 11.2,
+            "C_4_3": 12.5,
+            "C_5_1": 12.1,
+            "C_5_2": 14.1,
+            "C_5_3": 17.1,
+            "Cmax": 17.1
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p32_R_obj_Cmax_objective.py",
+      "problem_id": 32,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p32.py",
+      "mutation_family": "objective_coefficient(Cmax:1_to_2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 14.1,
+        "mutant_objective": 28.2,
+        "witness": {
+          "objective_difference": 14.1
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p38_R_balance_II_10_constraint.py",
+      "problem_id": 38,
+      "injected_requirement": "R_balance_II_10",
+      "detailed_requirement": "R_balance_II_10",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p38.py",
+      "mutation_family": "operator(==_to_>=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 3160500.0,
+        "mutant_objective": 3160500.0,
+        "witness": {
+          "violation": 135000.0,
+          "direction": "above",
+          "nonzero_values": {
+            "prod_I_7": 105000.0,
+            "prod_I_8": 25000.0,
+            "prod_I_9": 120000.0,
+            "prod_I_11": 40000.0,
+            "prod_I_12": 100000.0,
+            "prod_II_7": 15000.0,
+            "prod_II_8": 95000.0,
+            "prod_II_10": 120000.0,
+            "prod_II_11": 80000.0,
+            "prod_II_12": 20000.0,
+            "inv_I_7": 75000.0,
+            "inv_I_8": 70000.0,
+            "inv_I_9": 160000.0,
+            "inv_I_10": 60000.0,
+            "inv_II_8": 80000.0,
+            "inv_II_9": 65000.0,
+            "inv_II_11": 30000.0,
+            "external_storage_7": 15000.0,
+            "external_storage_8": 46000.0,
+            "external_storage_9": 58000.0,
+            "external_storage_10": 12000.0,
+            "external_storage_11": 12000.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p38_R_balance_II_11_constraint.py",
+      "problem_id": 38,
+      "injected_requirement": "R_balance_II_11",
+      "detailed_requirement": "R_balance_II_11",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p38.py",
+      "mutation_family": "operator(==_to_>=)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 3160500.0,
+        "mutant_objective": 3160500.0,
+        "witness": {
+          "violation": 135000.0,
+          "direction": "above",
+          "nonzero_values": {
+            "prod_I_7": 80000.0,
+            "prod_I_9": 120000.0,
+            "prod_I_10": 120000.0,
+            "prod_I_12": 70000.0,
+            "prod_II_7": 40000.0,
+            "prod_II_8": 120000.0,
+            "prod_II_11": 120000.0,
+            "prod_II_12": 50000.0,
+            "inv_I_7": 50000.0,
+            "inv_I_8": 20000.0,
+            "inv_I_9": 110000.0,
+            "inv_I_10": 130000.0,
+            "inv_I_11": 30000.0,
+            "inv_II_7": 25000.0,
+            "inv_II_8": 130000.0,
+            "inv_II_9": 115000.0,
+            "inv_II_10": 65000.0,
+            "external_storage_7": 20000.0,
+            "external_storage_8": 56000.0,
+            "external_storage_9": 68000.0,
+            "external_storage_10": 52000.0,
+            "external_storage_11": 6000.0
+          }
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p38_R_obj_prod_I_7_objective.py",
+      "problem_id": 38,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p38.py",
+      "mutation_family": "objective_coefficient(prod_I_7:4.5_to_5.5)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 3160500.0,
+        "mutant_objective": 3190500.0,
+        "witness": {
+          "objective_difference": 30000.0
+        }
+      }
+    },
+    {
+      "mutant_file": "mut_p1_R6_alloc11_lower_bound.py",
+      "problem_id": 1,
+      "injected_requirement": "R6",
+      "detailed_requirement": "non_negativity",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p1.py",
+      "mutation_family": "lower_bound_relaxation(alloc_1_1:0_to_-1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "REQUIRES_LICENSED_GUROBI",
+        "reason": "preserved hand-written base has no explicit-table open-source adapter"
+      }
+    },
+    {
+      "mutant_file": "mut_p1_R7_objective.py",
+      "problem_id": 1,
+      "injected_requirement": "R7",
+      "detailed_requirement": "R7",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p1.py",
+      "mutation_family": "objective_coefficient(fixed_cost:x2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "REQUIRES_LICENSED_GUROBI",
+        "reason": "preserved hand-written base has no explicit-table open-source adapter"
+      }
+    },
+    {
+      "mutant_file": "mut_p30_Robj_objective.py",
+      "problem_id": 30,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p30.py",
+      "mutation_family": "objective_coefficient(final_amount:x2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "REQUIRES_LICENSED_GUROBI",
+        "reason": "preserved hand-written base has no explicit-table open-source adapter"
+      }
+    },
+    {
+      "mutant_file": "mut_p35_Robj_objective.py",
+      "problem_id": 35,
+      "injected_requirement": "R_obj",
+      "detailed_requirement": "R_obj",
+      "category": "objective_accounting_error",
+      "base_file": "exp2_bases/base_p35.py",
+      "mutation_family": "objective_coefficient(fixed_cost:x2)",
+      "expected_classification": "valid_loud",
+      "expected_changed_source_lines": 2,
+      "generation_origin": "expanded_generic_v1",
+      "open_source_precertification": {
+        "status": "REQUIRES_LICENSED_GUROBI",
+        "reason": "preserved hand-written base has no explicit-table open-source adapter"
+      }
+    },
+    {
+      "mutant_file": "mut_p42_R_demand_2_capability_constraint.py",
+      "problem_id": 42,
+      "injected_requirement": "R_demand_2",
+      "detailed_requirement": "route 2 capacity uses capability 90 for aircraft type 3",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p42.py",
+      "mutation_family": "coefficient(x_3_2:90_to_80)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 700.0,
+        "mutant_objective": 700.0,
+        "witness": {"exact_row_coefficient_mismatch": 10.0}
+      }
+    },
+    {
+      "mutant_file": "mut_p42_R_availability_3_rhs_constraint.py",
+      "problem_id": 42,
+      "injected_requirement": "R_availability_3",
+      "detailed_requirement": "aircraft type 3 assignments must not exceed availability 1",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p42.py",
+      "mutation_family": "rhs_loosen(1_to_2)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 700.0,
+        "mutant_objective": 700.0,
+        "witness": {"maximum_assignments": 2.0, "violation": 1.0}
+      }
+    },
+    {
+      "mutant_file": "mut_p42_R_availability_1_lhs_constraint.py",
+      "problem_id": 42,
+      "injected_requirement": "R_availability_1",
+      "detailed_requirement": "aircraft type 1 assignments across both routes must not exceed 2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p42.py",
+      "mutation_family": "wrong_variable(x_1_2_to_x_2_2)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 700.0,
+        "mutant_objective": 700.0,
+        "witness": {"canonical_lhs_violation": "unbounded_above"}
+      }
+    },
+    {
+      "mutant_file": "mut_p43_R_integer_domain.py",
+      "problem_id": 43,
+      "injected_requirement": "R_integer",
+      "detailed_requirement": "all assigned-hour quantities must be integer-valued",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p43.py",
+      "mutation_family": "domain_relaxation(all_integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 8,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 285.0,
+        "mutant_objective": 285.0,
+        "witness": {"fractional_feasible_assignment": 0.5}
+      }
+    },
+    {
+      "mutant_file": "mut_p44_R_machine2_sequence_2_constraint.py",
+      "problem_id": 44,
+      "injected_requirement": "R_machine2_sequence_2",
+      "detailed_requirement": "machine 2 must finish position 1 before processing position 2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p44.py",
+      "mutation_family": "wrong_predecessor_machine(C_1_2_to_C_1_1)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 7.0,
+        "mutant_objective": 7.0,
+        "witness": {"canonical_residual": "unbounded_below"}
+      }
+    },
+    {
+      "mutant_file": "mut_p44_R_first_machine_2_constraint.py",
+      "problem_id": 44,
+      "injected_requirement": "R_first_machine_2",
+      "detailed_requirement": "the position-1 job must finish machine 1 before completing on machine 2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p44.py",
+      "mutation_family": "wrong_machine_processing_coefficients",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 7.0,
+        "mutant_objective": 7.0,
+        "witness": {"minimum_canonical_residual": -2.0}
+      }
+    },
+    {
+      "mutant_file": "mut_p44_R_machine1_sequence_2_constraint.py",
+      "problem_id": 44,
+      "injected_requirement": "R_machine1_sequence_2",
+      "detailed_requirement": "machine 1 must finish position 1 before processing position 2",
+      "category": "constraint_misspecification",
+      "base_file": "exp2_bases/base_p44.py",
+      "mutation_family": "wrong_position_processing_coefficients",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 2,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 7.0,
+        "mutant_objective": 7.0,
+        "witness": {"minimum_canonical_residual": -2.0}
+      }
+    },
+    {
+      "mutant_file": "mut_p45_R_integer_domain.py",
+      "problem_id": 45,
+      "injected_requirement": "R_integer",
+      "detailed_requirement": "package-sales quantities must be integer-valued",
+      "category": "domain_or_bound_error",
+      "base_file": "exp2_bases/base_p45.py",
+      "mutation_family": "domain_relaxation(all_integer_to_continuous)",
+      "expected_classification": "valid_silent",
+      "expected_changed_source_lines": 4,
+      "coupled_requirements": [],
+      "generation_origin": "user_supplied_normalized_42_45",
+      "open_source_precertification": {
+        "status": "PASS",
+        "base_objective": 8000.0,
+        "mutant_objective": 8000.0,
+        "witness": {"fractional_feasible_assignment": 0.5}
+      }
+    }
+  ],
+  "rejected_alternatives": [
+    {
+      "target": "p1/R3 (conservation_linking)",
+      "attempts": [
+        {
+          "family": "operator_relax(drop conservation type1)",
+          "result": "loud",
+          "obj": 39500,
+          "reason": "free goods reduce cost in a minimizer"
+        },
+        {
+          "family": "coef_zero_var(produced_5)",
+          "result": "loud",
+          "obj": 31900,
+          "reason": "coefficient makes type-5 production attractive, moves optimum"
+        }
+      ],
+      "conclusion": "structurally non-silent: conservation cannot be loosened without creating cheaper supply; R4 is layer1_only"
+    },
+    {
+      "target": "p1/R1 (demand_satisfaction)",
+      "attempts": [
+        {
+          "family": "weaken_rhs(class6 300->250)",
+          "result": "loud",
+          "obj": 42300,
+          "reason": "lower demand lets type-6 produce less"
+        },
+        {
+          "family": "coef_zero_var(alloc_5_5 in demand5)",
+          "result": "loud",
+          "obj": 40400,
+          "reason": "coefficient enables cheap type-5 self-service"
+        }
+      ],
+      "conclusion": "all attempted demand weakenings moved the objective"
+    },
+    {
+      "target": "p1/R2 (substitution_direction)",
+      "attempts": [
+        {
+          "family": "illegal_var(reverse alloc_1_6)",
+          "result": "loud",
+          "obj": 38500,
+          "reason": "cheap type-1 serving expensive class-6 undercuts type-6"
+        }
+      ],
+      "conclusion": "adding illegal substitution creates a cheaper path"
+    },
+    {
+      "target": "p35/R_demand_1 (demand equality)",
+      "attempts": [
+        {
+          "family": "operator(==->:>=)",
+          "result": "dormant",
+          "reason": "over-delivery not witnessed"
+        },
+        {
+          "family": "operator(==->:<=)",
+          "result": "loud",
+          "obj": 525,
+          "reason": "under-delivery ships less"
+        }
+      ],
+      "conclusion": "resolved with the certified coefficient mutation"
+    },
+    {
+      "target": "p35/R_capacity_link_station_1",
+      "attempts": [
+        {
+          "family": "drop *y linkage",
+          "result": "loud",
+          "obj": 675,
+          "reason": "station transships without fixed cost"
+        }
+      ],
+      "conclusion": "resolved with the certified epsilon-slack mutation"
+    },
+    {
+      "target": "p35/R_balance_station_1",
+      "attempts": [
+        {
+          "family": "coef_zero_var(x_2_1)",
+          "result": "loud",
+          "obj": 665,
+          "reason": "coefficient double-counts flow"
+        }
+      ],
+      "conclusion": "attempt moved the objective"
+    }
+  ]
+}

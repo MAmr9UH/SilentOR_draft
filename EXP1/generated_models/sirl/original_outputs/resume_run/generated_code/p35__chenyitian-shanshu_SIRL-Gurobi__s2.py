@@ -1,0 +1,107 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("transshipment_model")
+
+    # Define supplies
+    supply = data["supply"]
+    a_1 = supply["1"]
+    a_2 = supply["2"]
+
+    # Define demands
+    demand = data["demand"]
+    b_1 = demand["1"]
+    b_2 = demand["2"]
+
+    # Number of production points
+    sources = data["sources"]
+
+    # Number of stations
+    stations = data["stations"]
+
+    # Number of demand points
+    demands = data["demands"]
+
+    # Fixed cost for each station
+    fixed_cost = data["fixed_cost"]
+
+    # Capacity of each station
+    station_capacity = data["station_capacity"]
+
+    # Cost from production point to station
+    cost_source_station = data["cost_source_station"]
+
+    # Cost from station to demand point
+    cost_station_demand = data["cost_station_demand"]
+
+    # Decision variables
+    x = {}
+    for i in sources:
+        for k in stations:
+            x[i, k] = model.addVar(name=f"x_{i}_{k}", lb=0, vtype=GRB.CONTINUOUS)
+
+    z = {}
+    for k in stations:
+        for j in demands:
+            z[k, j] = model.addVar(name=f"z_{k}_{j}", lb=0, vtype=GRB.CONTINUOUS)
+
+    y = {}
+    for k in stations:
+        y[k] = model.addVar(name=f"y_{k}", vtype=GRB.BINARY)
+
+    # Objective function: Minimize total cost
+    model.setObjective(
+        gp.quicksum(cost_source_station[f"{i},{k}"] * x[i, k] for i in sources for k in stations) +
+        gp.quicksum(cost_station_demand[f"{k},{j}"] * z[k, j] for k in stations for j in demands) +
+        gp.quicksum(fixed_cost[k] * y[k] for k in stations),
+        GRB.MINIMIZE)
+
+    # Sum of supplies must be greater than or equal to sum of demands
+    model.addConstr(a_1 + a_2 >= b_1 + b_2)
+
+    # Flow conservation at each station
+    for k in stations:
+        model.addConstr(gp.quicksum(x[i, k] for i in sources if (i, k) in cost_source_station.keys()) <= station_capacity[k] * y[k])
+
+    # Flow conservation for each demand point
+    for j in demands:
+        model.addConstr(gp.quicksum(z[k, j] for k in stations) >= demand[j])
+
+    # Linking production point flow to station flow
+    for i in sources:
+        for k in stations:
+            for j in demands:
+                model.addConstr(x[i, k] >= z[k, j])
+
+    return model, {"x": x, "z": z, "y": y}
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_1_1": variables["x"]["1", "1"].x,
+            "x_1_2": variables["x"]["1", "2"].x,
+            "x_2_1": variables["x"]["2", "1"].x,
+            "x_2_2": variables["x"]["2", "2"].x,
+            "z_1_1": variables["z"]["1", "1"].x,
+            "z_1_2": variables["z"]["1", "2"].x,
+            "z_2_1": variables["z"]["2", "1"].x,
+            "z_2_2": variables["z"]["2", "2"].x,
+            "y_1": variables["y"]["1"].x,
+            "y_2": variables["y"]["2"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

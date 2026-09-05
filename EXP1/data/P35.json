@@ -1,0 +1,46 @@
+{
+  "problem_id": 35,
+  "scenario_id": "fixed_charge_two_station_transshipment_mip",
+  "data_instance": {
+    "sources": [
+      "1",
+      "2"
+    ],
+    "stations": [
+      "1",
+      "2"
+    ],
+    "demands": [
+      "1",
+      "2"
+    ],
+    "supply": {
+      "1": 100,
+      "2": 150
+    },
+    "demand": {
+      "1": 80,
+      "2": 120
+    },
+    "station_capacity": {
+      "1": 100,
+      "2": 100
+    },
+    "fixed_cost": {
+      "1": 10,
+      "2": 15
+    },
+    "cost_source_station": {
+      "1,1": 2,
+      "1,2": 3,
+      "2,1": 4,
+      "2,2": 1
+    },
+    "cost_station_demand": {
+      "1,1": 3,
+      "1,2": 2,
+      "2,1": 1,
+      "2,2": 4
+    }
+  }
+}

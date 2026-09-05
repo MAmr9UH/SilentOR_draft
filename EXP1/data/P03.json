@@ -1,0 +1,32 @@
+{
+  "problem_id": 3,
+  "scenario_id": "convenience_store_staffing",
+  "data_instance": {
+    "shift_start_times": [
+      2,
+      6,
+      10,
+      14,
+      18,
+      22
+    ],
+    "shift_length_hours": 8,
+    "period_start_times": [
+      2,
+      6,
+      10,
+      14,
+      18,
+      22
+    ],
+    "period_length_hours": 4,
+    "demand_by_period_start": {
+      "2": 10,
+      "6": 15,
+      "10": 25,
+      "14": 20,
+      "18": 18,
+      "22": 12
+    }
+  }
+}

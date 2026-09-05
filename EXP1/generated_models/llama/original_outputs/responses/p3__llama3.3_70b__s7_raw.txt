@@ -1,0 +1,60 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "s2": model.addVar(vtype=gp.GRB.INTEGER),
+        "s6": model.addVar(vtype=gp.GRB.INTEGER),
+        "s10": model.addVar(vtype=gp.GRB.INTEGER),
+        "s14": model.addVar(vtype=gp.GRB.INTEGER),
+        "s18": model.addVar(vtype=gp.GRB.INTEGER),
+        "s22": model.addVar(vtype=gp.GRB.INTEGER)
+    }
+    
+    # Objective: minimize total number of salespeople
+    model.setObjective(gp.quicksum(variables.values()))
+    
+    # Constraints: meet demand in each period
+    for i, period_start_time in enumerate(data["period_start_times"]):
+        if i == 0:
+            constraint = gp.LinExpr()
+            constraint.addTerms(1.0, variables["s2"])
+            constraint.addTerms(1.0, variables["s6"])
+            model.addConstr(constraint >= data["demand_by_period_start"][str(period_start_time)])
+        elif i == len(data["period_start_times"]) - 1:
+            constraint = gp.LinExpr()
+            constraint.addTerms(1.0, variables["s22"])
+            constraint.addTerms(1.0, variables["s2"])
+            model.addConstr(constraint >= data["demand_by_period_start"][str(period_start_time)])
+        else:
+            constraint = gp.LinExpr()
+            constraint.addTerms(1.0, variables[list(variables.keys())[i-1]])
+            constraint.addTerms(1.0, variables[list(variables.keys())[i]])
+            model.addConstr(constraint >= data["demand_by_period_start"][str(period_start_time)])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: "OPTIMAL",
+        gp.GRB.INFEASIBLE: "INFEASIBLE",
+        gp.GRB.UNBOUNDED: "UNBOUNDED",
+        gp.GRB.INF_OR_UNBD: "INF_OR_UNBD",
+        gp.GRB.TIME_LIMIT: "TIME_LIMIT"
+    }
+    
+    solution = {
+        var_key: variables[var_key].X for var_key in variables
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

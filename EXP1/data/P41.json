@@ -1,0 +1,32 @@
+{
+  "problem_id": 41,
+  "scenario_id": "two_fertilizer_machine_inventory_max_ending_lp",
+  "data_instance": {
+    "products": [
+      "liquid",
+      "solid"
+    ],
+    "machine_minutes": {
+      "machine1": {
+        "liquid": 50,
+        "solid": 24
+      },
+      "machine2": {
+        "liquid": 30,
+        "solid": 33
+      }
+    },
+    "available_hours": {
+      "machine1": 40,
+      "machine2": 35
+    },
+    "initial_inventory": {
+      "liquid": 30,
+      "solid": 90
+    },
+    "demand": {
+      "liquid": 75,
+      "solid": 95
+    }
+  }
+}

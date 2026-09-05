@@ -1,0 +1,153 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "x_I_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_I_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_I_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_I_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_II_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_II_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_II_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_II_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_III_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_III_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_III_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_III_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_I_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_I_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_I_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_I_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_II_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_II_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_II_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_II_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_III_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_III_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_III_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Iv_III_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_I_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_I_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_I_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_I_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_II_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_II_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_II_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_II_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_III_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_III_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_III_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "Bk_III_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Production constraints
+    model.addConstr(variables["x_I_2"] == 0)  # Product I cannot be produced in quarter 2
+    
+    for q in data["quarters"]:
+        if q == 1:
+            model.addConstr(0 + variables[f"x_I_{q}"] - data["orders"][f"I_{q}"] == variables[f"Bk_I_{q}"])
+            model.addConstr(variables[f"x_I_{q}"] - data["orders"][f"I_{q}"] == variables[f"Iv_I_{q}"])
+        else:
+            model.addConstr(variables[f"Iv_I_{q-1}"] + variables[f"x_I_{q}"] - data["orders"][f"I_{q}"] == variables[f"Bk_I_{q}"])
+            model.addConstr(variables[f"Iv_I_{q-1}"] + variables[f"x_I_{q}"] - data["orders"][f"I_{q}"] == variables[f"Iv_I_{q}"])
+            
+        if q == 1:
+            model.addConstr(0 + variables[f"x_II_{q}"] - data["orders"][f"II_{q}"] == variables[f"Bk_II_{q}"])
+            model.addConstr(variables[f"x_II_{q}"] - data["orders"][f"II_{q}"] == variables[f"Iv_II_{q}"])
+        else:
+            model.addConstr(variables[f"Iv_II_{q-1}"] + variables[f"x_II_{q}"] - data["orders"][f"II_{q}"] == variables[f"Bk_II_{q}"])
+            model.addConstr(variables[f"Iv_II_{q-1}"] + variables[f"x_II_{q}"] - data["orders"][f"II_{q}"] == variables[f"Iv_II_{q}"])
+            
+        if q == 1:
+            model.addConstr(0 + variables[f"x_III_{q}"] - data["orders"][f"III_{q}"] == variables[f"Bk_III_{q}"])
+            model.addConstr(variables[f"x_III_{q}"] - data["orders"][f"III_{q}"] == variables[f"Iv_III_{q}"])
+        else:
+            model.addConstr(variables[f"Iv_III_{q-1}"] + variables[f"x_III_{q}"] - data["orders"][f"III_{q}"] == variables[f"Bk_III_{q}"])
+            model.addConstr(variables[f"Iv_III_{q-1}"] + variables[f"x_III_{q}"] - data["orders"][f"III_{q}"] == variables[f"Iv_III_{q}"])
+            
+    # Capacity constraints
+    for q in data["quarters"]:
+        model.addConstr(data["hours_per_unit"]["I"] * variables[f"x_I_{q}"] + 
+                        data["hours_per_unit"]["II"] * variables[f"x_II_{q}"] + 
+                        data["hours_per_unit"]["III"] * variables[f"x_III_{q}"] <= data["capacity_hours_per_quarter"])
+        
+    # Ending inventory constraints
+    model.addConstr(variables["Iv_I_4"] == data["required_ending_inventory"])
+    model.addConstr(variables["Iv_II_4"] == data["required_ending_inventory"])
+    model.addConstr(variables["Iv_III_4"] == data["required_ending_inventory"])
+    
+    # Objective function
+    obj = gp.quicksum([data["late_penalty_per_unit_per_quarter"]["I"] * variables[f"Bk_I_{q}"] for q in data["quarters"]]) + \
+          gp.quicksum([data["late_penalty_per_unit_per_quarter"]["II"] * variables[f"Bk_II_{q}"] for q in data["quarters"]]) + \
+          gp.quicksum([data["late_penalty_per_unit_per_quarter"]["III"] * variables[f"Bk_III_{q}"] for q in data["quarters"]]) + \
+          gp.quicksum([data["storage_cost_per_unit_per_quarter"] * variables[f"Iv_I_{q}"] for q in data["quarters"]]) + \
+          gp.quicksum([data["storage_cost_per_unit_per_quarter"] * variables[f"Iv_II_{q}"] for q in data["quarters"]]) + \
+          gp.quicksum([data["storage_cost_per_unit_per_quarter"] * variables[f"Iv_III_{q}"] for q in data["quarters"]])
+    
+    model.setObjective(obj, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = "OPTIMAL"
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = "UNBOUNDED"
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = "INF_OR_UNBD"
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = "TIME_LIMIT"
+        
+    solution = {
+        "x_I_1": variables["x_I_1"].X,
+        "x_I_2": variables["x_I_2"].X,
+        "x_I_3": variables["x_I_3"].X,
+        "x_I_4": variables["x_I_4"].X,
+        "x_II_1": variables["x_II_1"].X,
+        "x_II_2": variables["x_II_2"].X,
+        "x_II_3": variables["x_II_3"].X,
+        "x_II_4": variables["x_II_4"].X,
+        "x_III_1": variables["x_III_1"].X,
+        "x_III_2": variables["x_III_2"].X,
+        "x_III_3": variables["x_III_3"].X,
+        "x_III_4": variables["x_III_4"].X,
+        "Iv_I_1": variables["Iv_I_1"].X,
+        "Iv_I_2": variables["Iv_I_2"].X,
+        "Iv_I_3": variables["Iv_I_3"].X,
+        "Iv_I_4": variables["Iv_I_4"].X,
+        "Iv_II_1": variables["Iv_II_1"].X,
+        "Iv_II_2": variables["Iv_II_2"].X,
+        "Iv_II_3": variables["Iv_II_3"].X,
+        "Iv_II_4": variables["Iv_II_4"].X,
+        "Iv_III_1": variables["Iv_III_1"].X,
+        "Iv_III_2": variables["Iv_III_2"].X,
+        "Iv_III_3": variables["Iv_III_3"].X,
+        "Iv_III_4": variables["Iv_III_4"].X,
+        "Bk_I_1": variables["Bk_I_1"].X,
+        "Bk_I_2": variables["Bk_I_2"].X,
+        "Bk_I_3": variables["Bk_I_3"].X,
+        "Bk_I_4": variables["Bk_I_4"].X,
+        "Bk_II_1": variables["Bk_II_1"].X,
+        "Bk_II_2": variables["Bk_II_2"].X,
+        "Bk_II_3": variables["Bk_II_3"].X,
+        "Bk_II_4": variables["Bk_II_4"].X,
+        "Bk_III_1": variables["Bk_III_1"].X,
+        "Bk_III_2": variables["Bk_III_2"].X,
+        "Bk_III_3": variables["Bk_III_3"].X,
+        "Bk_III_4": variables["Bk_III_4"].X
+    }
+    
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }

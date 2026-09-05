@@ -1,0 +1,80 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "z": model.addVar(lb=0, ub=data["big_m"], vtype=gp.GRB.CONTINUOUS),
+        "x_A_B": model.addVar(vtype=gp.GRB.BINARY),
+        "x_A_C": model.addVar(vtype=gp.GRB.BINARY),
+        "x_A_E": model.addVar(vtype=gp.GRB.BINARY),
+        "x_B_A": model.addVar(vtype=gp.GRB.BINARY),
+        "x_B_C": model.addVar(vtype=gp.GRB.BINARY),
+        "x_B_D": model.addVar(vtype=gp.GRB.BINARY),
+        "x_B_E": model.addVar(vtype=gp.GRB.BINARY),
+        "x_C_A": model.addVar(vtype=gp.GRB.BINARY),
+        "x_C_D": model.addVar(vtype=gp.GRB.BINARY),
+        "x_C_E": model.addVar(vtype=gp.GRB.BINARY),
+        "x_D_A": model.addVar(vtype=gp.GRB.BINARY),
+        "x_D_B": model.addVar(vtype=gp.GRB.BINARY),
+        "x_D_C": model.addVar(vtype=gp.GRB.BINARY),
+        "x_D_E": model.addVar(vtype=gp.GRB.BINARY),
+        "x_E_B": model.addVar(vtype=gp.GRB.BINARY),
+        "x_E_D": model.addVar(vtype=gp.GRB.BINARY)
+    }
+    
+    # Constraints for arcs with positive bandwidth
+    model.addConstr(variables["z"] <= data["bandwidth"]["A"]["B"], name="c_A_B")
+    model.addConstr(variables["z"] <= data["bandwidth"]["A"]["C"], name="c_A_C")
+    model.addConstr(variables["z"] <= data["bandwidth"]["A"]["E"], name="c_A_E")
+    model.addConstr(variables["z"] <= data["bandwidth"]["B"]["A"], name="c_B_A")
+    model.addConstr(variables["z"] <= data["bandwidth"]["B"]["C"], name="c_B_C")
+    model.addConstr(variables["z"] <= data["bandwidth"]["B"]["D"], name="c_B_D")
+    model.addConstr(variables["z"] <= data["bandwidth"]["B"]["E"], name="c_B_E")
+    model.addConstr(variables["z"] <= data["bandwidth"]["C"]["A"], name="c_C_A")
+    model.addConstr(variables["z"] <= data["bandwidth"]["C"]["D"], name="c_C_D")
+    model.addConstr(variables["z"] <= data["bandwidth"]["C"]["E"], name="c_C_E")
+    model.addConstr(variables["z"] <= data["bandwidth"]["D"]["A"], name="c_D_A")
+    model.addConstr(variables["z"] <= data["bandwidth"]["D"]["B"], name="c_D_B")
+    model.addConstr(variables["z"] <= data["bandwidth"]["D"]["C"], name="c_D_C")
+    model.addConstr(variables["z"] <= data["bandwidth"]["D"]["E"], name="c_D_E")
+    model.addConstr(variables["z"] <= data["bandwidth"]["E"]["B"], name="c_E_B")
+    model.addConstr(variables["z"] <= data["bandwidth"]["E"]["D"], name="c_E_D")
+    
+    # Flow conservation constraints
+    model.addConstr(gp.quicksum([variables[f"x_{data['source']}_B"], variables[f"x_{data['source']}_C"], variables[f"x_{data['source']}_E"]]) == 1, name="flow_A")
+    model.addConstr(variables["x_B_A"] + variables["x_C_A"] + variables["x_D_A"] + variables["x_E_A"] == variables["x_A_B"] + variables["x_A_C"] + variables["x_A_E"], name="flow_B")
+    model.addConstr(variables["x_A_C"] + variables["x_B_C"] + variables["x_D_C"] + variables["x_E_C"] == variables["x_C_A"] + variables["x_C_B"] + variables["x_C_D"] + variables["x_C_E"], name="flow_C")
+    model.addConstr(variables["x_A_D"] + variables["x_B_D"] + variables["x_C_D"] + variables["x_E_D"] == variables["x_D_A"] + variables["x_D_B"] + variables["x_D_C"] + variables["x_D_E"], name="flow_D")
+    model.addConstr(variables["x_A_E"] + variables["x_B_E"] + variables["x_C_E"] + variables["x_D_E"] == variables["x_E_A"] + variables["x_E_B"] + variables["x_E_C"] + variables["x_E_D"], name="flow_E")
+    
+    # Objective function
+    model.setObjective(variables["z"], gp.GRB.MAXIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    solution = {
+        "status": None,
+        "objective": None,
+        "solution": {}
+    }
+    
+    if model.Status == gp.GRB.OPTIMAL:
+        solution["status"] = "OPTIMAL"
+        solution["objective"] = model.ObjVal
+        for var_name, var in variables.items():
+            solution["solution"][var_name] = var.X
+    elif model.Status == gp.GRB.INFEASIBLE:
+        solution["status"] = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        solution["status"] = "UNBOUNDED"
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        solution["status"] = "INF_OR_UNBD"
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        solution["status"] = "TIME_LIMIT"
+    
+    return solution

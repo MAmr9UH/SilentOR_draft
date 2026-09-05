@@ -1,0 +1,76 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # create ALL decision variables using numeric values from data
+    variables_keys = data["note"]  # Use the note to get variable names
+    variables = {}
+    for var_name in variables_keys:
+        variables[var_name] = model.addVar(vtype=GRB.BINARY)
+
+    # set the objective using numeric values from data
+    objective = gp.quicksum(
+        variables[f"w_{i}_{j}_{k}"]
+        * data["reliability"][data["components"][i]][j]
+        * data["reliability"][data["components"][j]][k]
+        * data["reliability"][data["components"][k]][l]
+        for i in range(3)
+        for j in range(6)
+        for k in range(3)
+        for l in range(6)
+    )
+    model.setObjective(objective, GRB.MAXIMIZE)
+
+    # add ALL constraints using numeric values from data
+    budget_constraint = gp.quicksum(
+        variables[f"w_{i}_{j}_{k}"]
+        * (data["unit_price"][data["components"][i]] * j + data["unit_price"][data["components"][j]] * k + data["unit_price"][data["components"][k]] * l)
+        for i in range(3)
+        for j in range(6)
+        for k in range(3)
+        for l in range(6)
+    ) <= data["budget"]
+    model.addConstr(budget_constraint, GRB.LESS_EQUAL, data["budget"])
+
+    weight_constraint = gp.quicksum(
+        variables[f"w_{i}_{j}_{k}"]
+        * (data["unit_weight"][data["components"][i]] * j + data["unit_weight"][data["components"][j]] * k + data["unit_weight"][data["components"][k]] * l)
+        for i in range(3)
+        for j in range(6)
+        for k in range(3)
+        for l in range(6)
+    ) <= data["weight_limit"]
+    model.addConstr(weight_constraint, GRB.LESS_EQUAL, data["weight_limit"])
+
+    # Ensure exactly one combination is selected
+    for i in range(3):
+        sum_vars = gp.quicksum(variables[f"w_{i}_{j}_{k}"] for j in range(6) for k in range(3))
+        model.addConstr(sum_vars == 1, GRB.EQUAL)
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {}
+    for var_name in variables:
+        solution[var_name] = float(variables[var_name].X)
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

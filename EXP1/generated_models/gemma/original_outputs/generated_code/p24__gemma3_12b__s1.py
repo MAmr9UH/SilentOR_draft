@@ -1,0 +1,109 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    container_ids = data["container_ids"]
+    goods = data["goods"]
+    quantity = data["quantity"]
+    weight_tons = data["weight_tons"]
+    container_capacity_tons = data["container_capacity_tons"]
+    minimum_load_tons_if_used = data["minimum_load_tons_if_used"]
+    minimum_D_units_if_used = data["minimum_D_units_if_used"]
+    max_containers_available = data["max_containers_available"]
+    A_requires_at_least_one_C_in_same_container = data["A_requires_at_least_one_C_in_same_container"]
+
+    # Decision variables
+    y = {i: gp.MVar(vtype=GRB.BINARY, name=f"y_{i}") for i in container_ids}
+    uA = {i: gp.MVar(vtype=GRB.BINARY, name=f"uA_{i}") for i in container_ids}
+    q = {}
+    for i in container_ids:
+        for good in goods:
+            q[good, i] = gp.MVar(vtype=GRB.INTEGER, name=f"q_{i}_{good}", lb=0)
+
+    # Objective function: Minimize the number of used containers
+    model.setObjective(gp.quicksum([y[i] for i in container_ids]), GRB.MINIMIZE)
+
+    # Constraints
+
+    # 1. Goods quantity constraints
+    for good in goods:
+        model.addConstr(gp.quicksum([q[good, i] for i in container_ids]) == quantity[good], name=f"quantity_{good}")
+
+    # 2. Container capacity constraints
+    for i in container_ids:
+        model.addConstr(gp.quicksum([weight_tons[good] * q[good, i] for good in goods]) <= container_capacity_tons, name=f"capacity_{i}")
+
+    # 3. Minimum load constraint if used
+    for i in container_ids:
+        model.addConstr(gp.quicksum([weight_tons[good] * q[good, i] for good in goods]) >= minimum_load_tons_if_used * y[i], name=f"min_load_{i}")
+
+    # 4. Minimum D units constraint if used
+    for i in container_ids:
+        model.addConstr(q["D", i] >= minimum_D_units_if_used * y[i], name=f"min_D_{i}")
+
+    # 5. A requires C constraint
+    for i in container_ids:
+        model.addConstr(uA[i] <= y[i] + (1 - y[i]), name=f"A_requires_C_{i}")
+        model.addConstr((q["A", i] >= 0) >> (gp.quicksum([y[j] for j in container_ids if q["A", i] > 0 and q["C", j] > 0]) >= 1), name=f"A_requires_C_{i}")
+
+    # 6. Container usage constraints
+    for i in container_ids:
+        model.addConstr(q[good, i] <= 1000 * y[i] for good in goods) # large enough to ensure that if a container is not used, no goods are loaded into it
+
+    variables = {
+        "y_1": y[1], "y_2": y[2], "y_3": y[3], "y_4": y[4], "y_5": y[5],
+        "y_6": y[6], "y_7": y[7], "y_8": y[8], "y_9": y[9], "y_10": y[10],
+        "uA_1": uA[1], "uA_2": uA[2], "uA_3": uA[3], "uA_4": uA[4], "uA_5": uA[5],
+        "uA_6": uA[6], "uA_7": uA[7], "uA_8": uA[8], "uA_9": uA[9], "uA_10": uA[10],
+        "q_1_A": q["A", 1], "q_1_B": q["B", 1], "q_1_C": q["C", 1], "q_1_D": q["D", 1], "q_1_E": q["E", 1],
+        "q_2_A": q["A", 2], "q_2_B": q["B", 2], "q_2_C": q["C", 2], "q_2_D": q["D", 2], "q_2_E": q["E", 2],
+        "q_3_A": q["A", 3], "q_3_B": q["B", 3], "q_3_C": q["C", 3], "q_3_D": q["D", 3], "q_3_E": q["E", 3],
+        "q_4_A": q["A", 4], "q_4_B": q["B", 4], "q_4_C": q["C", 4], "q_4_D": q["D", 4], "q_4_E": q["E", 4],
+        "q_5_A": q["A", 5], "q_5_B": q["B", 5], "q_5_C": q["C", 5], "q_5_D": q["D", 5], "q_5_E": q["E", 5],
+        "q_6_A": q["A", 6], "q_6_B": q["B", 6], "q_6_C": q["C", 6], "q_6_D": q["D", 6], "q_6_E": q["E", 6],
+        "q_7_A": q["A", 7], "q_7_B": q["B", 7], "q_7_C": q["C", 7], "q_7_D": q["D", 7], "q_7_E": q["E", 7],
+        "q_8_A": q["A", 8], "q_8_B": q["B", 8], "q_8_C": q["C", 8], "q_8_D": q["D", 8], "q_8_E": q["E", 8],
+        "q_9_A": q["A", 9], "q_9_B": q["B", 9], "q_9_C": q["C", 9], "q_9_D": q["D", 9], "q_9_E": q["E", 9],
+        "q_10_A": q["A", 10], "q_10_B": q["B", 10], "q_10_C": q["C", 10], "q_10_D": q["D", 10], "q_10_E": q["E", 10]
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "y_1": float(y[1].X), "y_2": float(y[2].X), "y_3": float(y[3].X), "y_4": float(y[4].X), "y_5": float(y[5].X),
+        "y_6": float(y[6].X), "y_7": float(y[7].X), "y_8": float(y[8].X), "y_9": float(y[9].X), "y_10": float(y[10].X),
+        "uA_1": float(uA[1].X), "uA_2": float(uA[2].X), "uA_3": float(uA[3].X), "uA_4": float(uA[4].X), "uA_5": float(uA[5].X),
+        "uA_6": float(uA[6].X), "uA_7": float(uA[7].X), "uA_8": float(uA[8].X), "uA_9": float(uA[9].X), "uA_10": float(uA[10].X),
+        "q_1_A": float(q["A", 1].X), "q_1_B": float(q["B", 1].X), "q_1_C": float(q["C", 1].X), "q_1_D": float(q["D", 1].X), "q_1_E": float(q["E", 1].X),
+        "q_2_A": float(q["A", 2].X), "q_2_B": float(q["B", 2].X), "q_2_C": float(q["C", 2].X), "q_2_D": float(q["D", 2].X), "q_2_E": float(q["E", 2].X),
+        "q_3_A": float(q["A", 3].X), "q_3_B": float(q["B", 3].X), "q_3_C": float(q["C", 3].X), "q_3_D": float(q["D", 3].X), "q_3_E": float(q["E", 3].X),
+        "q_4_A": float(q["A", 4].X), "q_4_B": float(q["B", 4].X), "q_4_C": float(q["C", 4].X), "q_4_D": float(q["D", 4].X), "q_4_E": float(q["E", 4].X),
+        "q_5_A": float(q["A", 5].X), "q_5_B": float(q["B", 5].X), "q_5_C": float(q["C", 5].X), "q_5_D": float(q["D", 5].X), "q_5_E": float(q["E", 5].X),
+        "q_6_A": float(q["A", 6].X), "q_6_B": float(q["B", 6].X), "q_6_C": float(q["C", 6].X), "q_6_D": float(q["D", 6].X), "q_6_E": float(q["E", 6].X),
+        "q_7_A": float(q["A", 7].X), "q_7_B": float(q["B", 7].X), "q_7_C": float(q["C", 7].X), "q_7_D": float(q["D", 7].X), "q_7_E": float(q["E", 7].X),
+        "q_8_A": float(q["A", 8].X), "q_8_B": float(q["B", 8].X), "q_8_C": float(q["C", 8].X), "q_8_D": float(q["D", 8].X), "q_8_E": float(q["E", 8].X),
+        "q_9_A": float(q["A", 9].X), "q_9_B": float(q["B", 9].X), "q_9_C": float(q["C", 9].X), "q_9_D": float(q["D", 9].X), "q_9_E": float(q["E", 9].X),
+        "q_10_A": float(q["A", 10].X), "q_10_B": float(q["B", 10].X), "q_10_C": float(q["C", 10].X), "q_10_D": float(q["D", 10].X), "q_10_E": float(q["E", 10].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

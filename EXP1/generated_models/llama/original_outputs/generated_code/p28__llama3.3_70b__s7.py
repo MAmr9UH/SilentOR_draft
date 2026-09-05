@@ -1,0 +1,74 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for warehouse in data['warehouses']:
+        for port in data['ports']:
+            x_key = f'x_{warehouse}_{port}'
+            t_key = f't_{warehouse}_{port}'
+            
+            variables[x_key] = model.addVar(vtype=gp.GRB.INTEGER, name=x_key)
+            variables[t_key] = model.addVar(vtype=gp.GRB.INTEGER, name=t_key)
+    
+    for warehouse in data['warehouses']:
+        supply = data['supply'][warehouse]
+        x_keys = [f'x_{warehouse}_{port}' for port in data['ports']]
+        
+        model.addConstr(gp.quicksum(variables[x] for x in x_keys) <= supply, name=f'supply_{warehouse}')
+    
+    for port in data['ports']:
+        demand = data['demand'][port]
+        x_keys = [f'x_{warehouse}_{port}' for warehouse in data['warehouses']]
+        
+        model.addConstr(gp.quicksum(variables[x] for x in x_keys) == demand, name=f'demand_{port}')
+    
+    for warehouse in data['warehouses']:
+        for port in data['ports']:
+            x_key = f'x_{warehouse}_{port}'
+            t_key = f't_{warehouse}_{port}'
+            
+            model.addConstr(variables[x_key] <= variables[t_key] * data['truck_capacity_containers'], name=f'capacity_{warehouse}_{port}')
+    
+    objective = gp.quicksum(
+        (data['distance_km'][warehouse][port] * data['cost_per_km_per_truck'] / data['truck_capacity_containers']) * variables[f'x_{warehouse}_{port}']
+        for warehouse in data['warehouses']
+        for port in data['ports']
+    )
+    
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {
+        key: model.getVarByName(key).X
+        for key in [
+            f'x_{warehouse}_{port}'
+            for warehouse in data['warehouses']
+            for port in data['ports']
+        ] + [
+            f't_{warehouse}_{port}'
+            for warehouse in data['warehouses']
+            for port in data['ports']
+        ]
+    }
+    
+    return {
+        'status': status_map[model.Status],
+        'objective': model.ObjVal,
+        'solution': solution
+    }

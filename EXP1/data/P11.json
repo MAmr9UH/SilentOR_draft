@@ -1,0 +1,89 @@
+{
+  "problem_id": 11,
+  "scenario_id": "food_manufacture_blending",
+  "data_instance": {
+    "vegetable_oils": [
+      "VEG1",
+      "VEG2"
+    ],
+    "non_vegetable_oils": [
+      "OIL1",
+      "OIL2",
+      "OIL3"
+    ],
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun"
+    ],
+    "purchase_price": {
+      "Jan": {
+        "VEG1": 110,
+        "VEG2": 120,
+        "OIL1": 130,
+        "OIL2": 110,
+        "OIL3": 115
+      },
+      "Feb": {
+        "VEG1": 130,
+        "VEG2": 130,
+        "OIL1": 110,
+        "OIL2": 90,
+        "OIL3": 115
+      },
+      "Mar": {
+        "VEG1": 110,
+        "VEG2": 140,
+        "OIL1": 130,
+        "OIL2": 100,
+        "OIL3": 95
+      },
+      "Apr": {
+        "VEG1": 120,
+        "VEG2": 110,
+        "OIL1": 120,
+        "OIL2": 120,
+        "OIL3": 125
+      },
+      "May": {
+        "VEG1": 100,
+        "VEG2": 120,
+        "OIL1": 150,
+        "OIL2": 110,
+        "OIL3": 105
+      },
+      "Jun": {
+        "VEG1": 90,
+        "VEG2": 100,
+        "OIL1": 140,
+        "OIL2": 80,
+        "OIL3": 135
+      }
+    },
+    "sell_price": 150,
+    "veg_refine_cap": 200,
+    "nonveg_refine_cap": 250,
+    "storage_cap_per_oil": 1000,
+    "storage_cost_per_ton_month": 5,
+    "hardness": {
+      "VEG1": 8.8,
+      "VEG2": 6.1,
+      "OIL1": 2.0,
+      "OIL2": 4.2,
+      "OIL3": 5.0
+    },
+    "min_hardness": 3,
+    "max_hardness": 6,
+    "initial_storage_per_oil": 500,
+    "required_final_storage_per_oil": 500,
+    "logical_restrictions": [
+      "at most 3 oils used per month",
+      "if an oil is used, >= 20 tons of it",
+      "if VEG1 or VEG2 used, OIL3 must be used"
+    ],
+    "note": "purchase_price[month][oil] in pounds/ton. Hardness blends linearly over tons used. Decision variable keys: buy_<OIL>_<MONTH>, use_<OIL>_<MONTH>, store_<OIL>_<MONTH> (tons), and y_<OIL>_<MONTH> (1 if that oil is used that month). OIL in VEG1,VEG2,OIL1,OIL2,OIL3; MONTH in Jan..Jun."
+  }
+}

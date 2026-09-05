@@ -1,0 +1,104 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {
+        "x_1_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_1_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_1_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_1_5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_2_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_2_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_2_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_2_5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_3_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_3_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_3_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_3_5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_4_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_4_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_4_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_4_5": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_5_1": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_5_2": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_5_3": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS),
+        "x_5_4": model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS)
+    }
+    
+    # Objective function
+    obj = gp.quicksum([data["move_cost"]["1_2"] * variables["x_1_2"],
+                       data["move_cost"]["1_3"] * variables["x_1_3"],
+                       data["move_cost"]["1_4"] * variables["x_1_4"],
+                       data["move_cost"]["1_5"] * variables["x_1_5"],
+                       data["move_cost"]["2_1"] * variables["x_2_1"],
+                       data["move_cost"]["2_3"] * variables["x_2_3"],
+                       data["move_cost"]["2_4"] * variables["x_2_4"],
+                       data["move_cost"]["2_5"] * variables["x_2_5"],
+                       data["move_cost"]["3_1"] * variables["x_3_1"],
+                       data["move_cost"]["3_2"] * variables["x_3_2"],
+                       data["move_cost"]["3_4"] * variables["x_3_4"],
+                       data["move_cost"]["3_5"] * variables["x_3_5"],
+                       data["move_cost"]["4_1"] * variables["x_4_1"],
+                       data["move_cost"]["4_2"] * variables["x_4_2"],
+                       data["move_cost"]["4_3"] * variables["x_4_3"],
+                       data["move_cost"]["4_5"] * variables["x_4_5"],
+                       data["move_cost"]["5_1"] * variables["x_5_1"],
+                       data["move_cost"]["5_2"] * variables["x_5_2"],
+                       data["move_cost"]["5_3"] * variables["x_5_3"],
+                       data["move_cost"]["5_4"] * variables["x_5_4"]])
+    model.setObjective(obj, gp.GRB.MINIMIZE)
+    
+    # Constraints
+    model.addConstr(variables["x_1_2"] + variables["x_1_3"] + variables["x_1_4"] + variables["x_1_5"] - 
+                     variables["x_2_1"] - variables["x_3_1"] - variables["x_4_1"] - variables["x_5_1"] == 
+                     data["cars_needed"]["1"] - data["current_cars"]["1"])
+    model.addConstr(variables["x_2_1"] + variables["x_2_3"] + variables["x_2_4"] + variables["x_2_5"] - 
+                     variables["x_1_2"] - variables["x_3_2"] - variables["x_4_2"] - variables["x_5_2"] == 
+                     data["cars_needed"]["2"] - data["current_cars"]["2"])
+    model.addConstr(variables["x_3_1"] + variables["x_3_2"] + variables["x_3_4"] + variables["x_3_5"] - 
+                     variables["x_1_3"] - variables["x_2_3"] - variables["x_4_3"] - variables["x_5_3"] == 
+                     data["cars_needed"]["3"] - data["current_cars"]["3"])
+    model.addConstr(variables["x_4_1"] + variables["x_4_2"] + variables["x_4_3"] + variables["x_4_5"] - 
+                     variables["x_1_4"] - variables["x_2_4"] - variables["x_3_4"] - variables["x_5_4"] == 
+                     data["cars_needed"]["4"] - data["current_cars"]["4"])
+    model.addConstr(variables["x_5_1"] + variables["x_5_2"] + variables["x_5_3"] + variables["x_5_4"] - 
+                     variables["x_1_5"] - variables["x_2_5"] - variables["x_3_5"] - variables["x_4_5"] == 
+                     data["cars_needed"]["5"] - data["current_cars"]["5"])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {gp.GRB.OPTIMAL: "OPTIMAL", gp.GRB.INFEASIBLE: "INFEASIBLE", 
+                  gp.GRB.UNBOUNDED: "UNBOUNDED", gp.GRB.INF_OR_UNBD: "INF_OR_UNBD"}
+    solution = {
+        "x_1_2": variables["x_1_2"].X,
+        "x_1_3": variables["x_1_3"].X,
+        "x_1_4": variables["x_1_4"].X,
+        "x_1_5": variables["x_1_5"].X,
+        "x_2_1": variables["x_2_1"].X,
+        "x_2_3": variables["x_2_3"].X,
+        "x_2_4": variables["x_2_4"].X,
+        "x_2_5": variables["x_2_5"].X,
+        "x_3_1": variables["x_3_1"].X,
+        "x_3_2": variables["x_3_2"].X,
+        "x_3_4": variables["x_3_4"].X,
+        "x_3_5": variables["x_3_5"].X,
+        "x_4_1": variables["x_4_1"].X,
+        "x_4_2": variables["x_4_2"].X,
+        "x_4_3": variables["x_4_3"].X,
+        "x_4_5": variables["x_4_5"].X,
+        "x_5_1": variables["x_5_1"].X,
+        "x_5_2": variables["x_5_2"].X,
+        "x_5_3": variables["x_5_3"].X,
+        "x_5_4": variables["x_5_4"].X
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": round(model.ObjVal),
+        "solution": solution
+    }

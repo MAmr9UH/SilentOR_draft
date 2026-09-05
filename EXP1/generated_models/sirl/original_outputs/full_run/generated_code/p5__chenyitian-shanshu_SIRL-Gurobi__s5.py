@@ -1,0 +1,109 @@
+import gurobipy as gp
+from gurobipy import GRB
+import copy
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("operations_research_major_model")
+    
+    courses = data["courses"]
+    course_names = data["course_names"]
+    
+    variables = {
+        "sel_calculus": {},
+        "sel_or": {},
+        "sel_ds": {},
+        "sel_bs": {},
+        "sel_cs": {},
+        "sel_cp": {},
+        "sel_fc": {}
+    }
+    
+    for course in courses:
+        variables["sel_calculus"][course] = model.addVar(name=f"sel_calculus_{course}", vtype=GRB.BINARY)
+        variables["sel_or"][course] = model.addVar(name=f"sel_or_{course}", vtype=GRB.BINARY)
+        variables["sel_ds"][course] = model.addVar(name=f"sel_ds_{course}", vtype=GRB.BINARY)
+        variables["sel_bs"][course] = model.addVar(name=f"sel_bs_{course}", vtype=GRB.BINARY)
+        variables["sel_cs"][course] = model.addVar(name=f"sel_cs_{course}", vtype=GRB.BINARY)
+        variables["sel_cp"][course] = model.addVar(name=f"sel_cp_{course}", vtype=GRB.BINARY)
+        variables["sel_fc"][course] = model.addVar(name=f"sel_fc_{course}", vtype=GRB.BINARY)
+    
+    # Each course is mapped to its name
+    course_map = {
+        "calculus": "calculus",
+        "or": "operations research",
+        "ds": "data structures",
+        "bs": "business statistics",
+        "cs": "computer simulation",
+        "cp": "intro to computer programming",
+        "fc": "forecasting"
+    }
+    
+    # Prerequisites
+    prerequisites = {
+        "bs": "calculus",
+        "cs": "cp",
+        "fc": "bs"
+    }
+    
+    # Courses that fulfill multiple requirements
+    multiple_requirements = {
+        "calculus": ["math"],
+        "or": ["math", "or"],
+        "ds": ["computer", "math"],
+        "bs": ["math", "or"],
+        "cs": ["computer", "math"],
+        "cp": ["computer"],
+        "fc": ["or", "math"]
+    }
+    
+    # Objective function: Minimize the number of courses
+    model.setObjective(
+        gp.quicksum(variables["sel_calculus"][course] for course in courses) +
+        gp.quicksum(variables["sel_or"][course] for course in courses) +
+        gp.quicksum(variables["sel_ds"][course] for course in courses) +
+        gp.quicksum(variables["sel_bs"][course] for course in courses) +
+        gp.quicksum(variables["sel_cs"][course] for course in courses) +
+        gp.quicksum(variables["sel_cp"][course] for course in courses) +
+        gp.quicksum(variables["sel_fc"][course] for course in courses),
+        GRB.MINIMIZE)
+    
+    # Each requirement must have at least 2 courses
+    model.addConstr(gp.quicksum(variables["sel_calculus"][course] for course in courses if "calculus" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_or"][course] for course in courses if "or" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_ds"][course] for course in courses if "ds" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_bs"][course] for course in courses if "bs" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_cs"][course] for course in courses if "cs" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_cp"][course] for course in courses if "cp" in multiple_requirements.get(course, [])) >= 2)
+    model.addConstr(gp.quicksum(variables["sel_fc"][course] for course in courses if "fc" in multiple_requirements.get(course, [])) >= 2)
+    
+    # Prerequisite constraints
+    for course, prerequisite in prerequisites.items():
+        model.addConstr(variables["sel_" + course_names[course]][course] <= variables["sel_" + course_names[prerequisite]][prerequisite])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "sel_calculus": {course: variables["sel_calculus"][course].x for course in data["courses"]},
+            "sel_or": {course: variables["sel_or"][course].x for course in data["courses"]},
+            "sel_ds": {course: variables["sel_ds"][course].x for course in data["courses"]},
+            "sel_bs": {course: variables["sel_bs"][course].x for course in data["courses"]},
+            "sel_cs": {course: variables["sel_cs"][course].x for course in data["courses"]},
+            "sel_cp": {course: variables["sel_cp"][course].x for course in data["courses"]},
+            "sel_fc": {course: variables["sel_fc"][course].x for course in data["courses"]}
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

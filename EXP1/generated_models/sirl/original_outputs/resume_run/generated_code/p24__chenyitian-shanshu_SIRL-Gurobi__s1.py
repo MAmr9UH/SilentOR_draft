@@ -1,0 +1,220 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("container_packing_model")
+
+    variables = {
+        "y_1": model.addVar(name="y_1", vtype=GRB.BINARY, lb=0),
+        "y_2": model.addVar(name="y_2", vtype=GRB.BINARY, lb=0),
+        "y_3": model.addVar(name="y_3", vtype=GRB.BINARY, lb=0),
+        "y_4": model.addVar(name="y_4", vtype=GRB.BINARY, lb=0),
+        "y_5": model.addVar(name="y_5", vtype=GRB.BINARY, lb=0),
+        "y_6": model.addVar(name="y_6", vtype=GRB.BINARY, lb=0),
+        "y_7": model.addVar(name="y_7", vtype=GRB.BINARY, lb=0),
+        "y_8": model.addVar(name="y_8", vtype=GRB.BINARY, lb=0),
+        "y_9": model.addVar(name="y_9", vtype=GRB.BINARY, lb=0),
+        "y_10": model.addVar(name="y_10", vtype=GRB.BINARY, lb=0),
+        "uA_1": model.addVar(name="uA_1", vtype=GRB.BINARY, lb=0),
+        "uA_2": model.addVar(name="uA_2", vtype=GRB.BINARY, lb=0),
+        "uA_3": model.addVar(name="uA_3", vtype=GRB.BINARY, lb=0),
+        "uA_4": model.addVar(name="uA_4", vtype=GRB.BINARY, lb=0),
+        "uA_5": model.addVar(name="uA_5", vtype=GRB.BINARY, lb=0),
+        "uA_6": model.addVar(name="uA_6", vtype=GRB.BINARY, lb=0),
+        "uA_7": model.addVar(name="uA_7", vtype=GRB.BINARY, lb=0),
+        "uA_8": model.addVar(name="uA_8", vtype=GRB.BINARY, lb=0),
+        "uA_9": model.addVar(name="uA_9", vtype=GRB.BINARY, lb=0),
+        "uA_10": model.addVar(name="uA_10", vtype=GRB.BINARY, lb=0),
+        "q_1_A": model.addVar(name="q_1_A", vtype=GRB.INTEGER, lb=0),
+        "q_1_B": model.addVar(name="q_1_B", vtype=GRB.INTEGER, lb=0),
+        "q_1_C": model.addVar(name="q_1_C", vtype=GRB.INTEGER, lb=0),
+        "q_1_D": model.addVar(name="q_1_D", vtype=GRB.INTEGER, lb=0),
+        "q_1_E": model.addVar(name="q_1_E", vtype=GRB.INTEGER, lb=0),
+        "q_2_A": model.addVar(name="q_2_A", vtype=GRB.INTEGER, lb=0),
+        "q_2_B": model.addVar(name="q_2_B", vtype=GRB.INTEGER, lb=0),
+        "q_2_C": model.addVar(name="q_2_C", vtype=GRB.INTEGER, lb=0),
+        "q_2_D": model.addVar(name="q_2_D", vtype=GRB.INTEGER, lb=0),
+        "q_2_E": model.addVar(name="q_2_E", vtype=GRB.INTEGER, lb=0),
+        "q_3_A": model.addVar(name="q_3_A", vtype=GRB.INTEGER, lb=0),
+        "q_3_B": model.addVar(name="q_3_B", vtype=GRB.INTEGER, lb=0),
+        "q_3_C": model.addVar(name="q_3_C", vtype=GRB.INTEGER, lb=0),
+        "q_3_D": model.addVar(name="q_3_D", vtype=GRB.INTEGER, lb=0),
+        "q_3_E": model.addVar(name="q_3_E", vtype=GRB.INTEGER, lb=0),
+        "q_4_A": model.addVar(name="q_4_A", vtype=GRB.INTEGER, lb=0),
+        "q_4_B": model.addVar(name="q_4_B", vtype=GRB.INTEGER, lb=0),
+        "q_4_C": model.addVar(name="q_4_C", vtype=GRB.INTEGER, lb=0),
+        "q_4_D": model.addVar(name="q_4_D", vtype=GRB.INTEGER, lb=0),
+        "q_4_E": model.addVar(name="q_4_E", vtype=GRB.INTEGER, lb=0),
+        "q_5_A": model.addVar(name="q_5_A", vtype=GRB.INTEGER, lb=0),
+        "q_5_B": model.addVar(name="q_5_B", vtype=GRB.INTEGER, lb=0),
+        "q_5_C": model.addVar(name="q_5_C", vtype=GRB.INTEGER, lb=0),
+        "q_5_D": model.addVar(name="q_5_D", vtype=GRB.INTEGER, lb=0),
+        "q_5_E": model.addVar(name="q_5_E", vtype=GRB.INTEGER, lb=0),
+        "q_6_A": model.addVar(name="q_6_A", vtype=GRB.INTEGER, lb=0),
+        "q_6_B": model.addVar(name="q_6_B", vtype=GRB.INTEGER, lb=0),
+        "q_6_C": model.addVar(name="q_6_C", vtype=GRB.INTEGER, lb=0),
+        "q_6_D": model.addVar(name="q_6_D", vtype=GRB.INTEGER, lb=0),
+        "q_6_E": model.addVar(name="q_6_E", vtype=GRB.INTEGER, lb=0),
+        "q_7_A": model.addVar(name="q_7_A", vtype=GRB.INTEGER, lb=0),
+        "q_7_B": model.addVar(name="q_7_B", vtype=GRB.INTEGER, lb=0),
+        "q_7_C": model.addVar(name="q_7_C", vtype=GRB.INTEGER, lb=0),
+        "q_7_D": model.addVar(name="q_7_D", vtype=GRB.INTEGER, lb=0),
+        "q_7_E": model.addVar(name="q_7_E", vtype=GRB.INTEGER, lb=0),
+        "q_8_A": model.addVar(name="q_8_A", vtype=GRB.INTEGER, lb=0),
+        "q_8_B": model.addVar(name="q_8_B", vtype=GRB.INTEGER, lb=0),
+        "q_8_C": model.addVar(name="q_8_C", vtype=GRB.INTEGER, lb=0),
+        "q_8_D": model.addVar(name="q_8_D", vtype=GRB.INTEGER, lb=0),
+        "q_8_E": model.addVar(name="q_8_E", vtype=GRB.INTEGER, lb=0),
+        "q_9_A": model.addVar(name="q_9_A", vtype=GRB.INTEGER, lb=0),
+        "q_9_B": model.addVar(name="q_9_B", vtype=GRB.INTEGER, lb=0),
+        "q_9_C": model.addVar(name="q_9_C", vtype=GRB.INTEGER, lb=0),
+        "q_9_D": model.addVar(name="q_9_D", vtype=GRB.INTEGER, lb=0),
+        "q_9_E": model.addVar(name="q_9_E", vtype=GRB.INTEGER, lb=0),
+        "q_10_A": model.addVar(name="q_10_A", vtype=GRB.INTEGER, lb=0),
+        "q_10_B": model.addVar(name="q_10_B", vtype=GRB.INTEGER, lb=0),
+        "q_10_C": model.addVar(name="q_10_C", vtype=GRB.INTEGER, lb=0),
+        "q_10_D": model.addVar(name="q_10_D", vtype=GRB.INTEGER, lb=0),
+        "q_10_E": model.addVar(name="q_10_E", vtype=GRB.INTEGER, lb=0)
+    }
+
+    # Objective function: Minimize the number of containers used
+    model.setObjective(gp.quicksum(variables[f"y_{i}"] for i in range(1, 11)), GRB.MINIMIZE)
+
+    # Each container can hold at most 60 tons
+    for i in range(1, 11):
+        model.addConstr(
+            variables[f"q_1_A"] * data["weight_tons"]["A"] +
+            variables[f"q_1_B"] * data["weight_tons"]["B"] +
+            variables[f"q_1_C"] * data["weight_tons"]["C"] +
+            variables[f"q_1_D"] * data["weight_tons"]["D"] +
+            variables[f"q_1_E"] * data["weight_tons"]["E"] <= 60 * variables[f"y_{i}"]
+        )
+
+    # Each used container must load at least 18 tons
+    for i in range(1, 11):
+        model.addConstr(
+            variables[f"q_1_A"] * data["weight_tons"]["A"] +
+            variables[f"q_1_B"] * data["weight_tons"]["B"] +
+            variables[f"q_1_C"] * data["weight_tons"]["C"] +
+            variables[f"q_1_D"] * data["weight_tons"]["D"] +
+            variables[f"q_1_E"] * data["weight_tons"]["E"] >= 18 * variables[f"y_{i}"]
+        )
+
+    # Each used container must load at least 12 units of D
+    for i in range(1, 11):
+        model.addConstr(variables[f"q_1_D"] >= 12 * variables[f"y_{i}"])
+
+    # If any A is loaded, at least one C must be loaded
+    for i in range(1, 11):
+        model.addConstr(variables[f"uA_1"] * data["quantity"]["A"] * data["weight_tons"]["A"] >=
+                        variables[f"q_1_A"] + variables[f"q_1_C"] - 1)
+
+    # Data provided
+    goods_data = {
+        "A": {"quantity": data["quantity"]["A"], "weight": data["weight_tons"]["A"]},
+        "B": {"quantity": data["quantity"]["B"], "weight": data["weight_tons"]["B"]},
+        "C": {"quantity": data["quantity"]["C"], "weight": data["weight_tons"]["C"]},
+        "D": {"quantity": data["quantity"]["D"], "weight": data["weight_tons"]["D"]},
+        "E": {"quantity": data["quantity"]["E"], "weight": data["weight_tons"]["E"]}
+    }
+
+    # Load all goods
+    for i in range(1, 11):
+        model.addConstr(variables[f"q_1_A"] <= goods_data["A"]["quantity"] * variables[f"y_{i}"])
+        model.addConstr(variables[f"q_1_B"] <= goods_data["B"]["quantity"] * variables[f"y_{i}"])
+        model.addConstr(variables[f"q_1_C"] <= goods_data["C"]["quantity"] * variables[f"y_{i}"])
+        model.addConstr(variables[f"q_1_D"] <= goods_data["D"]["quantity"] * variables[f"y_{i}"])
+        model.addConstr(variables[f"q_1_E"] <= goods_data["E"]["quantity"] * variables[f"y_{i}"])
+
+    # Return the model and the variables
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "y_1": variables["y_1"].x,
+                "y_2": variables["y_2"].x,
+                "y_3": variables["y_3"].x,
+                "y_4": variables["y_4"].x,
+                "y_5": variables["y_5"].x,
+                "y_6": variables["y_6"].x,
+                "y_7": variables["y_7"].x,
+                "y_8": variables["y_8"].x,
+                "y_9": variables["y_9"].x,
+                "y_10": variables["y_10"].x,
+                "uA_1": variables["uA_1"].x,
+                "uA_2": variables["uA_2"].x,
+                "uA_3": variables["uA_3"].x,
+                "uA_4": variables["uA_4"].x,
+                "uA_5": variables["uA_5"].x,
+                "uA_6": variables["uA_6"].x,
+                "uA_7": variables["uA_7"].x,
+                "uA_8": variables["uA_8"].x,
+                "uA_9": variables["uA_9"].x,
+                "uA_10": variables["uA_10"].x,
+                "q_1_A": variables["q_1_A"].x,
+                "q_1_B": variables["q_1_B"].x,
+                "q_1_C": variables["q_1_C"].x,
+                "q_1_D": variables["q_1_D"].x,
+                "q_1_E": variables["q_1_E"].x,
+                "q_2_A": variables["q_2_A"].x,
+                "q_2_B": variables["q_2_B"].x,
+                "q_2_C": variables["q_2_C"].x,
+                "q_2_D": variables["q_2_D"].x,
+                "q_2_E": variables["q_2_E"].x,
+                "q_3_A": variables["q_3_A"].x,
+                "q_3_B": variables["q_3_B"].x,
+                "q_3_C": variables["q_3_C"].x,
+                "q_3_D": variables["q_3_D"].x,
+                "q_3_E": variables["q_3_E"].x,
+                "q_4_A": variables["q_4_A"].x,
+                "q_4_B": variables["q_4_B"].x,
+                "q_4_C": variables["q_4_C"].x,
+                "q_4_D": variables["q_4_D"].x,
+                "q_4_E": variables["q_4_E"].x,
+                "q_5_A": variables["q_5_A"].x,
+                "q_5_B": variables["q_5_B"].x,
+                "q_5_C": variables["q_5_C"].x,
+                "q_5_D": variables["q_5_D"].x,
+                "q_5_E": variables["q_5_E"].x,
+                "q_6_A": variables["q_6_A"].x,
+                "q_6_B": variables["q_6_B"].x,
+                "q_6_C": variables["q_6_C"].x,
+                "q_6_D": variables["q_6_D"].x,
+                "q_6_E": variables["q_6_E"].x,
+                "q_7_A": variables["q_7_A"].x,
+                "q_7_B": variables["q_7_B"].x,
+                "q_7_C": variables["q_7_C"].x,
+                "q_7_D": variables["q_7_D"].x,
+                "q_7_E": variables["q_7_E"].x,
+                "q_8_A": variables["q_8_A"].x,
+                "q_8_B": variables["q_8_B"].x,
+                "q_8_C": variables["q_8_C"].x,
+                "q_8_D": variables["q_8_D"].x,
+                "q_8_E": variables["q_8_E"].x,
+                "q_9_A": variables["q_9_A"].x,
+                "q_9_B": variables["q_9_B"].x,
+                "q_9_C": variables["q_9_C"].x,
+                "q_9_D": variables["q_9_D"].x,
+                "q_9_E": variables["q_9_E"].x,
+                "q_10_A": variables["q_10_A"].x,
+                "q_10_B": variables["q_10_B"].x,
+                "q_10_C": variables["q_10_C"].x,
+                "q_10_D": variables["q_10_D"].x,
+                "q_10_E": variables["q_10_E"].x
+            }
+        }
+        return solution
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

@@ -1,0 +1,46 @@
+{
+  "problem_id": 4,
+  "scenario_id": "diet_min_cost",
+  "data_instance": {
+    "foods": [
+      "chicken",
+      "rice",
+      "broccoli",
+      "tofu",
+      "beans"
+    ],
+    "protein": {
+      "chicken": 18,
+      "rice": 12,
+      "broccoli": 13,
+      "tofu": 5,
+      "beans": 10
+    },
+    "carb": {
+      "chicken": 6,
+      "rice": 28,
+      "broccoli": 19,
+      "tofu": 16,
+      "beans": 20
+    },
+    "calories": {
+      "chicken": 142,
+      "rice": 88,
+      "broccoli": 137,
+      "tofu": 141,
+      "beans": 150
+    },
+    "cost": {
+      "chicken": 4,
+      "rice": 8,
+      "broccoli": 7,
+      "tofu": 10,
+      "beans": 1
+    },
+    "min": {
+      "protein": 56,
+      "carb": 194,
+      "calories": 2012
+    }
+  }
+}

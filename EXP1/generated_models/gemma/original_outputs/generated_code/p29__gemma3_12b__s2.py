@@ -1,0 +1,75 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    workers = data["workers"]
+    tasks = data["tasks"]
+    hours = data["hours"]
+
+    # TODO: create ALL decision variables using numeric values from data
+    x = {}
+    for w in workers:
+        for t in tasks:
+            x[w, t] = model.addVar(vtype=GRB.BINARY, name=f"x_{w}_{t}")
+
+    # TODO: set the objective using numeric values from data
+    objective = gp.quicksum(hours[w][t] * x[w, t] for w in workers for t in tasks)
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # TODO: add ALL constraints using numeric values from data
+    for w in workers:
+        model.addConstr(gp.quicksum(x[w, t] for t in tasks) == 1, name=f"worker_{w}_assign")
+
+    for t in tasks:
+        model.addConstr(gp.quicksum(x[w, t] for w in workers) == 1, name=f"task_{t}_assign")
+
+    variables = {
+        "variables_keys": "binary assignment variable equal to 1 if the worker is assigned to the task",
+    }
+
+    return model, x
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_I_A": float(variables["I", "A"].X),
+        "x_I_B": float(variables["I", "B"].X),
+        "x_I_C": float(variables["I", "C"].X),
+        "x_I_D": float(variables["I", "D"].X),
+        "x_II_A": float(variables["II", "A"].X),
+        "x_II_B": float(variables["II", "B"].X),
+        "x_II_C": float(variables["II", "C"].X),
+        "x_II_D": float(variables["II", "D"].X),
+        "x_III_A": float(variables["III", "A"].X),
+        "x_III_B": float(variables["III", "B"].X),
+        "x_III_C": float(variables["III", "C"].X),
+        "x_III_D": float(variables["III", "D"].X),
+        "x_IV_A": float(variables["IV", "A"].X),
+        "x_IV_B": float(variables["IV", "B"].X),
+        "x_IV_C": float(variables["IV", "C"].X),
+        "x_IV_D": float(variables["IV", "D"].X),
+        "x_V_A": float(variables["V", "A"].X),
+        "x_V_B": float(variables["V", "B"].X),
+        "x_V_C": float(variables["V", "C"].X),
+        "x_V_D": float(variables["V", "D"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

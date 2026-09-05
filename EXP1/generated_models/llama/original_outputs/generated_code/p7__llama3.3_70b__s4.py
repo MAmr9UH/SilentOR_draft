@@ -1,0 +1,106 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for product in data['products']:
+        for quarter in data['quarters']:
+            key = f'x_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+            
+            key = f'Iv_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+            
+            key = f'Bk_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+    
+    for quarter in data['quarters']:
+        production_hours = 0
+        for product in data['products']:
+            hours_per_unit = data['hours_per_unit'][product]
+            key = f'x_{product}_{quarter}'
+            production_hours += variables[key] * hours_per_unit
+        model.addConstr(production_hours <= data['capacity_hours_per_quarter'])
+        
+    # Product I cannot be produced in quarter 2
+    if 'product_I_blocked_quarter' in data:
+        key = f'x_I_{data["product_I_blocked_quarter"]}'
+        model.addConstr(variables[key] == 0)
+    
+    for product in data['products']:
+        backlog = 0
+        inventory = data['initial_inventory']
+        
+        for quarter in data['quarters']:
+            order_key = f'{product}_{quarter}'
+            order = data['orders'][order_key]
+            
+            key = f'x_{product}_{quarter}'
+            produced = variables[key]
+            
+            key = f'Iv_{product}_{quarter}'
+            new_inventory = variables[key]
+            
+            key = f'Bk_{product}_{quarter}'
+            new_backlog = variables[key]
+            
+            model.addConstr(new_backlog == backlog + order - produced)
+            model.addConstr(new_inventory == inventory + produced - order)
+            
+            if quarter == data['quarters'][-1]:
+                model.addConstr(new_inventory >= data['required_ending_inventory'])
+                model.addConstr(new_backlog == 0)
+            
+            backlog = new_backlog
+            inventory = new_inventory
+    
+    objective = gp.quicksum(
+        variables[f'Bk_{product}_{quarter}'] * data['late_penalty_per_unit_per_quarter'][product]
+        for product in data['products']
+        for quarter in data['quarters']
+    ) + gp.quicksum(
+        variables[f'Iv_{product}_{quarter}'] * data['storage_cost_per_unit_per_quarter']
+        for product in data['products']
+        for quarter in data['quarters']
+    )
+    
+    model.setObjective(objective, 'min')
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {
+        key: model.getVarByName(key).X
+        for key in [
+            f'x_{product}_{quarter}'
+            for product in data['products']
+            for quarter in data['quarters']
+        ] + [
+            f'Iv_{product}_{quarter}'
+            for product in data['products']
+            for quarter in data['quarters']
+        ] + [
+            f'Bk_{product}_{quarter}'
+            for product in data['products']
+            for quarter in data['quarters']
+        ]
+    }
+    
+    return {
+        'status': status_map[model.Status],
+        'objective': model.ObjVal,
+        'solution': solution
+    }

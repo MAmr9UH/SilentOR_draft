@@ -1,0 +1,82 @@
+{
+  "problem_id": 28,
+  "scenario_id": "italian_empty_container_truck_transportation_mip",
+  "data_instance": {
+    "warehouses": [
+      "Verona",
+      "Perugia",
+      "Rome",
+      "Pescara",
+      "Taranto",
+      "Lamezia"
+    ],
+    "ports": [
+      "Genoa",
+      "Venice",
+      "Ancona",
+      "Naples",
+      "Bari"
+    ],
+    "supply": {
+      "Verona": 10,
+      "Perugia": 12,
+      "Rome": 20,
+      "Pescara": 24,
+      "Taranto": 18,
+      "Lamezia": 40
+    },
+    "demand": {
+      "Genoa": 20,
+      "Venice": 15,
+      "Ancona": 25,
+      "Naples": 33,
+      "Bari": 21
+    },
+    "distance_km": {
+      "Verona": {
+        "Genoa": 290,
+        "Venice": 115,
+        "Ancona": 355,
+        "Naples": 715,
+        "Bari": 810
+      },
+      "Perugia": {
+        "Genoa": 380,
+        "Venice": 340,
+        "Ancona": 165,
+        "Naples": 380,
+        "Bari": 610
+      },
+      "Rome": {
+        "Genoa": 505,
+        "Venice": 530,
+        "Ancona": 285,
+        "Naples": 220,
+        "Bari": 450
+      },
+      "Pescara": {
+        "Genoa": 655,
+        "Venice": 450,
+        "Ancona": 155,
+        "Naples": 240,
+        "Bari": 315
+      },
+      "Taranto": {
+        "Genoa": 1010,
+        "Venice": 840,
+        "Ancona": 550,
+        "Naples": 305,
+        "Bari": 95
+      },
+      "Lamezia": {
+        "Genoa": 1072,
+        "Venice": 1097,
+        "Ancona": 747,
+        "Naples": 372,
+        "Bari": 333
+      }
+    },
+    "truck_capacity_containers": 2,
+    "cost_per_km_per_truck": 30
+  }
+}

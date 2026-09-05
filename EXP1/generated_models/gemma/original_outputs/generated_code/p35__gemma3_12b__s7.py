@@ -1,0 +1,111 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    x = {}
+    for i in data["sources"]:
+        for k in data["stations"]:
+            x[i, k] = model.addVar(vtype=GRB.CONTINUOUS, name=f"x_{i}_{k}")
+
+    z = {}
+    for k in data["stations"]:
+        for j in data["demands"]:
+            z[k, j] = model.addVar(vtype=GRB.CONTINUOUS, name=f"z_{k}_{j}")
+
+    y = {}
+    for k in data["stations"]:
+        y[k] = model.addVar(vtype=GRB.BINARY, name=f"y_{k}")
+
+    variables = {
+        "x_1_1": x["1", "1"],
+        "x_1_2": x["1", "2"],
+        "x_2_1": x["2", "1"],
+        "x_2_2": x["2", "2"],
+        "z_1_1": z["1", "1"],
+        "z_1_2": z["1", "2"],
+        "z_2_1": z["2", "1"],
+        "z_2_2": z["2", "2"],
+        "y_1": y["1"],
+        "y_2": y["2"]
+    }
+
+    # Objective function
+    model.setObjective(
+        gp.quicksum(data["fixed_cost"][k] * y[k] for k in data["stations"]) +
+        gp.quicksum(data["cost_source_station"][f"{i},{k}"] * x[i, k] for i in data["sources"] for k in data["stations"]) +
+        gp.quicksum(data["cost_station_demand"][f"{k},{j}"] * z[k, j] for k in data["stations"] for j in data["demands"]),
+        GRB.MINIMIZE
+    )
+
+    # Constraints
+    # Supply constraints
+    for i in data["sources"]:
+        model.addConstr(
+            gp.quicksum(x[i, k] for k in data["stations"]) == data["supply"][i],
+            name=f"supply_{i}"
+        )
+
+    # Demand constraints
+    for j in data["demands"]:
+        model.addConstr(
+            gp.quicksum(z[k, j] for k in data["stations"]) == data["demand"][j],
+            name=f"demand_{j}"
+        )
+
+    # Marshaling station capacity constraints
+    for k in data["stations"]:
+        model.addConstr(
+            gp.quicksum(x[i, k] for i in data["sources"]) <= data["station_capacity"][k] * y[k],
+            name=f"capacity_{k}"
+        )
+
+    # Transshipment flow conservation constraints
+    for k in data["stations"]:
+        model.addConstr(
+            gp.quicksum(x[i, k] for i in data["sources"]) == gp.quicksum(z[k, j] for j in data["demands"]),
+            name=f"flow_conservation_{k}"
+        )
+
+    # Total supply >= total demand
+    model.addConstr(
+        gp.quicksum(data["supply"].values()) >= gp.quicksum(data["demand"].values()),
+        name="total_supply_demand"
+    )
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_1_1": float(variables["x_1_1"].X),
+        "x_1_2": float(variables["x_1_2"].X),
+        "x_2_1": float(variables["x_2_1"].X),
+        "x_2_2": float(variables["x_2_2"].X),
+        "z_1_1": float(variables["z_1_1"].X),
+        "z_1_2": float(variables["z_1_2"].X),
+        "z_2_1": float(variables["z_2_1"].X),
+        "z_2_2": float(variables["z_2_2"].X),
+        "y_1": float(variables["y_1"].X),
+        "y_2": float(variables["y_2"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

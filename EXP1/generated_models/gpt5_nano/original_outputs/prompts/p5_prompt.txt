@@ -1,0 +1,130 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+To graduate from Basketweavers University with a major in operations research, a student must complete at least two math courses, at least two OR courses, and at least two computer courses. Some courses count toward more than one requirement: Calculus fulfills the math requirement; operations research fulfills math and OR; data structures fulfills computer and math; business statistics fulfills math and OR; computer simulation fulfills OR and computer; introduction to computer programming fulfills computer; and forecasting fulfills OR and math. Some courses are prerequisites for others: Calculus is a prerequisite for business statistics; introduction to computer programming is a prerequisite for computer simulation and for data structures; and business statistics is a prerequisite for forecasting. Minimize the number of courses needed to satisfy the major requirements.
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "sel_calculus": "binary Var: 1 if course taken",
+    "sel_or": "binary Var: 1 if course taken",
+    "sel_ds": "binary Var: 1 if course taken",
+    "sel_bs": "binary Var: 1 if course taken",
+    "sel_cs": "binary Var: 1 if course taken",
+    "sel_cp": "binary Var: 1 if course taken",
+    "sel_fc": "binary Var: 1 if course taken"
+  },
+  "note": "Variable keys are sel_<code> using codes: calculus, or, ds, bs, cs, cp, fc (see course_names in data)."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "sel_calculus",
+        "sel_or",
+        "sel_ds",
+        "sel_bs",
+        "sel_cs",
+        "sel_cp",
+        "sel_fc"
+      ],
+      "properties": {
+        "sel_calculus": {
+          "type": "number"
+        },
+        "sel_or": {
+          "type": "number"
+        },
+        "sel_ds": {
+          "type": "number"
+        },
+        "sel_bs": {
+          "type": "number"
+        },
+        "sel_cs": {
+          "type": "number"
+        },
+        "sel_cp": {
+          "type": "number"
+        },
+        "sel_fc": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "courses": [
+    "calculus",
+    "or",
+    "ds",
+    "bs",
+    "cs",
+    "cp",
+    "fc"
+  ],
+  "course_names": {
+    "calculus": "calculus",
+    "or": "operations research",
+    "ds": "data structures",
+    "bs": "business statistics",
+    "cs": "computer simulation",
+    "cp": "intro to computer programming",
+    "fc": "forecasting"
+  }
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

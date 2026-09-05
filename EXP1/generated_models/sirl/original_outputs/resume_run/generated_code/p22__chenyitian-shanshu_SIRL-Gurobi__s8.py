@@ -1,0 +1,155 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("max_bottleneck_bandwidth_model")
+    
+    nodes = data["nodes"]
+    source = data["source"]
+    sink = data["sink"]
+    required_service_node = data["required_service_node"]
+    bandwidth = data["bandwidth"]
+    big_m = data["big_m"]
+    
+    variables_keys = {
+        "z": "bottleneck bandwidth",
+        "x_A_B": "arc A->B",
+        "x_A_C": "arc A->C",
+        "x_A_E": "arc A->E",
+        "x_B_A": "arc B->A",
+        "x_B_C": "arc B->C",
+        "x_B_D": "arc B->D",
+        "x_B_E": "arc B->E",
+        "x_C_A": "arc C->A",
+        "x_C_D": "arc C->D",
+        "x_C_E": "arc C->E",
+        "x_D_A": "arc D->A",
+        "x_D_B": "arc D->B",
+        "x_D_C": "arc D->C",
+        "x_D_E": "arc D->E",
+        "x_E_B": "arc E->B",
+        "x_E_D": "arc E->D"
+    }
+    
+    variables = {
+        "z": model.addVar(name="z", vtype=GRB.CONTINUOUS, lb=0),
+        "x_A_B": model.addVar(name="x_A_B", vtype=GRB.BINARY),
+        "x_A_C": model.addVar(name="x_A_C", vtype=GRB.BINARY),
+        "x_A_E": model.addVar(name="x_A_E", vtype=GRB.BINARY),
+        "x_B_A": model.addVar(name="x_B_A", vtype=GRB.BINARY),
+        "x_B_C": model.addVar(name="x_B_C", vtype=GRB.BINARY),
+        "x_B_D": model.addVar(name="x_B_D", vtype=GRB.BINARY),
+        "x_B_E": model.addVar(name="x_B_E", vtype=GRB.BINARY),
+        "x_C_A": model.addVar(name="x_C_A", vtype=GRB.BINARY),
+        "x_C_D": model.addVar(name="x_C_D", vtype=GRB.BINARY),
+        "x_C_E": model.addVar(name="x_C_E", vtype=GRB.BINARY),
+        "x_D_A": model.addVar(name="x_D_A", vtype=GRB.BINARY),
+        "x_D_B": model.addVar(name="x_D_B", vtype=GRB.BINARY),
+        "x_D_C": model.addVar(name="x_D_C", vtype=GRB.BINARY),
+        "x_D_E": model.addVar(name="x_D_E", vtype=GRB.BINARY),
+        "x_E_B": model.addVar(name="x_E_B", vtype=GRB.BINARY),
+        "x_E_D": model.addVar(name="x_E_D", vtype=GRB.BINARY)
+    }
+    
+    # Objective function: Maximize bottleneck bandwidth
+    model.setObjective(variables["z"], GRB.MAXIMIZE)
+    
+    # Define bandwidth
+    for (from_node, to_node), value in bandwidth.items():
+        if value > 0:
+            model.addConstr(variables[f"x_{from_node}_{to_node}"] <= value)
+    
+    # Flow conservation for node A
+    model.addConstr(variables["x_A_B"] + variables["x_A_C"] + variables["x_A_E"] <= 1)
+    
+    # Flow conservation for node B
+    model.addConstr(variables["x_B_A"] + variables["x_B_C"] + variables["x_B_D"] + variables["x_B_E"] <= 1)
+    
+    # Flow conservation for node C
+    model.addConstr(variables["x_C_A"] + variables["x_C_D"] + variables["x_C_E"] <= 1)
+    
+    # Flow conservation for node D
+    model.addConstr(variables["x_D_A"] + variables["x_D_B"] + variables["x_D_C"] + variables["x_D_E"] <= 1)
+    
+    # Flow conservation for node E
+    model.addConstr(variables["x_E_B"] + variables["x_E_D"] <= 1)
+    
+    # Flow conservation for source node A to sink node E passing through service node C
+    model.addConstr(variables["x_A_C"] + variables["x_C_E"] - variables["x_E_C"] >= 1)
+    model.addConstr(variables["x_A_C"] + variables["x_C_A"] <= 1)
+    
+    # Link selection must be consistent with the bottleneck bandwidth
+    model.addConstr(variables["z"] <= variables["x_A_B"])
+    model.addConstr(variables["z"] <= variables["x_A_C"])
+    model.addConstr(variables["z"] <= variables["x_A_E"])
+    model.addConstr(variables["z"] <= variables["x_B_A"])
+    model.addConstr(variables["z"] <= variables["x_B_C"])
+    model.addConstr(variables["z"] <= variables["x_B_D"])
+    model.addConstr(variables["z"] <= variables["x_B_E"])
+    model.addConstr(variables["z"] <= variables["x_C_A"])
+    model.addConstr(variables["z"] <= variables["x_C_D"])
+    model.addConstr(variables["z"] <= variables["x_C_E"])
+    model.addConstr(variables["z"] <= variables["x_D_A"])
+    model.addConstr(variables["z"] <= variables["x_D_B"])
+    model.addConstr(variables["z"] <= variables["x_D_C"])
+    model.addConstr(variables["z"] <= variables["x_D_E"])
+    model.addConstr(variables["z"] <= variables["x_E_B"])
+    model.addConstr(variables["z"] <= variables["x_E_D"])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "z": variables["z"].x,
+                "x_A_B": variables["x_A_B"].x,
+                "x_A_C": variables["x_A_C"].x,
+                "x_A_E": variables["x_A_E"].x,
+                "x_B_A": variables["x_B_A"].x,
+                "x_B_C": variables["x_B_C"].x,
+                "x_B_D": variables["x_B_D"].x,
+                "x_B_E": variables["x_B_E"].x,
+                "x_C_A": variables["x_C_A"].x,
+                "x_C_D": variables["x_C_D"].x,
+                "x_C_E": variables["x_C_E"].x,
+                "x_D_A": variables["x_D_A"].x,
+                "x_D_B": variables["x_D_B"].x,
+                "x_D_C": variables["x_D_C"].x,
+                "x_D_E": variables["x_D_E"].x,
+                "x_E_B": variables["x_E_B"].x,
+                "x_E_D": variables["x_E_D"].x
+            }
+        }
+    else:
+        solution = {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {
+                "z": None,
+                "x_A_B": None,
+                "x_A_C": None,
+                "x_A_E": None,
+                "x_B_A": None,
+                "x_B_C": None,
+                "x_B_D": None,
+                "x_B_E": None,
+                "x_C_A": None,
+                "x_C_D": None,
+                "x_C_E": None,
+                "x_D_A": None,
+                "x_D_B": None,
+                "x_D_C": None,
+                "x_D_E": None,
+                "x_E_B": None,
+                "x_E_D": None
+            }
+        }
+    
+    return solution

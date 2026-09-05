@@ -1,0 +1,197 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("container_transportation_model")
+    
+    warehouses = data["warehouses"]
+    ports = data["ports"]
+    supply = data["supply"]
+    demand = data["demand"]
+    distance_km = data["distance_km"]
+    truck_capacity_containers = data["truck_capacity_containers"]
+    cost_per_km_per_truck = data["cost_per_km_per_truck"]
+    
+    variables_keys = {
+        "x_Verona_Genoa": "integer number of containers shipped from Verona to Genoa",
+        "x_Verona_Venice": "integer number of containers shipped from Verona to Venice",
+        "x_Verona_Ancona": "integer number of containers shipped from Verona to Ancona",
+        "x_Verona_Naples": "integer number of containers shipped from Verona to Naples",
+        "x_Verona_Bari": "integer number of containers shipped from Verona to Bari",
+        "x_Perugia_Genoa": "integer number of containers shipped from Perugia to Genoa",
+        "x_Perugia_Venice": "integer number of containers shipped from Perugia to Venice",
+        "x_Perugia_Ancona": "integer number of containers shipped from Perugia to Ancona",
+        "x_Perugia_Naples": "integer number of containers shipped from Perugia to Naples",
+        "x_Perugia_Bari": "integer number of containers shipped from Perugia to Bari",
+        "x_Rome_Genoa": "integer number of containers shipped from Rome to Genoa",
+        "x_Rome_Venice": "integer number of containers shipped from Rome to Venice",
+        "x_Rome_Ancona": "integer number of containers shipped from Rome to Ancona",
+        "x_Rome_Naples": "integer number of containers shipped from Rome to Naples",
+        "x_Rome_Bari": "integer number of containers shipped from Rome to Bari",
+        "x_Pescara_Genoa": "integer number of containers shipped from Pescara to Genoa",
+        "x_Pescara_Venice": "integer number of containers shipped from Pescara to Venice",
+        "x_Pescara_Ancona": "integer number of containers shipped from Pescara to Ancona",
+        "x_Pescara_Naples": "integer number of containers shipped from Pescara to Naples",
+        "x_Pescara_Bari": "integer number of containers shipped from Pescara to Bari",
+        "x_Taranto_Genoa": "integer number of containers shipped from Taranto to Genoa",
+        "x_Taranto_Venice": "integer number of containers shipped from Taranto to Venice",
+        "x_Taranto_Ancona": "integer number of containers shipped from Taranto to Ancona",
+        "x_Taranto_Naples": "integer number of containers shipped from Taranto to Naples",
+        "x_Taranto_Bari": "integer number of containers shipped from Taranto to Bari",
+        "x_Lamezia_Genoa": "integer number of containers shipped from Lamezia to Genoa",
+        "x_Lamezia_Venice": "integer number of containers shipped from Lamezia to Venice",
+        "x_Lamezia_Ancona": "integer number of containers shipped from Lamezia to Ancona",
+        "x_Lamezia_Naples": "integer number of containers shipped from Lamezia to Naples",
+        "x_Lamezia_Bari": "integer number of containers shipped from Lamezia to Bari",
+        "t_Verona_Genoa": "integer number of truck trips from Verona to Genoa",
+        "t_Verona_Venice": "integer number of truck trips from Verona to Venice",
+        "t_Verona_Ancona": "integer number of truck trips from Verona to Ancona",
+        "t_Verona_Naples": "integer number of truck trips from Verona to Naples",
+        "t_Verona_Bari": "integer number of truck trips from Verona to Bari",
+        "t_Perugia_Genoa": "integer number of truck trips from Perugia to Genoa",
+        "t_Perugia_Venice": "integer number of truck trips from Perugia to Venice",
+        "t_Perugia_Ancona": "integer number of truck trips from Perugia to Ancona",
+        "t_Perugia_Naples": "integer number of truck trips from Perugia to Naples",
+        "t_Perugia_Bari": "integer number of truck trips from Perugia to Bari",
+        "t_Rome_Genoa": "integer number of truck trips from Rome to Genoa",
+        "t_Rome_Venice": "integer number of truck trips from Rome to Venice",
+        "t_Rome_Ancona": "integer number of truck trips from Rome to Ancona",
+        "t_Rome_Naples": "integer number of truck trips from Rome to Naples",
+        "t_Rome_Bari": "integer number of truck trips from Rome to Bari",
+        "t_Pescara_Genoa": "integer number of truck trips from Pescara to Genoa",
+        "t_Pescara_Venice": "integer number of truck trips from Pescara to Venice",
+        "t_Pescara_Ancona": "integer number of truck trips from Pescara to Ancona",
+        "t_Pescara_Naples": "integer number of truck trips from Pescara to Naples",
+        "t_Pescara_Bari": "integer number of truck trips from Pescara to Bari",
+        "t_Taranto_Genoa": "integer number of truck trips from Taranto to Genoa",
+        "t_Taranto_Venice": "integer number of truck trips from Taranto to Venice",
+        "t_Taranto_Ancona": "integer number of truck trips from Taranto to Ancona",
+        "t_Taranto_Naples": "integer number of truck trips from Taranto to Naples",
+        "t_Taranto_Bari": "integer number of truck trips from Taranto to Bari",
+        "t_Lamezia_Genoa": "integer number of truck trips from Lamezia to Genoa",
+        "t_Lamezia_Venice": "integer number of truck trips from Lamezia to Venice",
+        "t_Lamezia_Ancona": "integer number of truck trips from Lamezia to Ancona",
+        "t_Lamezia_Naples": "integer number of truck trips from Lamezia to Naples",
+        "t_Lamezia_Bari": "integer number of truck trips from Lamezia to Bari"
+    }
+    
+    variables = {}
+    
+    for key in variables_keys:
+        if "x_" in key:
+            variables[key] = {}
+            for warehouse in warehouses:
+                if warehouse in key:
+                    for port in ports:
+                        if port in key:
+                            variables[key][warehouse, port] = model.addVar(name=key, lb=0, vtype=GRB.INTEGER)
+        elif "t_" in key:
+            variables[key] = {}
+            for warehouse in warehouses:
+                if warehouse in key:
+                    for port in ports:
+                        if port in key:
+                            variables[key][warehouse, port] = model.addVar(name=key, lb=0, vtype=GRB.INTEGER)
+    
+    # Objective function: Minimize total transportation cost
+    model.setObjective(
+        gp.quicksum(cost_per_km_per_truck * distance_km[warehouse][port] * variables["x_" + warehouse + "_" + port][warehouse, port] for warehouse in warehouses for port in ports) +
+        gp.quicksum(cost_per_km_per_truck * distance_km[warehouse][port] * variables["t_" + warehouse + "_" + port][warehouse, port] for warehouse in warehouses for port in ports),
+        GRB.MINIMIZE)
+    
+    # Supply constraint
+    for warehouse in warehouses:
+        model.addConstr(gp.quicksum(variables["x_" + warehouse + "_" + port][warehouse, port] for port in ports) <= supply[warehouse])
+    
+    # Demand constraint
+    for port in ports:
+        model.addConstr(gp.quicksum(variables["x_" + warehouse + "_" + port][warehouse, port] for warehouse in warehouses) >= demand[port])
+    
+    # Each truck can carry up to 2 containers
+    for warehouse in warehouses:
+        for port in ports:
+            model.addConstr(variables["x_" + warehouse + "_" + port][warehouse, port] <= 2 * variables["t_" + warehouse + "_" + port][warehouse, port])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_Verona_Genoa": variables["x_Verona_Genoa"][("Verona", "Genoa")].x,
+            "x_Verona_Venice": variables["x_Verona_Venice"][("Verona", "Venice")].x,
+            "x_Verona_Ancona": variables["x_Verona_Ancona"][("Verona", "Ancona")].x,
+            "x_Verona_Naples": variables["x_Verona_Naples"][("Verona", "Naples")].x,
+            "x_Verona_Bari": variables["x_Verona_Bari"][("Verona", "Bari")].x,
+            "x_Perugia_Genoa": variables["x_Perugia_Genoa"][("Perugia", "Genoa")].x,
+            "x_Perugia_Venice": variables["x_Perugia_Venice"][("Perugia", "Venice")].x,
+            "x_Perugia_Ancona": variables["x_Perugia_Ancona"][("Perugia", "Ancona")].x,
+            "x_Perugia_Naples": variables["x_Perugia_Naples"][("Perugia", "Naples")].x,
+            "x_Perugia_Bari": variables["x_Perugia_Bari"][("Perugia", "Bari")].x,
+            "x_Rome_Genoa": variables["x_Rome_Genoa"][("Rome", "Genoa")].x,
+            "x_Rome_Venice": variables["x_Rome_Venice"][("Rome", "Venice")].x,
+            "x_Rome_Ancona": variables["x_Rome_Ancona"][("Rome", "Ancona")].x,
+            "x_Rome_Naples": variables["x_Rome_Naples"][("Rome", "Naples")].x,
+            "x_Rome_Bari": variables["x_Rome_Bari"][("Rome", "Bari")].x,
+            "x_Pescara_Genoa": variables["x_Pescara_Genoa"][("Pescara", "Genoa")].x,
+            "x_Pescara_Venice": variables["x_Pescara_Venice"][("Pescara", "Venice")].x,
+            "x_Pescara_Ancona": variables["x_Pescara_Ancona"][("Pescara", "Ancona")].x,
+            "x_Pescara_Naples": variables["x_Pescara_Naples"][("Pescara", "Naples")].x,
+            "x_Pescara_Bari": variables["x_Pescara_Bari"][("Pescara", "Bari")].x,
+            "x_Taranto_Genoa": variables["x_Taranto_Genoa"][("Taranto", "Genoa")].x,
+            "x_Taranto_Venice": variables["x_Taranto_Venice"][("Taranto", "Venice")].x,
+            "x_Taranto_Ancona": variables["x_Taranto_Ancona"][("Taranto", "Ancona")].x,
+            "x_Taranto_Naples": variables["x_Taranto_Naples"][("Taranto", "Naples")].x,
+            "x_Taranto_Bari": variables["x_Taranto_Bari"][("Taranto", "Bari")].x,
+            "x_Lamezia_Genoa": variables["x_Lamezia_Genoa"][("Lamezia", "Genoa")].x,
+            "x_Lamezia_Venice": variables["x_Lamezia_Venice"][("Lamezia", "Venice")].x,
+            "x_Lamezia_Ancona": variables["x_Lamezia_Ancona"][("Lamezia", "Ancona")].x,
+            "x_Lamezia_Naples": variables["x_Lamezia_Naples"][("Lamezia", "Naples")].x,
+            "x_Lamezia_Bari": variables["x_Lamezia_Bari"][("Lamezia", "Bari")].x,
+            "t_Verona_Genoa": variables["t_Verona_Genoa"][("Verona", "Genoa")].x,
+            "t_Verona_Venice": variables["t_Verona_Venice"][("Verona", "Venice")].x,
+            "t_Verona_Ancona": variables["t_Verona_Ancona"][("Verona", "Ancona")].x,
+            "t_Verona_Naples": variables["t_Verona_Naples"][("Verona", "Naples")].x,
+            "t_Verona_Bari": variables["t_Verona_Bari"][("Verona", "Bari")].x,
+            "t_Perugia_Genoa": variables["t_Perugia_Genoa"][("Perugia", "Genoa")].x,
+            "t_Perugia_Venice": variables["t_Perugia_Venice"][("Perugia", "Venice")].x,
+            "t_Perugia_Ancona": variables["t_Perugia_Ancona"][("Perugia", "Ancona")].x,
+            "t_Perugia_Naples": variables["t_Perugia_Naples"][("Perugia", "Naples")].x,
+            "t_Perugia_Bari": variables["t_Perugia_Bari"][("Perugia", "Bari")].x,
+            "t_Rome_Genoa": variables["t_Rome_Genoa"][("Rome", "Genoa")].x,
+            "t_Rome_Venice": variables["t_Rome_Venice"][("Rome", "Venice")].x,
+            "t_Rome_Ancona": variables["t_Rome_Ancona"][("Rome", "Ancona")].x,
+            "t_Rome_Naples": variables["t_Rome_Naples"][("Rome", "Naples")].x,
+            "t_Rome_Bari": variables["t_Rome_Bari"][("Rome", "Bari")].x,
+            "t_Pescara_Genoa": variables["t_Pescara_Genoa"][("Pescara", "Genoa")].x,
+            "t_Pescara_Venice": variables["t_Pescara_Venice"][("Pescara", "Venice")].x,
+            "t_Pescara_Ancona": variables["t_Pescara_Ancona"][("Pescara", "Ancona")].x,
+            "t_Pescara_Naples": variables["t_Pescara_Naples"][("Pescara", "Naples")].x,
+            "t_Pescara_Bari": variables["t_Pescara_Bari"][("Pescara", "Bari")].x,
+            "t_Taranto_Genoa": variables["t_Taranto_Genoa"][("Taranto", "Genoa")].x,
+            "t_Taranto_Venice": variables["t_Taranto_Venice"][("Taranto", "Venice")].x,
+            "t_Taranto_Ancona": variables["t_Taranto_Ancona"][("Taranto", "Ancona")].x,
+            "t_Taranto_Naples": variables["t_Taranto_Naples"][("Taranto", "Naples")].x,
+            "t_Taranto_Bari": variables["t_Taranto_Bari"][("Taranto", "Bari")].x,
+            "t_Lamezia_Genoa": variables["t_Lamezia_Genoa"][("Lamezia", "Genoa")].x,
+            "t_Lamezia_Venice": variables["t_Lamezia_Venice"][("Lamezia", "Venice")].x,
+            "t_Lamezia_Ancona": variables["t_Lamezia_Ancona"][("Lamezia", "Ancona")].x,
+            "t_Lamezia_Naples": variables["t_Lamezia_Naples"][("Lamezia", "Naples")].x,
+            "t_Lamezia_Bari": variables["t_Lamezia_Bari"][("Lamezia", "Bari")].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {}
+        }
+```

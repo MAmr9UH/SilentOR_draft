@@ -1,0 +1,119 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    months = data["months"]
+    initial_inventory = data["initial_inventory"]
+    initial_cash = data["initial_cash"]
+    capacity = data["capacity"]
+    final_inventory_required = data["final_inventory_required"]
+    purchase_price = data["purchase_price"]
+    selling_price = data["selling_price"]
+
+    # Decision Variables
+    buy_1 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="buy_1")
+    buy_2 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="buy_2")
+    buy_3 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="buy_3")
+
+    sell_1 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="sell_1")
+    sell_2 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="sell_2")
+    sell_3 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="sell_3")
+
+    inventory_1 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="inventory_1")
+    inventory_2 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="inventory_2")
+    inventory_3 = model.addVar(lb=0, ub=capacity, vtype=GRB.CONTINUOUS, name="inventory_3")
+
+    cash_1 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="cash_1")
+    cash_2 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="cash_2")
+    cash_3 = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="cash_3")
+
+    profit = model.addVar(lb=0, vtype=GRB.CONTINUOUS, name="profit")
+
+    # Objective Function
+    model.setObjective(
+        gp.quicksum([selling_price[str(m)] * sell_1 for m in months]) +
+        gp.quicksum([selling_price[str(m)] * sell_2 for m in months]) +
+        gp.quicksum([selling_price[str(m)] * sell_3 for m in months]) -
+        gp.quicksum([purchase_price[str(m)] * buy_1 for m in months]) -
+        gp.quicksum([purchase_price[str(m)] * buy_2 for m in months]) -
+        gp.quicksum([purchase_price[str(m)] * buy_3 for m in months]),
+        sense=GRB.MAXIMIZE
+    )
+
+    # Constraints
+    # Inventory constraints
+    model.addConstr(inventory_1 == initial_inventory + buy_1 - sell_1, "inventory_1")
+    model.addConstr(inventory_2 == inventory_1 + buy_2 - sell_2, "inventory_2")
+    model.addConstr(inventory_3 == inventory_2 + buy_3 - sell_3, "inventory_3")
+
+    # Final Inventory constraint
+    model.addConstr(inventory_3 == final_inventory_required, "final_inventory")
+
+    # Cash constraints
+    model.addConstr(cash_1 == initial_cash - purchase_price[str(1)] * buy_1 + selling_price[str(1)] * sell_1, "cash_1")
+    model.addConstr(cash_2 == cash_1 - purchase_price[str(2)] * buy_2 + selling_price[str(2)] * sell_2, "cash_2")
+    model.addConstr(cash_3 == cash_2 - purchase_price[str(3)] * buy_3 + selling_price[str(3)] * sell_3, "cash_3")
+
+    # Sales constraints (can only sell what you have)
+    model.addConstr(sell_1 <= inventory_1, "sales_1")
+    model.addConstr(sell_2 <= inventory_2, "sales_2")
+    model.addConstr(sell_3 <= inventory_3, "sales_3")
+
+    # Purchase constraints (cannot buy more than capacity)
+    model.addConstr(buy_1 + buy_2 + buy_3 <= capacity, "purchase_limit")
+
+    variables = {
+        "buy_1": buy_1,
+        "buy_2": buy_2,
+        "buy_3": buy_3,
+        "sell_1": sell_1,
+        "sell_2": sell_2,
+        "sell_3": sell_3,
+        "inventory_1": inventory_1,
+        "inventory_2": inventory_2,
+        "inventory_3": inventory_3,
+        "cash_1": cash_1,
+        "cash_2": cash_2,
+        "cash_3": cash_3,
+        "profit": profit
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "buy_1": float(variables["buy_1"].X),
+        "buy_2": float(variables["buy_2"].X),
+        "buy_3": float(variables["buy_3"].X),
+        "sell_1": float(variables["sell_1"].X),
+        "sell_2": float(variables["sell_2"].X),
+        "sell_3": float(variables["sell_3"].X),
+        "inventory_1": float(variables["inventory_1"].X),
+        "inventory_2": float(variables["inventory_2"].X),
+        "inventory_3": float(variables["inventory_3"].X),
+        "cash_1": float(variables["cash_1"].X),
+        "cash_2": float(variables["cash_2"].X),
+        "cash_3": float(variables["cash_3"].X),
+        "profit": float(model.ObjVal)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

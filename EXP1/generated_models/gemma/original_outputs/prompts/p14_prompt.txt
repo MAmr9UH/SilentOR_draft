@@ -1,0 +1,412 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+In the bustling world of retail, LogiChain, a renowned logistics company, is at a crossroads in determining the most efficient way to distribute products to its network of eight retail stores. The challenge lies in selecting from four strategic distribution centers, each with its distinct opening costs and supply capacities. The goal is to ensure that each store's demand is met with the least total cost, incorporating both the opening of distribution centers and the transportation costs of delivering goods.
+
+Here are the specifics of the situation:
+
+- LogiChain can open any of the four distribution centers, each with a different opening cost.
+- There are eight retail stores in need of supplies, each with its unique demand.
+- The transportation cost per unit of product varies not only from one distribution center to another but also from one store to another.
+
+The details are as follows:
+
+Opening Costs for Each Distribution Center (in dollars):
+- Center 1: $151,000
+- Center 2: $192,000
+- Center 3: $114,000
+- Center 4: $171,000
+
+Transportation Cost Per Unit from Each Distribution Center to Retail Stores (in dollars):
+- From Center 1: $5 to Store 1, $5 to Store 2, $2 to Store 3, $3 to Store 4, $3 to Store 5, $3 to Store 6, $5 to Store 7, $4 to Store 8
+- From Center 2: $3 to Store 1, $5 to Store 2, $2 to Store 3, $4 to Store 4, $2 to Store 5, $4 to Store 6, $5 to Store 7, $1 to Store 8
+- From Center 3: $4 to Store 1, $2 to Store 2, $5 to Store 3, $4 to Store 4, $1 to Store 5, $1 to Store 6, $3 to Store 7, $3 to Store 8
+- From Center 4: $2 to Store 1, $4 to Store 2, $4 to Store 3, $3 to Store 4, $4 to Store 5, $4 to Store 6, $1 to Store 7, $3 to Store 8
+
+Demand of Each Retail Store (in units):
+- Store 1: 884 units
+- Store 2: 420 units
+- Store 3: 566 units
+- Store 4: 673 units
+- Store 5: 787 units
+- Store 6: 1000 units
+- Store 7: 715 units
+- Store 8: 413 units
+
+Supply Capacity of Each Distribution Center (in units):
+- Center 1: 1041 units
+- Center 2: 1576 units
+- Center 3: 1364 units
+- Center 4: 1697 units
+
+Given these variables, LogiChain must make a calculated decision on which distribution centers to open and how to allocate shipments to meet the demands of the eight stores in the most cost-effective manner.
+
+Question:
+What is the optimal total cost for LogiChain to open distribution centers and transport goods to satisfy the demand of all eight retail stores, taking both the opening costs and transportation costs into account?
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "y_c1": "binary Var: 1 if distribution center is opened",
+    "y_c2": "binary Var: 1 if distribution center is opened",
+    "y_c3": "binary Var: 1 if distribution center is opened",
+    "y_c4": "binary Var: 1 if distribution center is opened",
+    "f_c1_s1": "continuous Var: units shipped from center to store",
+    "f_c1_s2": "continuous Var: units shipped from center to store",
+    "f_c1_s3": "continuous Var: units shipped from center to store",
+    "f_c1_s4": "continuous Var: units shipped from center to store",
+    "f_c1_s5": "continuous Var: units shipped from center to store",
+    "f_c1_s6": "continuous Var: units shipped from center to store",
+    "f_c1_s7": "continuous Var: units shipped from center to store",
+    "f_c1_s8": "continuous Var: units shipped from center to store",
+    "f_c2_s1": "continuous Var: units shipped from center to store",
+    "f_c2_s2": "continuous Var: units shipped from center to store",
+    "f_c2_s3": "continuous Var: units shipped from center to store",
+    "f_c2_s4": "continuous Var: units shipped from center to store",
+    "f_c2_s5": "continuous Var: units shipped from center to store",
+    "f_c2_s6": "continuous Var: units shipped from center to store",
+    "f_c2_s7": "continuous Var: units shipped from center to store",
+    "f_c2_s8": "continuous Var: units shipped from center to store",
+    "f_c3_s1": "continuous Var: units shipped from center to store",
+    "f_c3_s2": "continuous Var: units shipped from center to store",
+    "f_c3_s3": "continuous Var: units shipped from center to store",
+    "f_c3_s4": "continuous Var: units shipped from center to store",
+    "f_c3_s5": "continuous Var: units shipped from center to store",
+    "f_c3_s6": "continuous Var: units shipped from center to store",
+    "f_c3_s7": "continuous Var: units shipped from center to store",
+    "f_c3_s8": "continuous Var: units shipped from center to store",
+    "f_c4_s1": "continuous Var: units shipped from center to store",
+    "f_c4_s2": "continuous Var: units shipped from center to store",
+    "f_c4_s3": "continuous Var: units shipped from center to store",
+    "f_c4_s4": "continuous Var: units shipped from center to store",
+    "f_c4_s5": "continuous Var: units shipped from center to store",
+    "f_c4_s6": "continuous Var: units shipped from center to store",
+    "f_c4_s7": "continuous Var: units shipped from center to store",
+    "f_c4_s8": "continuous Var: units shipped from center to store"
+  },
+  "note": "Scalar variables under EXACTLY these flat keys. The returned solution uses the same keys."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "reported objective value"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "y_c1",
+        "y_c2",
+        "y_c3",
+        "y_c4",
+        "f_c1_s1",
+        "f_c1_s2",
+        "f_c1_s3",
+        "f_c1_s4",
+        "f_c1_s5",
+        "f_c1_s6",
+        "f_c1_s7",
+        "f_c1_s8",
+        "f_c2_s1",
+        "f_c2_s2",
+        "f_c2_s3",
+        "f_c2_s4",
+        "f_c2_s5",
+        "f_c2_s6",
+        "f_c2_s7",
+        "f_c2_s8",
+        "f_c3_s1",
+        "f_c3_s2",
+        "f_c3_s3",
+        "f_c3_s4",
+        "f_c3_s5",
+        "f_c3_s6",
+        "f_c3_s7",
+        "f_c3_s8",
+        "f_c4_s1",
+        "f_c4_s2",
+        "f_c4_s3",
+        "f_c4_s4",
+        "f_c4_s5",
+        "f_c4_s6",
+        "f_c4_s7",
+        "f_c4_s8"
+      ],
+      "properties": {
+        "y_c1": {
+          "type": "number"
+        },
+        "y_c2": {
+          "type": "number"
+        },
+        "y_c3": {
+          "type": "number"
+        },
+        "y_c4": {
+          "type": "number"
+        },
+        "f_c1_s1": {
+          "type": "number"
+        },
+        "f_c1_s2": {
+          "type": "number"
+        },
+        "f_c1_s3": {
+          "type": "number"
+        },
+        "f_c1_s4": {
+          "type": "number"
+        },
+        "f_c1_s5": {
+          "type": "number"
+        },
+        "f_c1_s6": {
+          "type": "number"
+        },
+        "f_c1_s7": {
+          "type": "number"
+        },
+        "f_c1_s8": {
+          "type": "number"
+        },
+        "f_c2_s1": {
+          "type": "number"
+        },
+        "f_c2_s2": {
+          "type": "number"
+        },
+        "f_c2_s3": {
+          "type": "number"
+        },
+        "f_c2_s4": {
+          "type": "number"
+        },
+        "f_c2_s5": {
+          "type": "number"
+        },
+        "f_c2_s6": {
+          "type": "number"
+        },
+        "f_c2_s7": {
+          "type": "number"
+        },
+        "f_c2_s8": {
+          "type": "number"
+        },
+        "f_c3_s1": {
+          "type": "number"
+        },
+        "f_c3_s2": {
+          "type": "number"
+        },
+        "f_c3_s3": {
+          "type": "number"
+        },
+        "f_c3_s4": {
+          "type": "number"
+        },
+        "f_c3_s5": {
+          "type": "number"
+        },
+        "f_c3_s6": {
+          "type": "number"
+        },
+        "f_c3_s7": {
+          "type": "number"
+        },
+        "f_c3_s8": {
+          "type": "number"
+        },
+        "f_c4_s1": {
+          "type": "number"
+        },
+        "f_c4_s2": {
+          "type": "number"
+        },
+        "f_c4_s3": {
+          "type": "number"
+        },
+        "f_c4_s4": {
+          "type": "number"
+        },
+        "f_c4_s5": {
+          "type": "number"
+        },
+        "f_c4_s6": {
+          "type": "number"
+        },
+        "f_c4_s7": {
+          "type": "number"
+        },
+        "f_c4_s8": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "centers": [
+    "c1",
+    "c2",
+    "c3",
+    "c4"
+  ],
+  "stores": [
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+    "s7",
+    "s8"
+  ],
+  "fixed_opening_cost": {
+    "c1": 151000,
+    "c2": 192000,
+    "c3": 114000,
+    "c4": 171000
+  },
+  "transport_cost": {
+    "c1": {
+      "s1": 5,
+      "s2": 5,
+      "s3": 2,
+      "s4": 3,
+      "s5": 3,
+      "s6": 3,
+      "s7": 5,
+      "s8": 4
+    },
+    "c2": {
+      "s1": 3,
+      "s2": 5,
+      "s3": 2,
+      "s4": 4,
+      "s5": 2,
+      "s6": 4,
+      "s7": 5,
+      "s8": 1
+    },
+    "c3": {
+      "s1": 4,
+      "s2": 2,
+      "s3": 5,
+      "s4": 4,
+      "s5": 1,
+      "s6": 1,
+      "s7": 3,
+      "s8": 3
+    },
+    "c4": {
+      "s1": 2,
+      "s2": 4,
+      "s3": 4,
+      "s4": 3,
+      "s5": 4,
+      "s6": 4,
+      "s7": 1,
+      "s8": 3
+    }
+  },
+  "demand": {
+    "s1": 884,
+    "s2": 420,
+    "s3": 566,
+    "s4": 673,
+    "s5": 787,
+    "s6": 1000,
+    "s7": 715,
+    "s8": 413
+  },
+  "capacity": {
+    "c1": 1041,
+    "c2": 1576,
+    "c3": 1364,
+    "c4": 1697
+  }
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

@@ -1,0 +1,4 @@
+gurobipy>=11.0
+openai>=1.40
+pytest>=8.0
+

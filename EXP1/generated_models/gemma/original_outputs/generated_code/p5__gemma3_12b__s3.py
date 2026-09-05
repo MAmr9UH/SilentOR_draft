@@ -1,0 +1,74 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    sel_calculus = model.addVar(vtype=GRB.BINARY, name="sel_calculus")
+    sel_or = model.addVar(vtype=GRB.BINARY, name="sel_or")
+    sel_ds = model.addVar(vtype=GRB.BINARY, name="sel_ds")
+    sel_bs = model.addVar(vtype=GRB.BINARY, name="sel_bs")
+    sel_cs = model.addVar(vtype=GRB.BINARY, name="sel_cs")
+    sel_cp = model.addVar(vtype=GRB.BINARY, name="sel_cp")
+    sel_fc = model.addVar(vtype=GRB.BINARY, name="sel_fc")
+
+    variables = {
+        "sel_calculus": sel_calculus,
+        "sel_or": sel_or,
+        "sel_ds": sel_ds,
+        "sel_bs": sel_bs,
+        "sel_cs": sel_cs,
+        "sel_cp": sel_cp,
+        "sel_fc": sel_fc
+    }
+
+    # Objective function: minimize the number of courses taken
+    model.setObjective(sel_calculus + sel_or + sel_ds + sel_bs + sel_cs + sel_cp + sel_fc, GRB.MINIMIZE)
+
+    # Constraints: at least two math courses
+    model.addConstr(sel_calculus + sel_or + sel_bs + sel_fc >= 2, "math_courses")
+
+    # Constraints: at least two OR courses
+    model.addConstr(sel_or + sel_bs + sel_fc >= 2, "or_courses")
+
+    # Constraints: at least two computer courses
+    model.addConstr(sel_ds + sel_cs + sel_cp >= 2, "computer_courses")
+
+    # Prerequisites
+    model.addConstr(sel_bs >= sel_calculus, "prereq_bs_calculus")
+    model.addConstr(sel_cs >= sel_cp, "prereq_cs_cp")
+    model.addConstr(sel_ds >= sel_cp, "prereq_ds_cp")
+    model.addConstr(sel_fc >= sel_bs, "prereq_fc_bs")
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "sel_calculus": float(variables["sel_calculus"].X),
+        "sel_or": float(variables["sel_or"].X),
+        "sel_ds": float(variables["sel_ds"].X),
+        "sel_bs": float(variables["sel_bs"].X),
+        "sel_cs": float(variables["sel_cs"].X),
+        "sel_cp": float(variables["sel_cp"].X),
+        "sel_fc": float(variables["sel_fc"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

@@ -1,0 +1,15 @@
+{
+  "problem_id": 2,
+  "scenario_id": "or_course_selection",
+  "data_instance": {
+    "courses": [
+      "calculus",
+      "or",
+      "ds",
+      "ms",
+      "cs",
+      "cp",
+      "fc"
+    ]
+  }
+}

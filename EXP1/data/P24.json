@@ -1,0 +1,44 @@
+{
+  "problem_id": 24,
+  "scenario_id": "container_packing_minimum_count_with_requirements",
+  "data_instance": {
+    "container_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "goods": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "quantity": {
+      "A": 120,
+      "B": 90,
+      "C": 300,
+      "D": 90,
+      "E": 120
+    },
+    "weight_tons": {
+      "A": 0.5,
+      "B": 1.0,
+      "C": 0.4,
+      "D": 0.6,
+      "E": 0.65
+    },
+    "container_capacity_tons": 60,
+    "minimum_load_tons_if_used": 18,
+    "minimum_D_units_if_used": 12,
+    "max_containers_available": 10,
+    "A_requires_at_least_one_C_in_same_container": true
+  }
+}

@@ -1,0 +1,60 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    shirts = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='shirts')
+    shorts = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='shorts')
+    pants = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='pants')
+    
+    y_shirts = model.addVar(vtype=gp.GRB.BINARY, name='y_shirts')
+    y_shorts_m = model.addVar(vtype=gp.GRB.BINARY, name='y_shorts_m')
+    y_pants = model.addVar(vtype=gp.GRB.BINARY, name='y_pants')
+    
+    variables = {
+        "shirts": shirts,
+        "shorts": shorts,
+        "pants": pants,
+        "y_shirts": y_shirts,
+        "y_shorts_m": y_shorts_m,
+        "y_pants": y_pants
+    }
+    
+    model.addConstr(data['labor_per_unit']['shirts'] * shirts + data['labor_per_unit']['shorts'] * shorts + data['labor_per_unit']['pants'] * pants <= data['labor_available'], name='labor')
+    model.addConstr(data['cloth_per_unit']['shirts'] * shirts + data['cloth_per_unit']['shorts'] * shorts + data['cloth_per_unit']['pants'] * pants <= data['cloth_available'], name='cloth')
+    
+    model.addConstr(shirts <= 1000 * y_shirts, name='y_shirts')
+    model.addConstr(shorts <= 1000 * y_shorts_m, name='y_shorts_m')
+    model.addConstr(pants <= 1000 * y_pants, name='y_pants')
+    
+    objective = gp.quicksum([data['unit_contribution']['shirts'] * shirts, data['unit_contribution']['shorts'] * shorts, data['unit_contribution']['pants'] * pants]) - gp.quicksum([data['rental_cost']['shirts'] * y_shirts, data['rental_cost']['shorts'] * y_shorts_m, data['rental_cost']['pants'] * y_pants])
+    model.setObjective(objective, gp.GRB.MAXIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {
+        "shirts": model.getVarByName('shirts').X,
+        "shorts": model.getVarByName('shorts').X,
+        "pants": model.getVarByName('pants').X,
+        "y_shirts": model.getVarByName('y_shirts').X,
+        "y_shorts_m": model.getVarByName('y_shorts_m').X,
+        "y_pants": model.getVarByName('y_pants').X
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }

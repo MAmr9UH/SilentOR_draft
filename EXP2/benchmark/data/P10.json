@@ -1,0 +1,35 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 10,
+  "scenario_id": "gandhi_cloth_fixed_charge",
+  "data_instance": {
+    "products": [
+      "shirts",
+      "shorts",
+      "pants"
+    ],
+    "rental_cost": {
+      "shirts": 200,
+      "shorts": 150,
+      "pants": 100
+    },
+    "labor_per_unit": {
+      "shirts": 3,
+      "shorts": 2,
+      "pants": 6
+    },
+    "cloth_per_unit": {
+      "shirts": 4,
+      "shorts": 3,
+      "pants": 4
+    },
+    "labor_available": 150,
+    "cloth_available": 160,
+    "unit_contribution": {
+      "shirts": 6,
+      "shorts": 4,
+      "pants": 7
+    }
+  }
+}

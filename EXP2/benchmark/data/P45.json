@@ -1,0 +1,33 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 45,
+  "scenario_id": "flight_package_seat_allocation_revenue_max",
+  "data_instance": {
+    "available_seats": [
+      50,
+      60,
+      70
+    ],
+    "demand": [
+      30,
+      40
+    ],
+    "revenue": [
+      100,
+      150
+    ],
+    "delta": [
+      [
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ]
+  }
+}

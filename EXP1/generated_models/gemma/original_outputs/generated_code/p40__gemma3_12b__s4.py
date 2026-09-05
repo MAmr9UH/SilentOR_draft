@@ -1,0 +1,126 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    y1_A = model.addVar(vtype=GRB.BINARY, name="y1_A")
+    y1_B = model.addVar(vtype=GRB.BINARY, name="y1_B")
+    y2_A = model.addVar(vtype=GRB.BINARY, name="y2_A")
+    y2_B = model.addVar(vtype=GRB.BINARY, name="y2_B")
+    y3_A = model.addVar(vtype=GRB.BINARY, name="y3_A")
+    y3_B = model.addVar(vtype=GRB.BINARY, name="y3_B")
+
+    skilled_t1_A = model.addVar(vtype=GRB.INTEGER, lb=0, name="skilled_t1_A")
+    skilled_t1_B = model.addVar(vtype=GRB.INTEGER, lb=0, name="skilled_t1_B")
+    skilled_t2_A = model.addVar(vtype=GRB.INTEGER, lb=0, name="skilled_t2_A")
+    skilled_t3_B = model.addVar(vtype=GRB.INTEGER, lb=0, name="skilled_t3_B")
+
+    labor_t1_B = model.addVar(vtype=GRB.INTEGER, lb=0, name="labor_t1_B")
+    labor_t2_B = model.addVar(vtype=GRB.INTEGER, lb=0, name="labor_t2_B")
+    labor_t3_A = model.addVar(vtype=GRB.INTEGER, lb=0, name="labor_t3_A")
+    labor_t3_B = model.addVar(vtype=GRB.INTEGER, lb=0, name="labor_t3_B")
+
+    total_skilled = model.addVar(vtype=GRB.INTEGER, lb=0, name="total_skilled")
+    total_labor = model.addVar(vtype=GRB.INTEGER, lb=0, name="total_labor")
+
+    # Objective function
+    objective = gp.quicksum(
+        data["weekly_wage"]["skilled"] * (skilled_t1_A + skilled_t1_B + skilled_t2_A + skilled_t3_B)
+        + data["weekly_wage"]["labor"] * (labor_t1_B + labor_t2_B + labor_t3_A + labor_t3_B)
+        + 500 * y1_B
+    )
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # Constraints
+    # Task 1 constraints
+    model.addConstr(skilled_t1_A + skilled_t1_B == y1_A * data["method_worker_requirements"]["task1_A"]["skilled"] + y1_B * data["method_worker_requirements"]["task1_B"]["skilled"])
+    model.addConstr(labor_t1_B == y1_B * data["method_worker_requirements"]["task1_B"]["labor"])
+    model.addConstr(skilled_t1_A + labor_t1_B <= data["tasks"][0] / data["weekly_effective_hours"]["skilled"] * y1_A + data["tasks"][0] / data["weekly_effective_hours"]["labor"] * y1_B)
+
+    # Task 2 constraints
+    model.addConstr(skilled_t2_A == y2_A * data["method_worker_requirements"]["task2_A"]["skilled"])
+    model.addConstr(labor_t2_B == y2_B * data["method_worker_requirements"]["task2_B"]["labor"])
+    model.addConstr(skilled_t2_A + labor_t2_B <= data["tasks"][1] / data["weekly_effective_hours"]["skilled"] * y2_A + data["tasks"][1] / data["weekly_effective_hours"]["labor"] * y2_B)
+
+    # Task 3 constraints
+    model.addConstr(skilled_t3_B + labor_t3_A == y3_A * data["method_worker_requirements"]["task3_A"]["skilled"] + y3_B * data["method_worker_requirements"]["task3_B"]["skilled"])
+    model.addConstr(labor_t3_B == y3_B * data["method_worker_requirements"]["task3_B"]["labor"])
+    model.addConstr(skilled_t3_B + labor_t3_A + labor_t3_B <= data["tasks"][2] / data["weekly_effective_hours"]["skilled"] * y3_A + data["tasks"][2] / data["weekly_effective_hours"]["labor"] * y3_B)
+
+    # Total worker constraints
+    model.addConstr(total_skilled == skilled_t1_A + skilled_t1_B + skilled_t2_A + skilled_t3_B)
+    model.addConstr(total_labor == labor_t1_B + labor_t2_B + labor_t3_A + labor_t3_B)
+
+    # Resource constraints
+    model.addConstr(total_skilled <= data["max_skilled"])
+    model.addConstr(total_labor <= data["max_labor"])
+    model.addConstr(total_skilled <= data["skilled_to_labor_ratio_max"] * total_labor)
+
+    # Exclusion constraint
+    model.addConstr(y1_B + y3_A <= 1)
+
+    # Minimum skilled workers for task 3 method B
+    if y3_B == 1:
+        model.addConstr(skilled_t3_B >= data["minimum_skilled_if_task3_B"])
+
+    variables = {
+        "y1_A": y1_A,
+        "y1_B": y1_B,
+        "y2_A": y2_A,
+        "y2_B": y2_B,
+        "y3_A": y3_A,
+        "y3_B": y3_B,
+        "skilled_t1_A": skilled_t1_A,
+        "skilled_t1_B": skilled_t1_B,
+        "skilled_t2_A": skilled_t2_A,
+        "skilled_t3_B": skilled_t3_B,
+        "labor_t1_B": labor_t1_B,
+        "labor_t2_B": labor_t2_B,
+        "labor_t3_A": labor_t3_A,
+        "labor_t3_B": labor_t3_B,
+        "total_skilled": total_skilled,
+        "total_labor": total_labor
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "y1_A": variables["y1_A"].X,
+        "y1_B": variables["y1_B"].X,
+        "y2_A": variables["y2_A"].X,
+        "y2_B": variables["y2_B"].X,
+        "y3_A": variables["y3_A"].X,
+        "y3_B": variables["y3_B"].X,
+        "skilled_t1_A": variables["skilled_t1_A"].X,
+        "skilled_t1_B": variables["skilled_t1_B"].X,
+        "skilled_t2_A": variables["skilled_t2_A"].X,
+        "skilled_t3_B": variables["skilled_t3_B"].X,
+        "labor_t1_B": variables["labor_t1_B"].X,
+        "labor_t2_B": variables["labor_t2_B"].X,
+        "labor_t3_A": variables["labor_t3_A"].X,
+        "labor_t3_B": variables["labor_t3_B"].X,
+        "total_skilled": variables["total_skilled"].X,
+        "total_labor": variables["total_labor"].X
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

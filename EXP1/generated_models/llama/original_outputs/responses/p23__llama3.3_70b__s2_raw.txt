@@ -1,0 +1,53 @@
+```python
+import gurobipy as gp
+
+def solve(data):
+    model = gp.Model()
+    
+    # Define variables
+    w_vars = {}
+    for i in range(len(data['components'])):
+        for j in range(len(data['spare_levels'])):
+            for k in range(len(data['spare_levels'])):
+                if len(data['components']) == 3:
+                    var_name = f"w_{i+1}_{j}_{k}"
+                    w_vars[var_name] = model.addVar(vtype=gp.GRB.BINARY, name=var_name)
+                elif len(data['components']) == 2:
+                    var_name = f"w_{i+1}_{j}"
+                    w_vars[var_name] = model.addVar(vtype=gp.GRB.BINARY, name=var_name)
+    
+    # Define objective function
+    obj_func = gp.quicksum([w_vars[f"w_{i+1}_{j}_{k}"] * data['unit_price'][str(i+1)] for i in range(len(data['components'])) 
+                            for j in range(len(data['spare_levels'])) 
+                            for k in range(len(data['spare_levels']))])
+    
+    # Define constraints
+    model.addConstr(gp.quicksum([w_vars[f"w_{i+1}_{j}_{k}"] for i in range(len(data['components'])) 
+                                 for j in range(len(data['spare_levels'])) 
+                                 for k in range(len(data['spare_levels']))]) == 1, name="one_combination")
+    
+    model.addConstr(gp.quicksum([w_vars[f"w_{i+1}_{j}_{k}"] * data['unit_weight'][str(i+1)] for i in range(len(data['components'])) 
+                                 for j in range(len(data['spare_levels'])) 
+                                 for k in range(len(data['spare_levels']))]) <= data['weight_limit'], name="weight_limit")
+    
+    model.addConstr(obj_func <= data['budget'], name="budget_constraint")
+    
+    # Set objective function
+    model.setObjective(obj_func, gp.GRB.MINIMIZE)
+    
+    # Optimize model
+    model.optimize()
+    
+    # Get solution status and value
+    status = model.Status
+    obj_val = model.ObjVal
+    
+    # Create variables dictionary
+    variables = w_vars
+    
+    return {
+        "status": status,
+        "obj_val": obj_val,
+        "variables": variables
+    }
+```

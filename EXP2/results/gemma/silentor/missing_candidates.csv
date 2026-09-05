@@ -1,0 +1,17 @@
+candidate_id,problem_id,candidate_kind
+mut_p1_R6_alloc11_lower_bound,1,mutant
+mut_p1_R7_objective,1,mutant
+mut_p30_Robj_objective,30,mutant
+mut_p32_R_obj_Cmax_objective,32,mutant
+mut_p35_Robj_objective,35,mutant
+mut_p38_R_balance_II_10_constraint,38,mutant
+mut_p38_R_balance_II_11_constraint,38,mutant
+mut_p38_R_obj_prod_I_7_objective,38,mutant
+mut_p42_R_availability_1_lhs_constraint,42,mutant
+mut_p42_R_availability_3_rhs_constraint,42,mutant
+mut_p42_R_demand_2_capability_constraint,42,mutant
+mut_p43_R_integer_domain,43,mutant
+mut_p44_R_first_machine_2_constraint,44,mutant
+mut_p44_R_machine1_sequence_2_constraint,44,mutant
+mut_p44_R_machine2_sequence_2_constraint,44,mutant
+mut_p45_R_integer_domain,45,mutant

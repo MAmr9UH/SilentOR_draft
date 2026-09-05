@@ -1,0 +1,60 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("convenience_store_model")
+    
+    shift_start_times = data["shift_start_times"]
+    demand_by_period_start = data["demand_by_period_start"]
+    
+    variables = {
+        "s2": {},
+        "s6": {},
+        "s10": {},
+        "s14": {},
+        "s18": {},
+        "s22": {}
+    }
+    
+    for start_time in shift_start_times:
+        variables[f"s{start_time}"] = {}
+        for hour in range(24):
+            variables[f"s{start_time}"][hour] = model.addVar(name=f"s{start_time}_{hour}", vtype=GRB.INTEGER, lb=0)
+
+    for start_time in shift_start_times:
+        for hour in range(24):
+            if hour <= 23 - data["shift_length_hours"]:
+                model.addConstr(variables[f"s{start_time}"][hour] >= demand_by_period_start.get(str(start_time + hour), 0))
+
+    model.setObjective(
+        gp.quicksum(demand_by_period_start.get(str(start_time), 0) for start_time in shift_start_times),
+        GRB.MINIMIZE
+    )
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "s2": variables["s2"][0].x,
+            "s6": variables["s6"][0].x,
+            "s10": variables["s10"][0].x,
+            "s14": variables["s14"][0].x,
+            "s18": variables["s18"][0].x,
+            "s22": variables["s22"][0].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

@@ -1,0 +1,75 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    shift_start_times = data["shift_start_times"]
+    shift_length_hours = data["shift_length_hours"]
+    period_start_times = data["period_start_times"]
+    period_length_hours = data["period_length_hours"]
+    demand_by_period_start = data["demand_by_period_start"]
+
+    # Decision variables: number of salespeople starting each shift
+    s2 = model.addVar(vtype=GRB.INTEGER, name="s2")
+    s6 = model.addVar(vtype=GRB.INTEGER, name="s6")
+    s10 = model.addVar(vtype=GRB.INTEGER, name="s10")
+    s14 = model.addVar(vtype=GRB.INTEGER, name="s14")
+    s18 = model.addVar(vtype=GRB.INTEGER, name="s18")
+    s22 = model.addVar(vtype=GRB.INTEGER, name="s22")
+
+    # Objective function: minimize the total number of salespeople
+    model.setObjective(s2 + s6 + s10 + s14 + s18 + s22, GRB.MINIMIZE)
+
+    # Constraints: meet demand in each time period
+    for i, start_time in enumerate(period_start_times):
+        demand = demand_by_period_start[str(start_time)]
+        model.addConstr(
+            gp.quicksum([
+                s2 if shift_start_times[0] <= start_time else 0,
+                s6 if shift_start_times[1] <= start_time else 0,
+                s10 if shift_start_times[2] <= start_time else 0,
+                s14 if shift_start_times[3] <= start_time else 0,
+                s18 if shift_start_times[4] <= start_time else 0,
+                s22 if shift_start_times[5] <= start_time else 0
+            ]) >= demand, f"demand_{start_time}")
+
+    variables = {
+        "s2": s2,
+        "s6": s6,
+        "s10": s10,
+        "s14": s14,
+        "s18": s18,
+        "s22": s22
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "s2": float(variables["s2"].X),
+        "s6": float(variables["s6"].X),
+        "s10": float(variables["s10"].X),
+        "s14": float(variables["s14"].X),
+        "s18": float(variables["s18"].X),
+        "s22": float(variables["s22"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

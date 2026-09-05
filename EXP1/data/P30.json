@@ -1,0 +1,19 @@
+{
+  "problem_id": 30,
+  "scenario_id": "three_year_investment_cash_flow_lp",
+  "data_instance": {
+    "initial_fund": 300000,
+    "annual_project_return": 1.2,
+    "project2_return": 1.5,
+    "project2_limit": 150000,
+    "project3_return": 1.6,
+    "project3_limit": 200000,
+    "project4_return": 1.4,
+    "project4_limit": 100000,
+    "years": [
+      1,
+      2,
+      3
+    ]
+  }
+}

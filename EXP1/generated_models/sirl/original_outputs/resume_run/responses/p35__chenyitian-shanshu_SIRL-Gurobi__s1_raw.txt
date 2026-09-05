@@ -1,0 +1,138 @@
+```python
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("transshipment_model")
+
+    # Define decision variables
+    x = {}
+    for i in data["sources"]:
+        for k in data["stations"]:
+            x[i, k] = model.addVar(name=f"x_{i}_{k}", vtype=GRB.CONTINUOUS, lb=0)
+
+    z = {}
+    for k in data["stations"]:
+        for j in data["demands"]:
+            z[k, j] = model.addVar(name=f"z_{k}_{j}", vtype=GRB.CONTINUOUS, lb=0)
+
+    y = {}
+    for k in data["stations"]:
+        y[k] = model.addVar(name=f"y_{k}", vtype=GRB.BINARY)
+
+    # Supply and demand
+    supply = data["supply"]
+    demand = data["demand"]
+
+    # Station capacity
+    station_capacity = data["station_capacity"]
+
+    # Fixed cost
+    fixed_cost = data["fixed_cost"]
+
+    # Unit transportation cost
+    cost_source_station = data["cost_source_station"]
+    cost_station_demand = data["cost_station_demand"]
+
+    # Objective function: Minimize total cost
+    model.setObjective(
+        gp.quicksum(cost_source_station[f"{i},{k}"] * x[i, k] for i in data["sources"] for k in data["stations"]) +
+        gp.quicksum(cost_station_demand[f"{k},{j}"] * z[k, j] for k in data["stations"] for j in data["demands"]) +
+        gp.quicksum(fixed_cost[k] * y[k] for k in data["stations"]),
+        GRB.MINIMIZE)
+
+    # Sum of supply must be greater than or equal to sum of demand
+    model.addConstr(gp.quicksum(supply[i] for i in data["sources"]) >= gp.quicksum(demand[j] for j in data["demands"]))
+
+    # Flow conservation at stations
+    for k in data["stations"]:
+        model.addConstr(gp.quicksum(x[i, k] for i in data["sources"]) <= station_capacity[k] * y[k])
+
+    # Linking x and z variables
+    for k in data["stations"]:
+        for j in data["demands"]:
+            model.addConstr(z[k, j] <= x["1", k])
+            model.addConstr(z[k, j] <= x["2", k])
+            model.addConstr(z[k, j] >= x["1", k] + x["2", k] - station_capacity[k])
+
+    # Given values
+    a = {
+        "1": supply["1"],
+        "2": supply["2"]
+    }
+
+    b = {
+        "1": demand["1"],
+        "2": demand["2"]
+    }
+
+    f = {
+        "1": fixed_cost["1"],
+        "2": fixed_cost["2"]
+    }
+
+    c = {
+        ("1", "1"): cost_source_station["1,1"],
+        ("1", "2"): cost_source_station["1,2"],
+        ("2", "1"): cost_source_station["2,1"],
+        ("2", "2"): cost_source_station["2,2"]
+    }
+
+    c_prime = {
+        ("1", "1"): cost_station_demand["1,1"],
+        ("1", "2"): cost_station_demand["1,2"],
+        ("2", "1"): cost_station_demand["2,1"],
+        ("2", "2"): cost_station_demand["2,2"]
+    }
+
+    q = {
+        "1": station_capacity["1"],
+        "2": station_capacity["2"]
+    }
+
+    # Define variables
+    variables = {
+        "x_1_1": x["1", "1"],
+        "x_1_2": x["1", "2"],
+        "x_2_1": x["2", "1"],
+        "x_2_2": x["2", "2"],
+        "z_1_1": z["1", "1"],
+        "z_1_2": z["1", "2"],
+        "z_2_1": z["2", "1"],
+        "z_2_2": z["2", "2"],
+        "y_1": y["1"],
+        "y_2": y["2"]
+    }
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_1_1": variables["x_1_1"].x,
+            "x_1_2": variables["x_1_2"].x,
+            "x_2_1": variables["x_2_1"].x,
+            "x_2_2": variables["x_2_2"].x,
+            "z_1_1": variables["z_1_1"].x,
+            "z_1_2": variables["z_1_2"].x,
+            "z_2_1": variables["z_2_1"].x,
+            "z_2_2": variables["z_2_2"].x,
+            "y_1": variables["y_1"].x,
+            "y_2": variables["y_2"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }
+```

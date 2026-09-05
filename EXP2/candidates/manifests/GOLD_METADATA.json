@@ -1,0 +1,696 @@
+{
+  "schema_version": 1,
+  "hidden_scoring_only": true,
+  "candidates": {
+    "base_p1": {
+      "problem_id": 1,
+      "true_label": "correct"
+    },
+    "base_p3": {
+      "problem_id": 3,
+      "true_label": "correct"
+    },
+    "base_p5": {
+      "problem_id": 5,
+      "true_label": "correct"
+    },
+    "base_p6": {
+      "problem_id": 6,
+      "true_label": "correct"
+    },
+    "base_p8": {
+      "problem_id": 8,
+      "true_label": "correct"
+    },
+    "base_p9": {
+      "problem_id": 9,
+      "true_label": "correct"
+    },
+    "base_p10": {
+      "problem_id": 10,
+      "true_label": "correct"
+    },
+    "base_p12": {
+      "problem_id": 12,
+      "true_label": "correct"
+    },
+    "base_p22": {
+      "problem_id": 22,
+      "true_label": "correct"
+    },
+    "base_p23": {
+      "problem_id": 23,
+      "true_label": "correct"
+    },
+    "base_p29": {
+      "problem_id": 29,
+      "true_label": "correct"
+    },
+    "base_p30": {
+      "problem_id": 30,
+      "true_label": "correct"
+    },
+    "base_p31": {
+      "problem_id": 31,
+      "true_label": "correct"
+    },
+    "base_p34": {
+      "problem_id": 34,
+      "true_label": "correct"
+    },
+    "base_p35": {
+      "problem_id": 35,
+      "true_label": "correct"
+    },
+    "base_p36": {
+      "problem_id": 36,
+      "true_label": "correct"
+    },
+    "base_p37": {
+      "problem_id": 37,
+      "true_label": "correct"
+    },
+    "base_p39": {
+      "problem_id": 39,
+      "true_label": "correct"
+    },
+    "base_p40": {
+      "problem_id": 40,
+      "true_label": "correct"
+    },
+    "base_p41": {
+      "problem_id": 41,
+      "true_label": "correct"
+    },
+    "base_p17": {
+      "problem_id": 17,
+      "true_label": "correct"
+    },
+    "base_p27": {
+      "problem_id": 27,
+      "true_label": "correct"
+    },
+    "base_p28": {
+      "problem_id": 28,
+      "true_label": "correct"
+    },
+    "base_p32": {
+      "problem_id": 32,
+      "true_label": "correct"
+    },
+    "base_p38": {
+      "problem_id": 38,
+      "true_label": "correct"
+    },
+    "base_p42": {
+      "problem_id": 42,
+      "true_label": "correct"
+    },
+    "base_p43": {
+      "problem_id": 43,
+      "true_label": "correct"
+    },
+    "base_p44": {
+      "problem_id": 44,
+      "true_label": "correct"
+    },
+    "base_p45": {
+      "problem_id": 45,
+      "true_label": "correct"
+    },
+    "mut_p1_R5_domain": {
+      "problem_id": 1,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R5",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p35_Rbinary_y_domain": {
+      "problem_id": 35,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_binary_y",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p35_Rcaplink1_linking": {
+      "problem_id": 35,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_capacity_link_station_1",
+      "true_taxonomy_category": "linking_or_logic_error"
+    },
+    "mut_p35_Rdemand1_misspec": {
+      "problem_id": 35,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand_1",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p30_Ryear2_misspec": {
+      "problem_id": 30,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_year2_budget",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p30_Rlimit2_misspec": {
+      "problem_id": 30,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_limit_project2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p30_Rfinal_misspec": {
+      "problem_id": 30,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_final_balance",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p3_R7_s2_domain": {
+      "problem_id": 3,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R7",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p3_R2_constraint": {
+      "problem_id": 3,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p3_R9_s2_objective": {
+      "problem_id": 3,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R9",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p5_R8_sel_calculus_domain": {
+      "problem_id": 5,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R8",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p5_R3_constraint": {
+      "problem_id": 5,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R3",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p5_R9_sel_calculus_objective": {
+      "problem_id": 5,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R9",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p6_R_bal_5_constraint": {
+      "problem_id": 6,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_bal_5",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p6_R_obj_x_4_1_objective": {
+      "problem_id": 6,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p8_R_obj_s1_objective": {
+      "problem_id": 8,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p9_R_int_s0_domain": {
+      "problem_id": 9,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_int",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p9_R_day1_constraint": {
+      "problem_id": 9,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_day1",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p9_R_obj_s0_objective": {
+      "problem_id": 9,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p10_R_cloth_constraint": {
+      "problem_id": 10,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_cloth",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p10_R_labor_constraint": {
+      "problem_id": 10,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_labor",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p10_R_obj_shirts_objective": {
+      "problem_id": 10,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p12_R_cap_c1_constraint": {
+      "problem_id": 12,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_capacity_open_link",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p12_R_dem_s1_constraint": {
+      "problem_id": 12,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p12_R_obj_y_c1_objective": {
+      "problem_id": 12,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p22_R_bottleneck_B_C_constraint": {
+      "problem_id": 22,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_bottleneck_B_C",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p22_R_bottleneck_C_E_constraint": {
+      "problem_id": 22,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_bottleneck_C_E",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p22_R_obj_z_objective": {
+      "problem_id": 22,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p23_R_choose_one_combo_constraint": {
+      "problem_id": 23,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_choose_one_combo",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p23_R_weight_constraint": {
+      "problem_id": 23,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_weight",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p23_R_obj_w_0_0_0_objective": {
+      "problem_id": 23,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p29_R_task_A_constraint": {
+      "problem_id": 29,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_task_A",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p29_R_task_B_constraint": {
+      "problem_id": 29,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_task_B",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p29_R_obj_x_I_B_objective": {
+      "problem_id": 29,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p31_R_demand_Donghai_1_constraint": {
+      "problem_id": 31,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand_Donghai_1",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p31_R_demand_Donghai_2_constraint": {
+      "problem_id": 31,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand_Donghai_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p31_R_obj_p3_shortfall_objective": {
+      "problem_id": 31,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p34_R_integer_trucks_trucks_A_domain": {
+      "problem_id": 34,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_integer_trucks",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p34_R_raw_A_constraint": {
+      "problem_id": 34,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_raw_A",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p34_R_obj_trucks_A_objective": {
+      "problem_id": 34,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p36_R_binary_y_y_1_domain": {
+      "problem_id": 36,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_binary_y",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p36_R_at_least_two_lengths_constraint": {
+      "problem_id": 36,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_at_least_two_lengths",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p36_R_obj_x_1_1_objective": {
+      "problem_id": 36,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p37_R_capacity_1_constraint": {
+      "problem_id": 37,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_capacity_1",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p37_R_capacity_2_constraint": {
+      "problem_id": 37,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_capacity_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p37_R_profit_definition_profit_objective": {
+      "problem_id": 37,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_profit_definition",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p39_R_cmax_B_constraint": {
+      "problem_id": 39,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_cmax_B",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p39_R_prec_A_D_constraint": {
+      "problem_id": 39,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_prec_A_D",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p39_R_obj_Cmax_objective": {
+      "problem_id": 39,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p40_R_max_labor_constraint": {
+      "problem_id": 40,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_max_labor",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p40_R_max_skilled_constraint": {
+      "problem_id": 40,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_max_skilled",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p40_R_obj_skilled_t1_A_objective": {
+      "problem_id": 40,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p41_R_liquid_balance_constraint": {
+      "problem_id": 41,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_liquid_balance",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p41_R_machine1_capacity_constraint": {
+      "problem_id": 41,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_machine1_capacity",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p41_R_obj_ending_solid_objective": {
+      "problem_id": 41,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p17_R_open_binary_y_c1_domain": {
+      "problem_id": 17,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_open_binary",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p17_R_cap_c1_constraint": {
+      "problem_id": 17,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_capacity_open_link",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p17_R_obj_y_c4_objective": {
+      "problem_id": 17,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p27_R_mtz_2_3_constraint": {
+      "problem_id": 27,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_mtz_2_3",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p27_R_mtz_2_4_constraint": {
+      "problem_id": 27,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_mtz_2_4",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p27_R_obj_x_1_5_objective": {
+      "problem_id": 27,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p28_R_integer_t_t_Verona_Genoa_domain": {
+      "problem_id": 28,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_integer_t",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p28_R_demand_Ancona_constraint": {
+      "problem_id": 28,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand_Ancona",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p28_R_obj_t_Verona_Venice_objective": {
+      "problem_id": 28,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p32_R_route_precedence_pos_1_vat_2_constraint": {
+      "problem_id": 32,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_route_precedence_pos_1_vat_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p32_R_route_precedence_pos_1_vat_3_constraint": {
+      "problem_id": 32,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_route_precedence_pos_1_vat_3",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p32_R_obj_Cmax_objective": {
+      "problem_id": 32,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p38_R_balance_II_10_constraint": {
+      "problem_id": 38,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_balance_II_10",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p38_R_balance_II_11_constraint": {
+      "problem_id": 38,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_balance_II_11",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p38_R_obj_prod_I_7_objective": {
+      "problem_id": 38,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p1_R6_alloc11_lower_bound": {
+      "problem_id": 1,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R6",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p1_R7_objective": {
+      "problem_id": 1,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R7",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p30_Robj_objective": {
+      "problem_id": 30,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p35_Robj_objective": {
+      "problem_id": 35,
+      "true_label": "incorrect",
+      "bug_visibility": "loud",
+      "injected_requirement": "R_obj",
+      "true_taxonomy_category": "objective_accounting_error"
+    },
+    "mut_p42_R_demand_2_capability_constraint": {
+      "problem_id": 42,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_demand_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p42_R_availability_3_rhs_constraint": {
+      "problem_id": 42,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_availability_3",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p42_R_availability_1_lhs_constraint": {
+      "problem_id": 42,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_availability_1",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p43_R_integer_domain": {
+      "problem_id": 43,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_integer",
+      "true_taxonomy_category": "domain_or_bound_error"
+    },
+    "mut_p44_R_machine2_sequence_2_constraint": {
+      "problem_id": 44,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_machine2_sequence_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p44_R_first_machine_2_constraint": {
+      "problem_id": 44,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_first_machine_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p44_R_machine1_sequence_2_constraint": {
+      "problem_id": 44,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_machine1_sequence_2",
+      "true_taxonomy_category": "constraint_misspecification"
+    },
+    "mut_p45_R_integer_domain": {
+      "problem_id": 45,
+      "true_label": "incorrect",
+      "bug_visibility": "silent",
+      "injected_requirement": "R_integer",
+      "true_taxonomy_category": "domain_or_bound_error"
+    }
+  }
+}

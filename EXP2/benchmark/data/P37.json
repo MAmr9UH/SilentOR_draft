@@ -1,0 +1,28 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 37,
+  "scenario_id": "grain_trading_three_month_inventory_cash_flow_lp",
+  "data_instance": {
+    "months": [
+      1,
+      2,
+      3
+    ],
+    "initial_inventory": 1000,
+    "initial_cash": 20000,
+    "capacity": 5000,
+    "final_inventory_required": 2000,
+    "purchase_price": {
+      "1": 2.85,
+      "2": 3.05,
+      "3": 2.9
+    },
+    "selling_price": {
+      "1": 3.1,
+      "2": 3.25,
+      "3": 2.95
+    },
+    "same_month_purchases_sellable_next_month": true
+  }
+}

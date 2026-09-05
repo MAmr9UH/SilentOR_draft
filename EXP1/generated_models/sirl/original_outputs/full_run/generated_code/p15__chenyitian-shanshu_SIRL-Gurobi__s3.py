@@ -1,0 +1,64 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("distribution_center_model")
+
+    # Decision variables
+    y = {
+        "c1": model.addVar(name="y_c1", vtype=GRB.BINARY),
+        "c2": model.addVar(name="y_c2", vtype=GRB.BINARY),
+        "c3": model.addVar(name="y_c3", vtype=GRB.BINARY),
+        "c4": model.addVar(name="y_c4", vtype=GRB.BINARY),
+        "c5": model.addVar(name="y_c5", vtype=GRB.BINARY)
+    }
+
+    f = {}
+    for center in data["centers"]:
+        for store in data["stores"]:
+            f[f"{center}_{store}"] = model.addVar(name=f"f_{center}_{store}", lb=0)
+
+    # Objective function: Minimize total cost
+    model.setObjective(
+        gp.quicksum(data["fixed_opening_cost"][center] * y[center] for center in data["centers"]) +
+        gp.quicksum(data["transport_cost"][center][store] * f[f"{center}_{store}"] for center in data["centers"] for store in data["stores"]),
+        GRB.MINIMIZE)
+
+    # Demand at each store
+    for store in data["stores"]:
+        model.addConstr(gp.quicksum(f[f"{center}_{store}"] for center in data["centers"]) >= data["demand"][store])
+
+    # Capacity of each distribution center
+    for center in data["centers"]:
+        model.addConstr(gp.quicksum(data["transport_cost"][center][store] * f[f"{center}_{store}"] for store in data["stores"]) <= data["capacity"][center] * y[center])
+
+    return model, {"y_c1": y["c1"], "y_c2": y["c2"], "y_c3": y["c3"], "y_c4": y["c4"], "y_c5": y["c5"]}, f
+
+def solve(data: dict) -> dict:
+    model, y, f = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "y_c1": y["y_c1"].x,
+            "y_c2": y["y_c2"].x,
+            "y_c3": y["y_c3"].x,
+            "y_c4": y["y_c4"].x,
+            "y_c5": y["y_c5"].x,
+        }
+        for center in data["centers"]:
+            for store in data["stores"]:
+                solution[f"f_{center}_{store}"] = f[f"{center}_{store}"].x
+
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": {}
+        }

@@ -1,0 +1,85 @@
+import gurobipy as gp
+
+def solve_model(data):
+    # Create model
+    model = gp.Model()
+
+    # Define variables
+    x = {}
+    for i in range(len(data['distance'])):
+        for j in data['connections'][i]:
+            x[(i, j)] = model.addVar(vtype=gp.GRB.BINARY)
+
+    # Objective function
+    obj_func = gp.quicksum([data['distance'][f"{i},{j}"] * x[(i, j)] for i in range(len(data['distance'])) 
+                            for j in data['connections'][i]])
+
+    # Constraints
+    for i in range(len(data['distance'])):
+        model.addConstr(gp.quicksum([x[(i, j)] for j in data['connections'][i]]) == 1)
+        model.addConstr(gp.quicksum([x[(j, i)] for j in data['connections'][i]]) == 1)
+
+    # Add constraints to prevent subtours
+    u = {}
+    for i in range(len(data['distance'])):
+        u[i] = model.addVar(vtype=gp.GRB.CONTINUOUS)
+    for i in range(1, len(data['distance'])):
+        for j in data['connections'][i]:
+            if j != 0:
+                model.addConstr(u[j] >= u[i] + 1 - data['big_m'] * (1 - x[(i, j)]))
+
+    # Set objective function
+    model.setObjective(obj_func)
+
+    # Optimize model
+    model.optimize()
+
+    # Get solution status and value
+    status = model.Status
+    obj_val = model.ObjVal
+
+    # Create variables dictionary
+    variables = {}
+    for i in range(len(data['distance'])):
+        for j in data['connections'][i]:
+            variables[(i, j)] = x[(i, j)]
+
+    return {
+        'status': status,
+        'obj_val': obj_val,
+        'variables': variables
+    }
+
+# Example usage
+data = {
+    "connections": [
+      [1],
+      [0, 2],
+      [1],
+      [3],
+      [4],
+      [5],
+      [6],
+      [7],
+      [8],
+      [9],
+      [10],
+      [11],
+      [12],
+      [13],
+      [14],
+      [15],
+      [16],
+      [17],
+      [18],
+      [19],
+      [20]
+    ],
+    "distance": {
+        "0,1": 18.681542,
+        # Add all distances here...
+    },
+    "big_m": 2000
+}
+
+solution = solve_model(data)

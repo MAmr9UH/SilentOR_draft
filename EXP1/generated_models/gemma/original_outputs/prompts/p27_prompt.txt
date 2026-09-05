@@ -1,0 +1,406 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A traveling salesman must visit 7 customers at 7 locations, starting and ending at location 1. The symmetric distances are: d12=86, d13=49, d14=57, d15=31, d16=69, d17=50, d23=68, d24=79, d25=93, d26=24, d27=5, d34=16, d35=7, d36=72, d37=67, d45=90, d46=69, d47=1, d56=86, d57=59, d67=81. Formulate a mathematical program to determine the visiting order minimizing total travel distance.
+
+Complete the TODO sections in this exact code skeleton. Keep both function names, their
+arguments, the call from solve() to build_model(), and the three top-level return keys.
+Return one complete Python program, including the imports and both completed functions.
+
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # TODO: create ALL decision variables using numeric values from data
+    # TODO: set the objective using numeric values from data
+    # TODO: add ALL constraints using numeric values from data
+
+    variables = {
+        # TODO: map every required semantic variable key to its corresponding
+        # gurobipy Var object or dict of Var objects
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        # TODO: fill every required semantic solution key from variables
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }
+
+The required `variables` mapping for build_model() is:
+{
+  "variables_keys": {
+    "x_1_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_1_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_1_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_1_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_1_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_1_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_2_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_3_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_4_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_5_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_6_7": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_1": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_2": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_3": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_4": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_5": "binary Var: 1 if tour travels directly on this directed arc",
+    "x_7_6": "binary Var: 1 if tour travels directly on this directed arc",
+    "u_2": "continuous/integer MTZ order variable for this non-depot node",
+    "u_3": "continuous/integer MTZ order variable for this non-depot node",
+    "u_4": "continuous/integer MTZ order variable for this non-depot node",
+    "u_5": "continuous/integer MTZ order variable for this non-depot node",
+    "u_6": "continuous/integer MTZ order variable for this non-depot node",
+    "u_7": "continuous/integer MTZ order variable for this non-depot node"
+  },
+  "note": "Use exactly these flat variable keys. Use x_ij for directed arcs even though distances are symmetric."
+}
+
+The required return schema for solve() is:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "minimum tour distance"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "x_1_2",
+        "x_1_3",
+        "x_1_4",
+        "x_1_5",
+        "x_1_6",
+        "x_1_7",
+        "x_2_1",
+        "x_2_3",
+        "x_2_4",
+        "x_2_5",
+        "x_2_6",
+        "x_2_7",
+        "x_3_1",
+        "x_3_2",
+        "x_3_4",
+        "x_3_5",
+        "x_3_6",
+        "x_3_7",
+        "x_4_1",
+        "x_4_2",
+        "x_4_3",
+        "x_4_5",
+        "x_4_6",
+        "x_4_7",
+        "x_5_1",
+        "x_5_2",
+        "x_5_3",
+        "x_5_4",
+        "x_5_6",
+        "x_5_7",
+        "x_6_1",
+        "x_6_2",
+        "x_6_3",
+        "x_6_4",
+        "x_6_5",
+        "x_6_7",
+        "x_7_1",
+        "x_7_2",
+        "x_7_3",
+        "x_7_4",
+        "x_7_5",
+        "x_7_6",
+        "u_2",
+        "u_3",
+        "u_4",
+        "u_5",
+        "u_6",
+        "u_7"
+      ],
+      "properties": {
+        "x_1_2": {
+          "type": "number"
+        },
+        "x_1_3": {
+          "type": "number"
+        },
+        "x_1_4": {
+          "type": "number"
+        },
+        "x_1_5": {
+          "type": "number"
+        },
+        "x_1_6": {
+          "type": "number"
+        },
+        "x_1_7": {
+          "type": "number"
+        },
+        "x_2_1": {
+          "type": "number"
+        },
+        "x_2_3": {
+          "type": "number"
+        },
+        "x_2_4": {
+          "type": "number"
+        },
+        "x_2_5": {
+          "type": "number"
+        },
+        "x_2_6": {
+          "type": "number"
+        },
+        "x_2_7": {
+          "type": "number"
+        },
+        "x_3_1": {
+          "type": "number"
+        },
+        "x_3_2": {
+          "type": "number"
+        },
+        "x_3_4": {
+          "type": "number"
+        },
+        "x_3_5": {
+          "type": "number"
+        },
+        "x_3_6": {
+          "type": "number"
+        },
+        "x_3_7": {
+          "type": "number"
+        },
+        "x_4_1": {
+          "type": "number"
+        },
+        "x_4_2": {
+          "type": "number"
+        },
+        "x_4_3": {
+          "type": "number"
+        },
+        "x_4_5": {
+          "type": "number"
+        },
+        "x_4_6": {
+          "type": "number"
+        },
+        "x_4_7": {
+          "type": "number"
+        },
+        "x_5_1": {
+          "type": "number"
+        },
+        "x_5_2": {
+          "type": "number"
+        },
+        "x_5_3": {
+          "type": "number"
+        },
+        "x_5_4": {
+          "type": "number"
+        },
+        "x_5_6": {
+          "type": "number"
+        },
+        "x_5_7": {
+          "type": "number"
+        },
+        "x_6_1": {
+          "type": "number"
+        },
+        "x_6_2": {
+          "type": "number"
+        },
+        "x_6_3": {
+          "type": "number"
+        },
+        "x_6_4": {
+          "type": "number"
+        },
+        "x_6_5": {
+          "type": "number"
+        },
+        "x_6_7": {
+          "type": "number"
+        },
+        "x_7_1": {
+          "type": "number"
+        },
+        "x_7_2": {
+          "type": "number"
+        },
+        "x_7_3": {
+          "type": "number"
+        },
+        "x_7_4": {
+          "type": "number"
+        },
+        "x_7_5": {
+          "type": "number"
+        },
+        "x_7_6": {
+          "type": "number"
+        },
+        "u_2": {
+          "type": "number"
+        },
+        "u_3": {
+          "type": "number"
+        },
+        "u_4": {
+          "type": "number"
+        },
+        "u_5": {
+          "type": "number"
+        },
+        "u_6": {
+          "type": "number"
+        },
+        "u_7": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "nodes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "start_node": 1,
+  "distance": {
+    "1,2": 86,
+    "1,3": 49,
+    "1,4": 57,
+    "1,5": 31,
+    "1,6": 69,
+    "1,7": 50,
+    "2,1": 86,
+    "2,3": 68,
+    "2,4": 79,
+    "2,5": 93,
+    "2,6": 24,
+    "2,7": 5,
+    "3,1": 49,
+    "3,2": 68,
+    "3,4": 16,
+    "3,5": 7,
+    "3,6": 72,
+    "3,7": 67,
+    "4,1": 57,
+    "4,2": 79,
+    "4,3": 16,
+    "4,5": 90,
+    "4,6": 69,
+    "4,7": 1,
+    "5,1": 31,
+    "5,2": 93,
+    "5,3": 7,
+    "5,4": 90,
+    "5,6": 86,
+    "5,7": 59,
+    "6,1": 69,
+    "6,2": 24,
+    "6,3": 72,
+    "6,4": 69,
+    "6,5": 86,
+    "6,7": 81,
+    "7,1": 50,
+    "7,2": 5,
+    "7,3": 67,
+    "7,4": 1,
+    "7,5": 59,
+    "7,6": 81
+  },
+  "mtz_big_m": 7
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

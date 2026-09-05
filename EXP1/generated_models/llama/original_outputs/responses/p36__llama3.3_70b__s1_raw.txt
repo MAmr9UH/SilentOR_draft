@@ -1,0 +1,83 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    for start_month in data['months']:
+        for length in data['contract_lengths']:
+            if [start_month, length] not in data['feasible_start_length_pairs']:
+                continue
+            var_name = f'x_{start_month}_{length}'
+            variables[var_name] = model.addVar(vtype=gp.GRB.INTEGER, name=var_name)
+    
+    for length in data['contract_lengths']:
+        var_name = f'y_{length}'
+        variables[var_name] = model.addVar(vtype=gp.GRB.BINARY, name=var_name)
+    
+    # Objective function
+    obj_expr = gp.quicksum(
+        (data['fee_per_100sqm_by_length'][str(length)] * length) * variables[f'x_{start_month}_{length}']
+        for start_month in data['months'] 
+        for length in data['contract_lengths'] 
+        if [start_month, length] in data['feasible_start_length_pairs']
+    )
+    model.setObjective(obj_expr, gp.GRB.MINIMIZE)
+    
+    # Demand constraints
+    for month in data['months']:
+        demand = data['demand_100sqm'][str(month)]
+        supply_expr = gp.quicksum(
+            variables[f'x_{start_month}_{length}'] 
+            for start_month in range(1, 5) 
+            for length in data['contract_lengths'] 
+            if [start_month, length] in data['feasible_start_length_pairs']
+            and month >= start_month and month < start_month + length
+        )
+        model.addConstr(supply_expr == demand)
+    
+    # At least two distinct lengths constraint
+    num_distinct_lengths = gp.quicksum(variables[f'y_{length}'] for length in data['contract_lengths'])
+    model.addConstr(num_distinct_lengths >= data['min_distinct_lengths'])
+    
+    # At most three distinct lengths constraint
+    model.addConstr(num_distinct_lengths <= data['max_distinct_lengths'])
+    
+    # Mutual exclusivity constraints
+    for length1, length2 in zip(data['mutually_exclusive_lengths'], data['mutually_exclusive_lengths'][::-1]):
+        if length1 == length2:
+            continue
+        model.addConstr(variables[f'y_{length1}'] + variables[f'y_{length2}'] <= 1)
+    
+    # Linking constraints between x and y variables
+    for start_month in data['months']:
+        for length in data['contract_lengths']:
+            if [start_month, length] not in data['feasible_start_length_pairs']:
+                continue
+            model.addConstr(variables[f'x_{start_month}_{length}'] <= 1000 * variables[f'y_{length}'])
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    solution = {
+        var_name: variables[var_name].X for var_name in variables
+    }
+    
+    return {
+        "status": status_map[model.Status],
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

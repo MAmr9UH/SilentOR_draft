@@ -1,0 +1,329 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A fabric dyeing plant has 3 dyeing vats. Each batch of fabric must be dyed in sequence in the first, second, and third vats. The plant must color five batches of fabric. The processing time in hours for batch i in vat j is given by the matrix: batch 1: 3, 1, 1; batch 2: 2, 1.5, 1; batch 3: 3, 1.2, 1.3; batch 4: 2, 2, 2; batch 5: 2.1, 2, 3. Schedule the dyeing operations in the vats to minimize the completion time of the last batch.
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "y_1_1": "binary variable equal to 1 if batch 1 is placed in sequence position 1",
+    "y_1_2": "binary variable equal to 1 if batch 1 is placed in sequence position 2",
+    "y_1_3": "binary variable equal to 1 if batch 1 is placed in sequence position 3",
+    "y_1_4": "binary variable equal to 1 if batch 1 is placed in sequence position 4",
+    "y_1_5": "binary variable equal to 1 if batch 1 is placed in sequence position 5",
+    "y_2_1": "binary variable equal to 1 if batch 2 is placed in sequence position 1",
+    "y_2_2": "binary variable equal to 1 if batch 2 is placed in sequence position 2",
+    "y_2_3": "binary variable equal to 1 if batch 2 is placed in sequence position 3",
+    "y_2_4": "binary variable equal to 1 if batch 2 is placed in sequence position 4",
+    "y_2_5": "binary variable equal to 1 if batch 2 is placed in sequence position 5",
+    "y_3_1": "binary variable equal to 1 if batch 3 is placed in sequence position 1",
+    "y_3_2": "binary variable equal to 1 if batch 3 is placed in sequence position 2",
+    "y_3_3": "binary variable equal to 1 if batch 3 is placed in sequence position 3",
+    "y_3_4": "binary variable equal to 1 if batch 3 is placed in sequence position 4",
+    "y_3_5": "binary variable equal to 1 if batch 3 is placed in sequence position 5",
+    "y_4_1": "binary variable equal to 1 if batch 4 is placed in sequence position 1",
+    "y_4_2": "binary variable equal to 1 if batch 4 is placed in sequence position 2",
+    "y_4_3": "binary variable equal to 1 if batch 4 is placed in sequence position 3",
+    "y_4_4": "binary variable equal to 1 if batch 4 is placed in sequence position 4",
+    "y_4_5": "binary variable equal to 1 if batch 4 is placed in sequence position 5",
+    "y_5_1": "binary variable equal to 1 if batch 5 is placed in sequence position 1",
+    "y_5_2": "binary variable equal to 1 if batch 5 is placed in sequence position 2",
+    "y_5_3": "binary variable equal to 1 if batch 5 is placed in sequence position 3",
+    "y_5_4": "binary variable equal to 1 if batch 5 is placed in sequence position 4",
+    "y_5_5": "binary variable equal to 1 if batch 5 is placed in sequence position 5",
+    "C_1_1": "completion time of sequence position 1 on vat 1",
+    "C_1_2": "completion time of sequence position 1 on vat 2",
+    "C_1_3": "completion time of sequence position 1 on vat 3",
+    "C_2_1": "completion time of sequence position 2 on vat 1",
+    "C_2_2": "completion time of sequence position 2 on vat 2",
+    "C_2_3": "completion time of sequence position 2 on vat 3",
+    "C_3_1": "completion time of sequence position 3 on vat 1",
+    "C_3_2": "completion time of sequence position 3 on vat 2",
+    "C_3_3": "completion time of sequence position 3 on vat 3",
+    "C_4_1": "completion time of sequence position 4 on vat 1",
+    "C_4_2": "completion time of sequence position 4 on vat 2",
+    "C_4_3": "completion time of sequence position 4 on vat 3",
+    "C_5_1": "completion time of sequence position 5 on vat 1",
+    "C_5_2": "completion time of sequence position 5 on vat 2",
+    "C_5_3": "completion time of sequence position 5 on vat 3",
+    "Cmax": "makespan / completion time of the last batch"
+  },
+  "note": "Use a common flow-shop sequence with flat binary variables y_Batch_Position, completion variables C_Position_Vat, and Cmax."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "minimum completion time of the last batch"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "y_1_1",
+        "y_1_2",
+        "y_1_3",
+        "y_1_4",
+        "y_1_5",
+        "y_2_1",
+        "y_2_2",
+        "y_2_3",
+        "y_2_4",
+        "y_2_5",
+        "y_3_1",
+        "y_3_2",
+        "y_3_3",
+        "y_3_4",
+        "y_3_5",
+        "y_4_1",
+        "y_4_2",
+        "y_4_3",
+        "y_4_4",
+        "y_4_5",
+        "y_5_1",
+        "y_5_2",
+        "y_5_3",
+        "y_5_4",
+        "y_5_5",
+        "C_1_1",
+        "C_1_2",
+        "C_1_3",
+        "C_2_1",
+        "C_2_2",
+        "C_2_3",
+        "C_3_1",
+        "C_3_2",
+        "C_3_3",
+        "C_4_1",
+        "C_4_2",
+        "C_4_3",
+        "C_5_1",
+        "C_5_2",
+        "C_5_3",
+        "Cmax"
+      ],
+      "properties": {
+        "y_1_1": {
+          "type": "number"
+        },
+        "y_1_2": {
+          "type": "number"
+        },
+        "y_1_3": {
+          "type": "number"
+        },
+        "y_1_4": {
+          "type": "number"
+        },
+        "y_1_5": {
+          "type": "number"
+        },
+        "y_2_1": {
+          "type": "number"
+        },
+        "y_2_2": {
+          "type": "number"
+        },
+        "y_2_3": {
+          "type": "number"
+        },
+        "y_2_4": {
+          "type": "number"
+        },
+        "y_2_5": {
+          "type": "number"
+        },
+        "y_3_1": {
+          "type": "number"
+        },
+        "y_3_2": {
+          "type": "number"
+        },
+        "y_3_3": {
+          "type": "number"
+        },
+        "y_3_4": {
+          "type": "number"
+        },
+        "y_3_5": {
+          "type": "number"
+        },
+        "y_4_1": {
+          "type": "number"
+        },
+        "y_4_2": {
+          "type": "number"
+        },
+        "y_4_3": {
+          "type": "number"
+        },
+        "y_4_4": {
+          "type": "number"
+        },
+        "y_4_5": {
+          "type": "number"
+        },
+        "y_5_1": {
+          "type": "number"
+        },
+        "y_5_2": {
+          "type": "number"
+        },
+        "y_5_3": {
+          "type": "number"
+        },
+        "y_5_4": {
+          "type": "number"
+        },
+        "y_5_5": {
+          "type": "number"
+        },
+        "C_1_1": {
+          "type": "number"
+        },
+        "C_1_2": {
+          "type": "number"
+        },
+        "C_1_3": {
+          "type": "number"
+        },
+        "C_2_1": {
+          "type": "number"
+        },
+        "C_2_2": {
+          "type": "number"
+        },
+        "C_2_3": {
+          "type": "number"
+        },
+        "C_3_1": {
+          "type": "number"
+        },
+        "C_3_2": {
+          "type": "number"
+        },
+        "C_3_3": {
+          "type": "number"
+        },
+        "C_4_1": {
+          "type": "number"
+        },
+        "C_4_2": {
+          "type": "number"
+        },
+        "C_4_3": {
+          "type": "number"
+        },
+        "C_5_1": {
+          "type": "number"
+        },
+        "C_5_2": {
+          "type": "number"
+        },
+        "C_5_3": {
+          "type": "number"
+        },
+        "Cmax": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "batches": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "vats": [
+    1,
+    2,
+    3
+  ],
+  "positions": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "processing_time": {
+    "1": {
+      "1": 3,
+      "2": 1,
+      "3": 1
+    },
+    "2": {
+      "1": 2,
+      "2": 1.5,
+      "3": 1
+    },
+    "3": {
+      "1": 3,
+      "2": 1.2,
+      "3": 1.3
+    },
+    "4": {
+      "1": 2,
+      "2": 2,
+      "3": 2
+    },
+    "5": {
+      "1": 2.1,
+      "2": 2,
+      "3": 3
+    }
+  }
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

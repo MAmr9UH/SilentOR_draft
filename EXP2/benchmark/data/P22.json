@@ -1,0 +1,56 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 22,
+  "scenario_id": "network_bandwidth_maximin_path_via_C",
+  "data_instance": {
+    "nodes": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "source": "A",
+    "sink": "E",
+    "required_service_node": "C",
+    "bandwidth": {
+      "A": {
+        "A": 0,
+        "B": 90,
+        "C": 85,
+        "D": 0,
+        "E": 65
+      },
+      "B": {
+        "A": 95,
+        "B": 0,
+        "C": 70,
+        "D": 65,
+        "E": 34
+      },
+      "C": {
+        "A": 60,
+        "B": 0,
+        "C": 0,
+        "D": 88,
+        "E": 80
+      },
+      "D": {
+        "A": 67,
+        "B": 30,
+        "C": 25,
+        "D": 0,
+        "E": 84
+      },
+      "E": {
+        "A": 0,
+        "B": 51,
+        "C": 0,
+        "D": 56,
+        "E": 0
+      }
+    },
+    "big_m": 100
+  }
+}

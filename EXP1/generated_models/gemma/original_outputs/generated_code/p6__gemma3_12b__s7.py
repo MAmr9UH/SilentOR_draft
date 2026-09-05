@@ -1,0 +1,74 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    regions = data["regions"]
+    move_cost = data["move_cost"]
+    current_cars = data["current_cars"]
+    cars_needed = data["cars_needed"]
+
+    # Create decision variables
+    variables = {}
+    for i in regions:
+        for j in regions:
+            if i != j:
+                var = model.addVar(vtype=GRB.CONTINUOUS, name=f"x_{i}_{j}")
+                variables[f"x_{i}_{j}"] = var
+
+    # Set the objective function
+    objective = gp.quicksum([move_cost[f"{i}_{j}"] * variables[f"x_{i}_{j}"] for i in regions for j in regions if i != j])
+    model.setObjective(objective, GRB.MINIMIZE)
+
+    # Add constraints
+    for i in regions:
+        # Cars leaving region i must be at least the difference between current cars and needed cars
+        supply = current_cars[str(i)] - cars_needed[str(i)]
+        outgoing = gp.quicksum([variables[f"x_{i}_{j}"] for j in regions if i != j])
+        model.addConstr(outgoing == supply, f"flow_{i}")
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_1_2": float(variables["x_1_2"].X),
+        "x_1_3": float(variables["x_1_3"].X),
+        "x_1_4": float(variables["x_1_4"].X),
+        "x_1_5": float(variables["x_1_5"].X),
+        "x_2_1": float(variables["x_2_1"].X),
+        "x_2_3": float(variables["x_2_3"].X),
+        "x_2_4": float(variables["x_2_4"].X),
+        "x_2_5": float(variables["x_2_5"].X),
+        "x_3_1": float(variables["x_3_1"].X),
+        "x_3_2": float(variables["x_3_2"].X),
+        "x_3_4": float(variables["x_3_4"].X),
+        "x_3_5": float(variables["x_3_5"].X),
+        "x_4_1": float(variables["x_4_1"].X),
+        "x_4_2": float(variables["x_4_2"].X),
+        "x_4_3": float(variables["x_4_3"].X),
+        "x_4_5": float(variables["x_4_5"].X),
+        "x_5_1": float(variables["x_5_1"].X),
+        "x_5_2": float(variables["x_5_2"].X),
+        "x_5_3": float(variables["x_5_3"].X),
+        "x_5_4": float(variables["x_5_4"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

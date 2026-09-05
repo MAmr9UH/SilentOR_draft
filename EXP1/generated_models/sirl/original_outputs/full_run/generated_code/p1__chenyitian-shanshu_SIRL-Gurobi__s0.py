@@ -1,0 +1,62 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("plastic_production_model")
+
+    cap = data["cap"]
+    dem = data["dem"]
+    vcost = data["vcost"]
+    fixed = data["fixed"]
+
+    # Number of container types
+    num_types = len(cap)
+
+    # Decision variables
+    produced = {}
+    for i in range(1, num_types + 1):
+        produced[i] = model.addVar(name=f"produced_{i}", lb=0, vtype=GRB.CONTINUOUS)
+
+    allocation = {}
+    for i in range(1, num_types + 1):
+        for j in range(1, num_types + 1):
+            if cap[i - 1] >= cap[j - 1]:
+                allocation[f"{i},{j}"] = model.addVar(name=f"allocation_{i}_{j}", lb=0, vtype=GRB.CONTINUOUS)
+
+    # Objective function: Minimize total cost
+    model.setObjective(
+        gp.quicksum(vcost[i - 1] * produced[i] for i in range(1, num_types + 1)) +
+        gp.quicksum(fixed * produced[i] for i in range(1, num_types + 1)) +
+        gp.quicksum(allocation[f"{i}, {j}"] for i in range(1, num_types + 1) for j in range(1, num_types + 1) if cap[i - 1] >= cap[j - 1]),
+        GRB.MINIMIZE)
+
+    # Demand satisfaction
+    for j in range(1, num_types + 1):
+        model.addConstr(gp.quicksum(produced[i] for i in range(1, num_types + 1)) >= dem[j - 1])
+
+        for i in range(1, num_types + 1):
+            if cap[i - 1] >= cap[j - 1]:
+                model.addConstr(produced[i] + allocation[f"{i}, {j}"] >= dem[j - 1])
+
+    return model, {"produced": produced, "allocation": allocation}
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "objective": model.objVal,
+            "solution": {
+                "produced": {i: variables["produced"][i] for i in variables["produced"].keys()},
+                "allocation": {k: variables["allocation"][k] for k in variables["allocation"].keys()}
+            }
+        }
+        return solution
+    else:
+        return {
+            "status": "Infeasible",
+            "objective": None,
+            "solution": None
+        }

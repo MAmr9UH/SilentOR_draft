@@ -1,0 +1,117 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    months = data["months"]
+    demand_100sqm = data["demand_100sqm"]
+    contract_lengths = data["contract_lengths"]
+    fee_per_100sqm_by_length = data["fee_per_100sqm_by_length"]
+    feasible_start_length_pairs = data["feasible_start_length_pairs"]
+    min_distinct_lengths = data["min_distinct_lengths"]
+    max_distinct_lengths = data["max_distinct_lengths"]
+    mutually_exclusive_lengths = data["mutually_exclusive_lengths"]
+
+    # Decision variables
+    x = {}
+    for s in months:
+        for l in contract_lengths:
+            if [s, l] in feasible_start_length_pairs:
+                x[f"x_{s}_{l}"] = gp.GRBVar(vtype=gp.GRB_INTEGER, name=f"x_{s}_{l}")
+
+    y = {}
+    for l in contract_lengths:
+        y[f"y_{l}"] = gp.GRBVar(vtype=gp.GRB_BINARY, name=f"y_{l}")
+
+    variables = {
+        "x_1_1": x["x_1_1"],
+        "x_1_2": x["x_1_2"],
+        "x_1_3": x["x_1_3"],
+        "x_1_4": x["x_1_4"],
+        "x_2_1": x["x_2_1"],
+        "x_2_2": x["x_2_2"],
+        "x_2_3": x["x_2_3"],
+        "x_3_1": x["x_3_1"],
+        "x_3_2": x["x_3_2"],
+        "x_4_1": x["x_4_1"],
+        "y_1": y["y_1"],
+        "y_2": y["y_2"],
+        "y_3": y["y_3"],
+        "y_4": y["y_4"]
+    }
+
+    # Objective function
+    model.setObjective(
+        gp.quicksum(
+            x[f"x_{s}_{l}"] * fee_per_100sqm_by_length[str(l)] * 100
+            for s in months
+            for l in contract_lengths
+            if [s, l] in feasible_start_length_pairs
+        ),
+        gp.GRB.MINIMIZE
+    )
+
+    # Constraints
+    # Demand satisfaction
+    for m in months:
+        model.addConstr(
+            gp.quicksum(
+                x[f"x_{s}_{l}"] * 100
+                for s in months
+                for l in contract_lengths
+                if [s, l] in feasible_start_length_pairs and s <= m and s + l - 1 >= m
+            ) >= demand_100sqm[str(m)], name=f"demand_{m}"
+        )
+
+    # Mutually exclusive constraints
+    for l in mutually_exclusive_lengths:
+        if l == 4:
+            model.addConstr(gp.quicksum(x[f"x_{s}_{l}"] for s in months) + y["y_4"] <= 0, name=f"mutually_exclusive_{l}")
+
+    # At least two distinct lengths
+    model.addConstr(
+        gp.quicksum(y[f"y_{l}"] for l in contract_lengths) >= min_distinct_lengths, name="at_least_two_lengths"
+    )
+    model.addConstr(
+        gp.quicksum(y[f"y_{l}"] for l in contract_lengths) <= max_distinct_lengths, name="max_distinct_lengths"
+    )
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_1_1": float(variables["x_1_1"].X),
+        "x_1_2": float(variables["x_1_2"].X),
+        "x_1_3": float(variables["x_1_3"].X),
+        "x_1_4": float(variables["x_1_4"].X),
+        "x_2_1": float(variables["x_2_1"].X),
+        "x_2_2": float(variables["x_2_2"].X),
+        "x_2_3": float(variables["x_2_3"].X),
+        "x_3_1": float(variables["x_3_1"].X),
+        "x_3_2": float(variables["x_3_2"].X),
+        "x_4_1": float(variables["x_4_1"].X),
+        "y_1": float(variables["y_1"].X),
+        "y_2": float(variables["y_2"].X),
+        "y_3": float(variables["y_3"].X),
+        "y_4": float(variables["y_4"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

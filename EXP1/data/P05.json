@@ -1,0 +1,24 @@
+{
+  "problem_id": 5,
+  "scenario_id": "basketweavers_course_selection",
+  "data_instance": {
+    "courses": [
+      "calculus",
+      "or",
+      "ds",
+      "bs",
+      "cs",
+      "cp",
+      "fc"
+    ],
+    "course_names": {
+      "calculus": "calculus",
+      "or": "operations research",
+      "ds": "data structures",
+      "bs": "business statistics",
+      "cs": "computer simulation",
+      "cp": "intro to computer programming",
+      "fc": "forecasting"
+    }
+  }
+}

@@ -1,0 +1,208 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+A company requires skilled workers and laborers for three tasks. It must choose exactly one method for each task. Task 1 requires 8400 effective hours and may use method A (skilled workers alone) or method B (groups of one skilled worker and two laborers, with a fixed weekly setup cost of 500 yuan). Task 2 requires 10800 effective hours and may use skilled workers alone or laborers alone. Task 3 requires 18000 effective hours and may use groups of five laborers or groups of one skilled worker and three laborers. Skilled workers earn 100 yuan per week and work 42 effective hours; laborers earn 80 yuan per week and work 36 effective hours. At most 400 skilled workers and 800 laborers can be hired. If task 1 uses method B, task 3 cannot use the pure-labor method. If task 3 uses its mixed method, at least 20 skilled workers must be assigned. Total skilled workers cannot exceed 60% of total laborers. Establish a mathematical model minimizing weekly wages plus fixed costs.
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "y1_A": "integer worker, total, or binary method-choice variable",
+    "y1_B": "integer worker, total, or binary method-choice variable",
+    "y2_A": "integer worker, total, or binary method-choice variable",
+    "y2_B": "integer worker, total, or binary method-choice variable",
+    "y3_A": "integer worker, total, or binary method-choice variable",
+    "y3_B": "integer worker, total, or binary method-choice variable",
+    "skilled_t1_A": "integer worker, total, or binary method-choice variable",
+    "skilled_t1_B": "integer worker, total, or binary method-choice variable",
+    "skilled_t2_A": "integer worker, total, or binary method-choice variable",
+    "skilled_t3_B": "integer worker, total, or binary method-choice variable",
+    "labor_t1_B": "integer worker, total, or binary method-choice variable",
+    "labor_t2_B": "integer worker, total, or binary method-choice variable",
+    "labor_t3_A": "integer worker, total, or binary method-choice variable",
+    "labor_t3_B": "integer worker, total, or binary method-choice variable",
+    "total_skilled": "integer worker, total, or binary method-choice variable",
+    "total_labor": "integer worker, total, or binary method-choice variable"
+  },
+  "note": "Use the specified flat variables. y*_A and y*_B are binary method choices; worker variables are integer counts."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "minimum total weekly cost"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "y1_A",
+        "y1_B",
+        "y2_A",
+        "y2_B",
+        "y3_A",
+        "y3_B",
+        "skilled_t1_A",
+        "skilled_t1_B",
+        "skilled_t2_A",
+        "skilled_t3_B",
+        "labor_t1_B",
+        "labor_t2_B",
+        "labor_t3_A",
+        "labor_t3_B",
+        "total_skilled",
+        "total_labor"
+      ],
+      "properties": {
+        "y1_A": {
+          "type": "number"
+        },
+        "y1_B": {
+          "type": "number"
+        },
+        "y2_A": {
+          "type": "number"
+        },
+        "y2_B": {
+          "type": "number"
+        },
+        "y3_A": {
+          "type": "number"
+        },
+        "y3_B": {
+          "type": "number"
+        },
+        "skilled_t1_A": {
+          "type": "number"
+        },
+        "skilled_t1_B": {
+          "type": "number"
+        },
+        "skilled_t2_A": {
+          "type": "number"
+        },
+        "skilled_t3_B": {
+          "type": "number"
+        },
+        "labor_t1_B": {
+          "type": "number"
+        },
+        "labor_t2_B": {
+          "type": "number"
+        },
+        "labor_t3_A": {
+          "type": "number"
+        },
+        "labor_t3_B": {
+          "type": "number"
+        },
+        "total_skilled": {
+          "type": "number"
+        },
+        "total_labor": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "tasks": [
+    1,
+    2,
+    3
+  ],
+  "weekly_wage": {
+    "skilled": 100,
+    "labor": 80
+  },
+  "weekly_effective_hours": {
+    "skilled": 42,
+    "labor": 36
+  },
+  "task_effective_hours": {
+    "1": 8400,
+    "2": 10800,
+    "3": 18000
+  },
+  "method_worker_requirements": {
+    "task1_A": {
+      "skilled": 200,
+      "labor": 0
+    },
+    "task1_B": {
+      "skilled": 200,
+      "labor": 400,
+      "fixed_setup_cost": 500
+    },
+    "task2_A": {
+      "skilled": 257.14285714285717,
+      "labor": 0
+    },
+    "task2_B": {
+      "skilled": 0,
+      "labor": 300
+    },
+    "task3_A": {
+      "skilled": 0,
+      "labor": 500
+    },
+    "task3_B": {
+      "skilled": 120,
+      "labor": 360
+    }
+  },
+  "max_skilled": 400,
+  "max_labor": 800,
+  "skilled_to_labor_ratio_max": 0.6,
+  "exclusion": "if task 1 uses method B, task 3 cannot use method A",
+  "minimum_skilled_if_task3_B": 20
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

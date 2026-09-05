@@ -1,0 +1,13 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+def build_model(data: dict) -> tuple:
+    m = gp.Model()
+    # Data
+    initial_fund = float(data["initial_fund"])
+    a = float(data["annual_project_return"])  # 1-year return for the annual project
+    b = float(data["project2_return"])        # 2-year project return
+    cap2 = float(data["project2_limit"])
+    c = float(data["project3_return"])        # 2-year project 2 (same-year) return
+    cap3 = float(data["project3_limit"])
+    d = float(data["project4_return"])        #

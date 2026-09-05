@@ -1,0 +1,26 @@
+{
+  "problem_id": 21,
+  "scenario_id": "post_office_5on2off_staffing",
+  "data_instance": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "demand": {
+      "Monday": 15,
+      "Tuesday": 13,
+      "Wednesday": 15,
+      "Thursday": 18,
+      "Friday": 14,
+      "Saturday": 16,
+      "Sunday": 10
+    },
+    "work_consecutive_days": 5,
+    "off_consecutive_days": 2
+  }
+}

@@ -1,0 +1,96 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    buy_1 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='buy_1')
+    buy_2 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='buy_2')
+    buy_3 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='buy_3')
+    
+    sell_1 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='sell_1')
+    sell_2 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='sell_2')
+    sell_3 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='sell_3')
+    
+    inventory_1 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='inventory_1')
+    inventory_2 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='inventory_2')
+    inventory_3 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='inventory_3')
+    
+    cash_1 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='cash_1')
+    cash_2 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='cash_2')
+    cash_3 = model.addVar(lb=0, vtype=gp.GRB.CONTINUOUS, name='cash_3')
+    
+    profit = model.addVar(lb=-float('inf'), vtype=gp.GRB.CONTINUOUS, name='profit')
+    
+    variables = {
+        "buy_1": buy_1,
+        "buy_2": buy_2,
+        "buy_3": buy_3,
+        "sell_1": sell_1,
+        "sell_2": sell_2,
+        "sell_3": sell_3,
+        "inventory_1": inventory_1,
+        "inventory_2": inventory_2,
+        "inventory_3": inventory_3,
+        "cash_1": cash_1,
+        "cash_2": cash_2,
+        "cash_3": cash_3,
+        "profit": profit
+    }
+    
+    model.addConstr(inventory_1 == data['initial_inventory'] + buy_1, name='inventory_1_constr')
+    model.addConstr(inventory_2 == inventory_1 - sell_1 + buy_2, name='inventory_2_constr')
+    model.addConstr(inventory_3 == inventory_2 - sell_2 + buy_3, name='inventory_3_constr')
+    
+    model.addConstr(cash_1 == data['initial_cash'] - buy_1 * data['purchase_price']['1'], name='cash_1_constr')
+    model.addConstr(cash_2 == cash_1 + sell_1 * data['selling_price']['1'] - buy_2 * data['purchase_price']['2'], name='cash_2_constr')
+    model.addConstr(cash_3 == cash_2 + sell_2 * data['selling_price']['2'] - buy_3 * data['purchase_price']['3'], name='cash_3_constr')
+    
+    model.addConstr(inventory_1 <= data['capacity'], name='inventory_1_capacity_constr')
+    model.addConstr(inventory_2 <= data['capacity'], name='inventory_2_capacity_constr')
+    model.addConstr(inventory_3 == data['final_inventory_required'], name='inventory_3_final_constr')
+    
+    model.addConstr(profit == cash_3 + inventory_3 * data['selling_price']['3'] - data['initial_cash'], name='profit_constr')
+    
+    model.setObjective(profit, gp.GRB.MAXIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = 'OPTIMAL'
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = 'INFEASIBLE'
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = 'UNBOUNDED'
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = 'INF_OR_UNBD'
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = 'TIME_LIMIT'
+    
+    solution = {
+        "buy_1": model.getVarByName('buy_1').X,
+        "buy_2": model.getVarByName('buy_2').X,
+        "buy_3": model.getVarByName('buy_3').X,
+        "sell_1": model.getVarByName('sell_1').X,
+        "sell_2": model.getVarByName('sell_2').X,
+        "sell_3": model.getVarByName('sell_3').X,
+        "inventory_1": model.getVarByName('inventory_1').X,
+        "inventory_2": model.getVarByName('inventory_2').X,
+        "inventory_3": model.getVarByName('inventory_3').X,
+        "cash_1": model.getVarByName('cash_1').X,
+        "cash_2": model.getVarByName('cash_2').X,
+        "cash_3": model.getVarByName('cash_3').X,
+        "profit": model.getVarByName('profit').X
+    }
+    
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }
+```

@@ -1,0 +1,144 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("recruitment_model")
+
+    # Decision variables
+    x = {}
+    for type_id in data["types"]:
+        for branch in data["branches"]:
+            for specialty in data["specialties"]:
+                x[f"x_{type_id}_{branch}_{specialty}"] = model.addVar(name=f"x_{type_id}_{branch}_{specialty}", lb=0, vtype=GRB.INTEGER)
+
+    p3_shortfall = model.addVar(name="p3_shortfall", lb=0, vtype=GRB.INTEGER)
+
+    # Available people
+    available_people = data["available_people"]
+
+    # Suitable specialties
+    suitable_specialties = data["suitable_specialties"]
+
+    # Preferred specialty
+    preferred_specialty = data["preferred_specialty"]
+
+    # Preferred city
+    preferred_city = data["preferred_city"]
+
+    # Demand
+    demand = data["demand"]
+
+    # P2 target
+    p2_preferred_specialty_target = data["p2_preferred_specialty_target"]
+
+    # P3 target
+    p3_preferred_city_target = data["p3_preferred_city_target"]
+
+    # Objective function for P1: meet all specialty demands
+    for branch in data["branches"]:
+        for specialty in data["specialties"]:
+            model.addConstr(gp.quicksum(x[f"x_{type_id}_{branch}_{specialty}"] for type_id in data["types"] if specialty in suitable_specialties.get(type_id, [])) >= demand.get(f"{branch}_{specialty}", 0))
+
+    # Objective function for P2: maximize the number of recruited personnel assigned to their preferred specialty
+    p2_objective = 0
+    for type_id in data["types"]:
+        specialty = preferred_specialty.get(type_id)
+        for branch in data["branches"]:
+            p2_objective += x[f"x_{type_id}_{branch}_{specialty}"]
+    model.addConstr(p2_objective <= p2_preferred_specialty_target)
+
+    # Objective function for P3: maximize the number assigned to their preferred city
+    p3_objective = 0
+    for type_id in data["types"]:
+        city = preferred_city.get(type_id)
+        for branch in data["branches"]:
+            if branch == city:
+                for specialty in data["specialties"]:
+                    if specialty in suitable_specialties.get(type_id, []):
+                        p3_objective += x[f"x_{type_id}_{branch}_{specialty}"]
+    model.addConstr(p3_objective <= p3_preferred_city_target)
+
+    # Lexicographic goal programming
+    model.setObjective(p3_shortfall, GRB.MINIMIZE)
+
+    # Linking P3 shortfall to the objective
+    for type_id in data["types"]:
+        for branch in data["branches"]:
+            for specialty in data["specialties"]:
+                if specialty in suitable_specialties.get(type_id, []):
+                    city = preferred_city.get(type_id)
+                    if branch == city:
+                        model.addConstr(x[f"x_{type_id}_{branch}_{specialty}"] <= available_people.get(str(type_id), 0))
+                    else:
+                        model.addConstr(x[f"x_{type_id}_{branch}_{specialty}"] <= available_people.get(str(type_id), 0) - p3_shortfall)
+
+    variables = {
+        "x_1_Donghai_1": x["x_1_Donghai_1"],
+        "x_1_Donghai_2": x["x_1_Donghai_2"],
+        "x_1_Nanjiang_1": x["x_1_Nanjiang_1"],
+        "x_1_Nanjiang_2": x["x_1_Nanjiang_2"],
+        "x_2_Donghai_2": x["x_2_Donghai_2"],
+        "x_2_Donghai_3": x["x_2_Donghai_3"],
+        "x_2_Nanjiang_2": x["x_2_Nanjiang_2"],
+        "x_2_Nanjiang_3": x["x_2_Nanjiang_3"],
+        "x_3_Donghai_1": x["x_3_Donghai_1"],
+        "x_3_Donghai_3": x["x_3_Donghai_3"],
+        "x_3_Nanjiang_1": x["x_3_Nanjiang_1"],
+        "x_3_Nanjiang_3": x["x_3_Nanjiang_3"],
+        "x_4_Donghai_1": x["x_4_Donghai_1"],
+        "x_4_Donghai_3": x["x_4_Donghai_3"],
+        "x_4_Nanjiang_1": x["x_4_Nanjiang_1"],
+        "x_4_Nanjiang_3": x["x_4_Nanjiang_3"],
+        "x_5_Donghai_2": x["x_5_Donghai_2"],
+        "x_5_Donghai_3": x["x_5_Donghai_3"],
+        "x_5_Nanjiang_2": x["x_5_Nanjiang_2"],
+        "x_5_Nanjiang_3": x["x_5_Nanjiang_3"],
+        "x_6_Donghai_3": x["x_6_Donghai_3"],
+        "x_6_Nanjiang_3": x["x_6_Nanjiang_3"],
+        "p3_shortfall": p3_shortfall
+    }
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "x_1_Donghai_1": variables["x_1_Donghai_1"].x,
+            "x_1_Donghai_2": variables["x_1_Donghai_2"].x,
+            "x_1_Nanjiang_1": variables["x_1_Nanjiang_1"].x,
+            "x_1_Nanjiang_2": variables["x_1_Nanjiang_2"].x,
+            "x_2_Donghai_2": variables["x_2_Donghai_2"].x,
+            "x_2_Donghai_3": variables["x_2_Donghai_3"].x,
+            "x_2_Nanjiang_2": variables["x_2_Nanjiang_2"].x,
+            "x_2_Nanjiang_3": variables["x_2_Nanjiang_3"].x,
+            "x_3_Donghai_1": variables["x_3_Donghai_1"].x,
+            "x_3_Donghai_3": variables["x_3_Donghai_3"].x,
+            "x_3_Nanjiang_1": variables["x_3_Nanjiang_1"].x,
+            "x_3_Nanjiang_3": variables["x_3_Nanjiang_3"].x,
+            "x_4_Donghai_1": variables["x_4_Donghai_1"].x,
+            "x_4_Donghai_3": variables["x_4_Donghai_3"].x,
+            "x_4_Nanjiang_1": variables["x_4_Nanjiang_1"].x,
+            "x_4_Nanjiang_3": variables["x_4_Nanjiang_3"].x,
+            "x_5_Donghai_2": variables["x_5_Donghai_2"].x,
+            "x_5_Donghai_3": variables["x_5_Donghai_3"].x,
+            "x_5_Nanjiang_2": variables["x_5_Nanjiang_2"].x,
+            "x_5_Nanjiang_3": variables["x_5_Nanjiang_3"].x,
+            "x_6_Donghai_3": variables["x_6_Donghai_3"].x,
+            "x_6_Nanjiang_3": variables["x_6_Nanjiang_3"].x,
+            "p3_shortfall": variables["p3_shortfall"].x
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": variables["p3_shortfall"].x,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

@@ -1,0 +1,137 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    x = {}
+    for t in data["types"]:
+        for b in data["branches"]:
+            for s in data["specialties"]:
+                var_name = f"x_{t}_{b}_{s}"
+                x[var_name] = model.addVar(
+                    vtype=GRB.INTEGER, name=var_name, lb=0
+                )
+
+    p3_shortfall = model.addVar(vtype=GRB.INTEGER, name="p3_shortfall", lb=0)
+
+    # Objective function: Minimize P3 shortfall
+    model.setObjective(p3_shortfall, GRB.MINIMIZE)
+
+    # Constraints
+
+    # 1. Meet demand for each specialty in each branch
+    for b in data["branches"]:
+        for s in data["specialties"]:
+            demand_key = f"{b}_{s}"
+            demand = data["demand"][demand_key]
+            model.addConstr(
+                gp.quicksum(x[var_name] for t in data["types"] if
+                            f"x_{t}_{b}_{s}" in x), GRB.EQUAL, demand,
+                name=f"Demand_{b}_{s}")
+
+    # 2. Respect available people of each type
+    for t in data["types"]:
+        model.addConstr(
+            gp.quicksum(x[var_name] for b in data["branches"] for s in data["specialties"] if
+                            f"x_{t}_{b}_{s}" in x), GRB.LESS_EQUAL,
+            data["available_people"][str(t)], name=f"People_{t}")
+
+    # 3. Respect suitable specialties
+    for t in data["types"]:
+        suitable = data["suitable_specialties"][str(t)]
+        model.addConstr(
+            gp.quicksum(x[var_name] for s in suitable if f"x_{t}_{b}_{s}" in x
+                        for b in data["branches"]), GRB.EQUAL,
+            gp.quicksum(x[var_name] for b in data["branches"] for s in data["specialties"] if
+                            f"x_{t}_{b}_{s}" in x), name=f"Suitable_{t}")
+
+    # 4. P2: Maximize number of recruited personnel assigned to their preferred specialty
+    model.addConstr(
+        gp.quicksum(x[var_name] for t in data["types"] for b in data["branches"] for s in data["specialties"] if
+                            f"x_{t}_{b}_{s}" in x), GRB.LESS_EQUAL,
+        data["p2_preferred_specialty_target"], name="P2")
+
+    # 5. P3: Maximize number assigned to their preferred city
+    preferred_city_count = gp.quicksum(
+        x[var_name] for t in data["types"] for b in data["branches"] for s in data["specialties"] if
+            f"x_{t}_{b}_{s}" in x and data["preferred_city"][str(t)] == b)
+
+    model.addConstr(
+        preferred_city_count + p3_shortfall, GRB.LESS_EQUAL,
+        data["p3_preferred_city_target"], name="P3")
+
+    variables = {
+        "x_1_Donghai_1": x["x_1_Donghai_1"],
+        "x_1_Donghai_2": x["x_1_Donghai_2"],
+        "x_1_Nanjiang_1": x["x_1_Nanjiang_1"],
+        "x_1_Nanjiang_2": x["x_1_Nanjiang_2"],
+        "x_2_Donghai_2": x["x_2_Donghai_2"],
+        "x_2_Donghai_3": x["x_2_Donghai_3"],
+        "x_2_Nanjiang_2": x["x_2_Nanjiang_2"],
+        "x_2_Nanjiang_3": x["x_2_Nanjiang_3"],
+        "x_3_Donghai_1": x["x_3_Donghai_1"],
+        "x_3_Donghai_3": x["x_3_Donghai_3"],
+        "x_3_Nanjiang_1": x["x_3_Nanjiang_1"],
+        "x_3_Nanjiang_3": x["x_3_Nanjiang_3"],
+        "x_4_Donghai_1": x["x_4_Donghai_1"],
+        "x_4_Donghai_3": x["x_4_Donghai_3"],
+        "x_4_Nanjiang_1": x["x_4_Nanjiang_1"],
+        "x_4_Nanjiang_3": x["x_4_Nanjiang_3"],
+        "x_5_Donghai_2": x["x_5_Donghai_2"],
+        "x_5_Donghai_3": x["x_5_Donghai_3"],
+        "x_5_Nanjiang_2": x["x_5_Nanjiang_2"],
+        "x_5_Nanjiang_3": x["x_5_Nanjiang_3"],
+        "x_6_Donghai_3": x["x_6_Donghai_3"],
+        "x_6_Nanjiang_3": x["x_6_Nanjiang_3"],
+        "p3_shortfall": p3_shortfall,
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_1_Donghai_1": float(variables["x_1_Donghai_1"].X),
+        "x_1_Donghai_2": float(variables["x_1_Donghai_2"].X),
+        "x_1_Nanjiang_1": float(variables["x_1_Nanjiang_1"].X),
+        "x_1_Nanjiang_2": float(variables["x_1_Nanjiang_2"].X),
+        "x_2_Donghai_2": float(variables["x_2_Donghai_2"].X),
+        "x_2_Donghai_3": float(variables["x_2_Donghai_3"].X),
+        "x_2_Nanjiang_2": float(variables["x_2_Nanjiang_2"].X),
+        "x_2_Nanjiang_3": float(variables["x_2_Nanjiang_3"].X),
+        "x_3_Donghai_1": float(variables["x_3_Donghai_1"].X),
+        "x_3_Donghai_3": float(variables["x_3_Donghai_3"].X),
+        "x_3_Nanjiang_1": float(variables["x_3_Nanjiang_1"].X),
+        "x_3_Nanjiang_3": float(variables["x_3_Nanjiang_3"].X),
+        "x_4_Donghai_1": float(variables["x_4_Donghai_1"].X),
+        "x_4_Donghai_3": float(variables["x_4_Donghai_3"].X),
+        "x_4_Nanjiang_1": float(variables["x_4_Nanjiang_1"].X),
+        "x_4_Nanjiang_3": float(variables["x_4_Nanjiang_3"].X),
+        "x_5_Donghai_2": float(variables["x_5_Donghai_2"].X),
+        "x_5_Donghai_3": float(variables["x_5_Donghai_3"].X),
+        "x_5_Nanjiang_2": float(variables["x_5_Nanjiang_2"].X),
+        "x_5_Nanjiang_3": float(variables["x_5_Nanjiang_3"].X),
+        "x_6_Donghai_3": float(variables["x_6_Donghai_3"].X),
+        "x_6_Nanjiang_3": float(variables["x_6_Nanjiang_3"].X),
+        "p3_shortfall": float(variables["p3_shortfall"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

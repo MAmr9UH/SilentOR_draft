@@ -1,0 +1,47 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+
+    # Data extraction
+    depot = data.get("depot", 0)
+    vehicles = data["vehicles"]
+    max_vehicles = data["max_vehicles"]
+    arcs = data["arcs"]
+    arc_set = set((a, b) for (a, b) in arcs)
+
+    customers = list(range(1, 21))  # given
+    all_nodes = list(range(0, 21))
+
+    # Distances
+    distance = data["distance"]
+    def dist(i, j):
+        return float(distance[f"{i},{j}"])
+
+    # Time windows
+    tw = data["time_window"]
+    start = {i: tw[str(i)][0] for i in range(0, 21)}
+    end = {i: tw[str(i)][1] for i in range(0, 21)}
+
+    # Service durations
+    service = {i: data["service_duration"][str(i)] if i != 0 else 0 for i in range(0, 21)}
+
+    big_M = data.get("big_m", 2000)
+
+    # Variables container
+    variables = {}
+
+    # Arc decision variables x_v_i_j
+    x = {}
+    for v in vehicles:
+        for (i, j) in arc_set:
+            key = f"x_v{v}_{i}_{j}"
+            x[(v, i, j)] = model.addVar(vtype=GRB.BINARY, name=key)
+            variables[key] = x[(v, i, j)]
+
+    # Time variables t_v_j for j in 1..20 and each vehicle
+    t = {}
+    for v in vehicles:
+        for j in customers:
+           

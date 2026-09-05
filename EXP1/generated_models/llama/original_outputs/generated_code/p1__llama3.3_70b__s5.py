@@ -1,0 +1,47 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    produced = {str(i+1): model.addVar(vtype=gp.GRB.INTEGER, name=f'produced_{i+1}') for i in range(len(data['cap']))}
+    allocation = {(str(i+1), str(j+1)): model.addVar(vtype=gp.GRB.INTEGER, name=f'allocation_{i+1}_{j+1}') 
+                  for i in range(len(data['cap'])) for j in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]}
+    
+    variables = {'produced': produced, 'allocation': allocation}
+    
+    # Objective function
+    model.setObjective(gp.quicksum([data['vcost'][i]*produced[str(i+1)] for i in range(len(data['cap']))]) + 
+                       gp.quicksum([data['fixed']*(produced[str(i+1)] > 0) for i in range(len(data['cap']))]))
+    
+    # Constraints
+    for j in range(len(data['cap'])):
+        model.addConstr(gp.quicksum([allocation.get((str(i+1), str(j+1)), 0) for i in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]]) == data['dem'][j])
+        
+    for i in range(len(data['cap'])):
+        model.addConstr(produced[str(i+1)] - gp.quicksum([allocation.get((str(i+1), str(j+1)), 0) for j in range(len(data['cap'])) if data['cap'][i] >= data['cap'][j]]) == 0)
+        
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    
+    model.optimize()
+    
+    solution = {
+        'produced': {key: var.X for key, var in variables['produced'].items()},
+        'allocation': {key: var.X for key, var in variables['allocation'].items()}
+    }
+    
+    status_map = {
+        gp.GRB.OPTIMAL: 'OPTIMAL',
+        gp.GRB.INFEASIBLE: 'INFEASIBLE',
+        gp.GRB.UNBOUNDED: 'UNBOUNDED',
+        gp.GRB.INF_OR_UNBD: 'INF_OR_UNBD',
+        gp.GRB.TIME_LIMIT: 'TIME_LIMIT'
+    }
+    
+    return {
+        'status': status_map.get(model.Status, 'UNKNOWN'),
+        'objective': model.ObjVal,
+        'solution': solution
+    }

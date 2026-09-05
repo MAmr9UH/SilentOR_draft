@@ -1,0 +1,16 @@
+{
+  "name": "track_b",
+  "model": "gemma3:12b",
+  "repetitions": 1,
+  "seed": 42,
+  "temperature": 0.0,
+  "out": "runs/v42_probe_aware_root",
+  "judge_panel": "B_all_llm",
+  "probe_num_predict": 4000,
+  "semantic_num_predict": 4800,
+  "witness_verifier_num_predict": 2400,
+  "root_cause_num_predict": 2400,
+  "ollama_num_ctx": 40960,
+  "context_safety_tokens": 1024,
+  "semantic_validation_mode": "enforce"
+}

@@ -1,0 +1,84 @@
+{
+  "derived_view": true,
+  "source": "../source/Problems_main.json",
+  "problem_id": 31,
+  "scenario_id": "jieli_branch_professional_goal_planning_preference_city",
+  "data_instance": {
+    "branches": [
+      "Donghai",
+      "Nanjiang"
+    ],
+    "specialties": [
+      1,
+      2,
+      3
+    ],
+    "types": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "available_people": {
+      "1": 1500,
+      "2": 1500,
+      "3": 1500,
+      "4": 1500,
+      "5": 1500,
+      "6": 1500
+    },
+    "suitable_specialties": {
+      "1": [
+        1,
+        2
+      ],
+      "2": [
+        2,
+        3
+      ],
+      "3": [
+        1,
+        3
+      ],
+      "4": [
+        1,
+        3
+      ],
+      "5": [
+        2,
+        3
+      ],
+      "6": [
+        3
+      ]
+    },
+    "preferred_specialty": {
+      "1": 1,
+      "2": 2,
+      "3": 1,
+      "4": 3,
+      "5": 3,
+      "6": 3
+    },
+    "preferred_city": {
+      "1": "Donghai",
+      "2": "Donghai",
+      "3": "Nanjiang",
+      "4": "Nanjiang",
+      "5": "Donghai",
+      "6": "Nanjiang"
+    },
+    "demand": {
+      "Donghai_1": 1000,
+      "Donghai_2": 2000,
+      "Donghai_3": 1500,
+      "Nanjiang_1": 2000,
+      "Nanjiang_2": 1000,
+      "Nanjiang_3": 1000
+    },
+    "p2_preferred_specialty_target": 8000,
+    "p3_preferred_city_target": 8000
+  }
+}

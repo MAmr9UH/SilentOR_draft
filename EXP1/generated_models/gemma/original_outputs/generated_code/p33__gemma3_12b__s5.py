@@ -1,0 +1,80 @@
+import gurobipy as gp
+from gurobipy import GRB
+
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    model.setParam("OutputFlag", 0)
+
+    # Decision variables
+    x_annual_y1 = model.addVar(vtype=GRB.CONTINUOUS, name="x_annual_y1")
+    x_annual_y2 = model.addVar(vtype=GRB.CONTINUOUS, name="x_annual_y2")
+    x_annual_y3 = model.addVar(vtype=GRB.CONTINUOUS, name="x_annual_y3")
+    x_project2_y1 = model.addVar(vtype=GRB.CONTINUOUS, name="x_project2_y1")
+    x_project3_y2 = model.addVar(vtype=GRB.CONTINUOUS, name="x_project3_y2")
+    x_project4_y3 = model.addVar(vtype=GRB.CONTINUOUS, name="x_project4_y3")
+
+    cash_after_y1 = model.addVar(vtype=GRB.CONTINUOUS, name="cash_after_y1")
+    cash_after_y2 = model.addVar(vtype=GRB.CONTINUOUS, name="cash_after_y2")
+    cash_after_y3 = model.addVar(vtype=GRB.CONTINUOUS, name="cash_after_y3")
+    final_amount = model.addVar(vtype=GRB.CONTINUOUS, name="final_amount")
+
+    # Objective function
+    model.setObjective(final_amount, GRB.MAXIMIZE)
+
+    # Constraints
+    model.addConstr(cash_after_y1 == data["initial_fund"] - x_annual_y1 - x_project2_y1)
+    model.addConstr(cash_after_y2 == cash_after_y1 * data["annual_project_return"] - x_annual_y2 - x_project3_y2)
+    model.addConstr(cash_after_y3 == cash_after_y2 * data["annual_project_return"] - x_annual_y3 - x_project4_y3)
+    model.addConstr(final_amount == cash_after_y3 * data["annual_project_return"])
+
+    # Investment limits
+    model.addConstr(x_project2_y1 <= data["project2_limit"])
+    model.addConstr(x_project3_y2 <= data["project3_limit"])
+    model.addConstr(x_project4_y3 <= data["project4_limit"])
+
+    variables = {
+        "x_annual_y1": x_annual_y1,
+        "x_annual_y2": x_annual_y2,
+        "x_annual_y3": x_annual_y3,
+        "x_project2_y1": x_project2_y1,
+        "x_project3_y2": x_project3_y2,
+        "x_project4_y3": x_project4_y3,
+        "cash_after_y1": cash_after_y1,
+        "cash_after_y2": cash_after_y2,
+        "cash_after_y3": cash_after_y3,
+        "final_amount": final_amount
+    }
+
+    return model, variables
+
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.Status != GRB.OPTIMAL:
+        return {
+            "status": "infeasible_or_unbounded",
+            "objective": None,
+            "solution": {}
+        }
+
+    solution = {
+        "x_annual_y1": float(variables["x_annual_y1"].X),
+        "x_annual_y2": float(variables["x_annual_y2"].X),
+        "x_annual_y3": float(variables["x_annual_y3"].X),
+        "x_project2_y1": float(variables["x_project2_y1"].X),
+        "x_project3_y2": float(variables["x_project3_y2"].X),
+        "x_project4_y3": float(variables["x_project4_y3"].X),
+        "cash_after_y1": float(variables["cash_after_y1"].X),
+        "cash_after_y2": float(variables["cash_after_y2"].X),
+        "cash_after_y3": float(variables["cash_after_y3"].X),
+        "final_amount": float(variables["final_amount"].X)
+    }
+
+    return {
+        "status": "optimal",
+        "objective": float(model.ObjVal),
+        "solution": solution
+    }

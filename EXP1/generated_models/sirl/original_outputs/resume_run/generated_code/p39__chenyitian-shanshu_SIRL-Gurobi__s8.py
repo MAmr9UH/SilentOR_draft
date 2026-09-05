@@ -1,0 +1,90 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("project_schedule_model")
+    
+    durations = data["durations"]
+    activities = data["activities"]
+    precedence = data["precedence"]
+    work_cost_per_project_day = data["work_cost_per_project_day"]
+    machine_rental_cost_per_day = data["machine_rental_cost_per_day"]
+    machine_rental_from = data["machine_rental_from"]
+    machine_rental_to = data["machine_rental_to"]
+
+    variables_keys = {
+        "start_A": "continuous timing variable in days",
+        "start_B": "continuous timing variable in days",
+        "start_C": "continuous timing variable in days",
+        "start_D": "continuous timing variable in days",
+        "start_E": "continuous timing variable in days",
+        "start_F": "continuous timing variable in days",
+        "start_G": "continuous timing variable in days",
+        "Cmax": "continuous timing variable in days",
+        "machine_span": "continuous timing variable in days"
+    }
+
+    variables = {}
+
+    # Decision variables
+    for key in variables_keys:
+        variables[key] = model.addVar(name=key, vtype=GRB.CONTINUOUS, lb=0)
+
+    # Cmax: completion time of the project
+    variables["Cmax"] = model.addVar(name="Cmax", vtype=GRB.CONTINUOUS, lb=0)
+
+    # machine_span: end_B - start_A
+    variables["machine_span"] = model.addVar(name="machine_span", vtype=GRB.CONTINUOUS, lb=0)
+
+    # Activity start times
+    for activity in activities:
+        model.addConstr(variables["start_" + activity] >= 0)
+
+    # Activity durations
+    for activity in activities:
+        model.addConstr(variables["start_" + activity] + durations[activity] <= variables["Cmax"])
+
+    # Precedence constraints
+    for (predecessor, successor) in precedence:
+        model.addConstr(variables["start_" + successor] >= variables["start_" + predecessor] + durations[predecessor])
+
+    # Work cost
+    model.setObjective(
+        gp.quicksum(durations[activity] * work_cost_per_project_day for activity in activities) +
+        machine_rental_cost_per_day * variables["machine_span"],
+        GRB.MINIMIZE)
+
+    # Machine rental constraint
+    model.addConstr(variables["machine_span"] >= variables["start_B"] - variables["start_A"])
+
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+
+    if model.status == GRB.OPTIMAL:
+        solution = {
+            "start_A": variables["start_A"].x,
+            "start_B": variables["start_B"].x,
+            "start_C": variables["start_C"].x,
+            "start_D": variables["start_D"].x,
+            "start_E": variables["start_E"].x,
+            "start_F": variables["start_F"].x,
+            "start_G": variables["start_G"].x,
+            "Cmax": variables["Cmax"].x,
+            "machine_span": variables["machine_span"].x,
+            "objective": model.objVal
+        }
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": solution
+        }
+    else:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }

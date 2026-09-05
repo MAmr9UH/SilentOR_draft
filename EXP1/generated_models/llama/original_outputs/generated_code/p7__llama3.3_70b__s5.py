@@ -1,0 +1,109 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for product in data['products']:
+        for quarter in data['quarters']:
+            key = f'x_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+            
+            key = f'Iv_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+            
+            key = f'Bk_{product}_{quarter}'
+            variables[key] = model.addVar(lb=0, vtype='C', name=key)
+    
+    for quarter in data['quarters']:
+        production_hours = 0
+        for product in data['products']:
+            hours_per_unit = data['hours_per_unit'][product]
+            key = f'x_{product}_{quarter}'
+            production_hours += variables[key] * hours_per_unit
+        model.addConstr(production_hours <= data['capacity_hours_per_quarter'])
+        
+    # Product I cannot be produced in quarter 2
+    if 'product_I_blocked_quarter' in data and data['product_I_blocked_quarter'] == 2:
+        key = f'x_I_2'
+        model.addConstr(variables[key] == 0)
+    
+    for product in data['products']:
+        backlog = 0
+        inventory = data['initial_inventory']
+        
+        for quarter in data['quarters']:
+            order_key = f'{product}_{quarter}'
+            order = data['orders'][order_key]
+            
+            key = f'x_{product}_{quarter}'
+            produced = variables[key]
+            
+            key = f'Iv_{product}_{quarter}'
+            inventory_next = variables[key]
+            
+            key = f'Bk_{product}_{quarter}'
+            backlog_next = variables[key]
+            
+            model.addConstr(inventory + produced - order == inventory_next + backlog_next)
+            
+            if quarter > 1:
+                previous_backlog_key = f'Bk_{product}_{quarter-1}'
+                backlog += variables[previous_backlog_key]
+            
+            # Late penalty
+            late_penalty_per_unit_per_quarter = data['late_penalty_per_unit_per_quarter'][product]
+            model.addConstr(backlog_next * late_penalty_per_unit_per_quarter <= 1000000)
+            
+            # Storage cost
+            storage_cost_per_unit_per_quarter = data['storage_cost_per_unit_per_quarter']
+            model.addConstr(inventory_next * storage_cost_per_unit_per_quarter <= 1000000)
+            
+            inventory = inventory_next
+            backlog = backlog_next
+    
+    for product in data['products']:
+        key = f'Iv_{product}_4'
+        model.addConstr(variables[key] == data['required_ending_inventory'])
+    
+    objective = gp.quicksum([variables[f'Bk_I_{quarter}'] * 20 + variables[f'Bk_II_{quarter}'] * 20 + variables[f'Bk_III_{quarter}'] * 10 for quarter in data['quarters']])
+    objective += gp.quicksum([variables[f'Iv_I_{quarter}'] * 5 + variables[f'Iv_II_{quarter}'] * 5 + variables[f'Iv_III_{quarter}'] * 5 for quarter in data['quarters']])
+    
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, _ = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = 'OPTIMAL'
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = 'INFEASIBLE'
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = 'UNBOUNDED'
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = 'INF_OR_UNBD'
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = 'TIME_LIMIT'
+    
+    solution = {}
+    for key in ['x_I_1', 'x_I_2', 'x_I_3', 'x_I_4',
+                'x_II_1', 'x_II_2', 'x_II_3', 'x_II_4',
+                'x_III_1', 'x_III_2', 'x_III_3', 'x_III_4',
+                'Iv_I_1', 'Iv_I_2', 'Iv_I_3', 'Iv_I_4',
+                'Iv_II_1', 'Iv_II_2', 'Iv_II_3', 'Iv_II_4',
+                'Iv_III_1', 'Iv_III_2', 'Iv_III_3', 'Iv_III_4',
+                'Bk_I_1', 'Bk_I_2', 'Bk_I_3', 'Bk_I_4',
+                'Bk_II_1', 'Bk_II_2', 'Bk_II_3', 'Bk_II_4',
+                'Bk_III_1', 'Bk_III_2', 'Bk_III_3', 'Bk_III_4']:
+        solution[key] = model.getVarByName(key).X
+    
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }

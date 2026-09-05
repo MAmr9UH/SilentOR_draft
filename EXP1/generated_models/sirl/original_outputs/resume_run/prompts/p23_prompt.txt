@@ -1,0 +1,1210 @@
+You are an expert operations research modeler.
+
+Write Python code using gurobipy that models and solves the optimization problem below.
+
+Optimization problem:
+An electronic system is composed of 3 types of components. The system operates normally if all three components function properly. By installing one or more spare parts for any of the components, the reliability of the components can be improved. The system's operational reliability is the product of the reliabilities of each component, and the reliability of each component is a function of the number of spare parts installed. The table gives reliability for each component when 0,1,2,3,4,5 spare parts are installed. Component 1 reliabilities: 0.5, 0.6, 0.7, 0.8, 0.9, 1.0. Component 2 reliabilities: 0.6, 0.75, 0.95, 1.0, 1.0, 1.0. Component 3 reliabilities: 0.7, 0.9, 1.0, 1.0, 1.0, 1.0. Unit prices are 20, 30, and 40 yuan for components 1, 2, and 3. Unit weights are 2, 4, and 6 kg for components 1, 2, and 3. The total budget is limited to 150 yuan and the total weight is limited to 20 kg. How should spare parts be installed to maximize the system's operational reliability?
+
+Your code MUST define exactly TWO functions.
+
+1) def build_model(data: dict) -> tuple:
+   - Build the Gurobi model: create ALL decision variables, ALL constraints, and the objective.
+   - Do NOT call optimize() inside build_model.
+   - Return exactly: return model, variables
+   - `variables` is a dict whose keys are EXACTLY the variable keys listed below and whose
+     values are the corresponding gurobipy Var objects (or dicts of Var objects). Use the
+     key strings exactly as given; do not invent, rename, or nest them differently.
+{
+  "variables_keys": {
+    "w_0_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_0_5_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_1_5_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_2_5_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_3_5_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_4_5_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_0_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_1_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_2_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_3_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_4_5": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_0": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_1": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_2": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_3": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_4": "binary Var: 1 if this complete spare-count combination is selected",
+    "w_5_5_5": "binary Var: 1 if this complete spare-count combination is selected"
+  },
+  "note": "Use exactly these flat keys. w_4_1_1 means 4 spares for component 1, 1 spare for component 2, and 1 spare for component 3."
+}
+
+2) def solve(data: dict) -> dict:
+   - Call build_model(data), then call model.optimize().
+   - Do NOT add, remove, or modify any variables, constraints, or the objective in solve().
+     All model building happens in build_model(). solve() only optimizes and reads results.
+   - Return a dict following this exact solution schema:
+{
+  "type": "object",
+  "required": [
+    "status",
+    "objective",
+    "solution"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "number",
+      "description": "maximum system reliability"
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "w_0_0_0",
+        "w_0_0_1",
+        "w_0_0_2",
+        "w_0_0_3",
+        "w_0_0_4",
+        "w_0_0_5",
+        "w_0_1_0",
+        "w_0_1_1",
+        "w_0_1_2",
+        "w_0_1_3",
+        "w_0_1_4",
+        "w_0_1_5",
+        "w_0_2_0",
+        "w_0_2_1",
+        "w_0_2_2",
+        "w_0_2_3",
+        "w_0_2_4",
+        "w_0_2_5",
+        "w_0_3_0",
+        "w_0_3_1",
+        "w_0_3_2",
+        "w_0_3_3",
+        "w_0_3_4",
+        "w_0_3_5",
+        "w_0_4_0",
+        "w_0_4_1",
+        "w_0_4_2",
+        "w_0_4_3",
+        "w_0_4_4",
+        "w_0_4_5",
+        "w_0_5_0",
+        "w_0_5_1",
+        "w_0_5_2",
+        "w_0_5_3",
+        "w_0_5_4",
+        "w_0_5_5",
+        "w_1_0_0",
+        "w_1_0_1",
+        "w_1_0_2",
+        "w_1_0_3",
+        "w_1_0_4",
+        "w_1_0_5",
+        "w_1_1_0",
+        "w_1_1_1",
+        "w_1_1_2",
+        "w_1_1_3",
+        "w_1_1_4",
+        "w_1_1_5",
+        "w_1_2_0",
+        "w_1_2_1",
+        "w_1_2_2",
+        "w_1_2_3",
+        "w_1_2_4",
+        "w_1_2_5",
+        "w_1_3_0",
+        "w_1_3_1",
+        "w_1_3_2",
+        "w_1_3_3",
+        "w_1_3_4",
+        "w_1_3_5",
+        "w_1_4_0",
+        "w_1_4_1",
+        "w_1_4_2",
+        "w_1_4_3",
+        "w_1_4_4",
+        "w_1_4_5",
+        "w_1_5_0",
+        "w_1_5_1",
+        "w_1_5_2",
+        "w_1_5_3",
+        "w_1_5_4",
+        "w_1_5_5",
+        "w_2_0_0",
+        "w_2_0_1",
+        "w_2_0_2",
+        "w_2_0_3",
+        "w_2_0_4",
+        "w_2_0_5",
+        "w_2_1_0",
+        "w_2_1_1",
+        "w_2_1_2",
+        "w_2_1_3",
+        "w_2_1_4",
+        "w_2_1_5",
+        "w_2_2_0",
+        "w_2_2_1",
+        "w_2_2_2",
+        "w_2_2_3",
+        "w_2_2_4",
+        "w_2_2_5",
+        "w_2_3_0",
+        "w_2_3_1",
+        "w_2_3_2",
+        "w_2_3_3",
+        "w_2_3_4",
+        "w_2_3_5",
+        "w_2_4_0",
+        "w_2_4_1",
+        "w_2_4_2",
+        "w_2_4_3",
+        "w_2_4_4",
+        "w_2_4_5",
+        "w_2_5_0",
+        "w_2_5_1",
+        "w_2_5_2",
+        "w_2_5_3",
+        "w_2_5_4",
+        "w_2_5_5",
+        "w_3_0_0",
+        "w_3_0_1",
+        "w_3_0_2",
+        "w_3_0_3",
+        "w_3_0_4",
+        "w_3_0_5",
+        "w_3_1_0",
+        "w_3_1_1",
+        "w_3_1_2",
+        "w_3_1_3",
+        "w_3_1_4",
+        "w_3_1_5",
+        "w_3_2_0",
+        "w_3_2_1",
+        "w_3_2_2",
+        "w_3_2_3",
+        "w_3_2_4",
+        "w_3_2_5",
+        "w_3_3_0",
+        "w_3_3_1",
+        "w_3_3_2",
+        "w_3_3_3",
+        "w_3_3_4",
+        "w_3_3_5",
+        "w_3_4_0",
+        "w_3_4_1",
+        "w_3_4_2",
+        "w_3_4_3",
+        "w_3_4_4",
+        "w_3_4_5",
+        "w_3_5_0",
+        "w_3_5_1",
+        "w_3_5_2",
+        "w_3_5_3",
+        "w_3_5_4",
+        "w_3_5_5",
+        "w_4_0_0",
+        "w_4_0_1",
+        "w_4_0_2",
+        "w_4_0_3",
+        "w_4_0_4",
+        "w_4_0_5",
+        "w_4_1_0",
+        "w_4_1_1",
+        "w_4_1_2",
+        "w_4_1_3",
+        "w_4_1_4",
+        "w_4_1_5",
+        "w_4_2_0",
+        "w_4_2_1",
+        "w_4_2_2",
+        "w_4_2_3",
+        "w_4_2_4",
+        "w_4_2_5",
+        "w_4_3_0",
+        "w_4_3_1",
+        "w_4_3_2",
+        "w_4_3_3",
+        "w_4_3_4",
+        "w_4_3_5",
+        "w_4_4_0",
+        "w_4_4_1",
+        "w_4_4_2",
+        "w_4_4_3",
+        "w_4_4_4",
+        "w_4_4_5",
+        "w_4_5_0",
+        "w_4_5_1",
+        "w_4_5_2",
+        "w_4_5_3",
+        "w_4_5_4",
+        "w_4_5_5",
+        "w_5_0_0",
+        "w_5_0_1",
+        "w_5_0_2",
+        "w_5_0_3",
+        "w_5_0_4",
+        "w_5_0_5",
+        "w_5_1_0",
+        "w_5_1_1",
+        "w_5_1_2",
+        "w_5_1_3",
+        "w_5_1_4",
+        "w_5_1_5",
+        "w_5_2_0",
+        "w_5_2_1",
+        "w_5_2_2",
+        "w_5_2_3",
+        "w_5_2_4",
+        "w_5_2_5",
+        "w_5_3_0",
+        "w_5_3_1",
+        "w_5_3_2",
+        "w_5_3_3",
+        "w_5_3_4",
+        "w_5_3_5",
+        "w_5_4_0",
+        "w_5_4_1",
+        "w_5_4_2",
+        "w_5_4_3",
+        "w_5_4_4",
+        "w_5_4_5",
+        "w_5_5_0",
+        "w_5_5_1",
+        "w_5_5_2",
+        "w_5_5_3",
+        "w_5_5_4",
+        "w_5_5_5"
+      ],
+      "properties": {
+        "w_0_0_0": {
+          "type": "number"
+        },
+        "w_0_0_1": {
+          "type": "number"
+        },
+        "w_0_0_2": {
+          "type": "number"
+        },
+        "w_0_0_3": {
+          "type": "number"
+        },
+        "w_0_0_4": {
+          "type": "number"
+        },
+        "w_0_0_5": {
+          "type": "number"
+        },
+        "w_0_1_0": {
+          "type": "number"
+        },
+        "w_0_1_1": {
+          "type": "number"
+        },
+        "w_0_1_2": {
+          "type": "number"
+        },
+        "w_0_1_3": {
+          "type": "number"
+        },
+        "w_0_1_4": {
+          "type": "number"
+        },
+        "w_0_1_5": {
+          "type": "number"
+        },
+        "w_0_2_0": {
+          "type": "number"
+        },
+        "w_0_2_1": {
+          "type": "number"
+        },
+        "w_0_2_2": {
+          "type": "number"
+        },
+        "w_0_2_3": {
+          "type": "number"
+        },
+        "w_0_2_4": {
+          "type": "number"
+        },
+        "w_0_2_5": {
+          "type": "number"
+        },
+        "w_0_3_0": {
+          "type": "number"
+        },
+        "w_0_3_1": {
+          "type": "number"
+        },
+        "w_0_3_2": {
+          "type": "number"
+        },
+        "w_0_3_3": {
+          "type": "number"
+        },
+        "w_0_3_4": {
+          "type": "number"
+        },
+        "w_0_3_5": {
+          "type": "number"
+        },
+        "w_0_4_0": {
+          "type": "number"
+        },
+        "w_0_4_1": {
+          "type": "number"
+        },
+        "w_0_4_2": {
+          "type": "number"
+        },
+        "w_0_4_3": {
+          "type": "number"
+        },
+        "w_0_4_4": {
+          "type": "number"
+        },
+        "w_0_4_5": {
+          "type": "number"
+        },
+        "w_0_5_0": {
+          "type": "number"
+        },
+        "w_0_5_1": {
+          "type": "number"
+        },
+        "w_0_5_2": {
+          "type": "number"
+        },
+        "w_0_5_3": {
+          "type": "number"
+        },
+        "w_0_5_4": {
+          "type": "number"
+        },
+        "w_0_5_5": {
+          "type": "number"
+        },
+        "w_1_0_0": {
+          "type": "number"
+        },
+        "w_1_0_1": {
+          "type": "number"
+        },
+        "w_1_0_2": {
+          "type": "number"
+        },
+        "w_1_0_3": {
+          "type": "number"
+        },
+        "w_1_0_4": {
+          "type": "number"
+        },
+        "w_1_0_5": {
+          "type": "number"
+        },
+        "w_1_1_0": {
+          "type": "number"
+        },
+        "w_1_1_1": {
+          "type": "number"
+        },
+        "w_1_1_2": {
+          "type": "number"
+        },
+        "w_1_1_3": {
+          "type": "number"
+        },
+        "w_1_1_4": {
+          "type": "number"
+        },
+        "w_1_1_5": {
+          "type": "number"
+        },
+        "w_1_2_0": {
+          "type": "number"
+        },
+        "w_1_2_1": {
+          "type": "number"
+        },
+        "w_1_2_2": {
+          "type": "number"
+        },
+        "w_1_2_3": {
+          "type": "number"
+        },
+        "w_1_2_4": {
+          "type": "number"
+        },
+        "w_1_2_5": {
+          "type": "number"
+        },
+        "w_1_3_0": {
+          "type": "number"
+        },
+        "w_1_3_1": {
+          "type": "number"
+        },
+        "w_1_3_2": {
+          "type": "number"
+        },
+        "w_1_3_3": {
+          "type": "number"
+        },
+        "w_1_3_4": {
+          "type": "number"
+        },
+        "w_1_3_5": {
+          "type": "number"
+        },
+        "w_1_4_0": {
+          "type": "number"
+        },
+        "w_1_4_1": {
+          "type": "number"
+        },
+        "w_1_4_2": {
+          "type": "number"
+        },
+        "w_1_4_3": {
+          "type": "number"
+        },
+        "w_1_4_4": {
+          "type": "number"
+        },
+        "w_1_4_5": {
+          "type": "number"
+        },
+        "w_1_5_0": {
+          "type": "number"
+        },
+        "w_1_5_1": {
+          "type": "number"
+        },
+        "w_1_5_2": {
+          "type": "number"
+        },
+        "w_1_5_3": {
+          "type": "number"
+        },
+        "w_1_5_4": {
+          "type": "number"
+        },
+        "w_1_5_5": {
+          "type": "number"
+        },
+        "w_2_0_0": {
+          "type": "number"
+        },
+        "w_2_0_1": {
+          "type": "number"
+        },
+        "w_2_0_2": {
+          "type": "number"
+        },
+        "w_2_0_3": {
+          "type": "number"
+        },
+        "w_2_0_4": {
+          "type": "number"
+        },
+        "w_2_0_5": {
+          "type": "number"
+        },
+        "w_2_1_0": {
+          "type": "number"
+        },
+        "w_2_1_1": {
+          "type": "number"
+        },
+        "w_2_1_2": {
+          "type": "number"
+        },
+        "w_2_1_3": {
+          "type": "number"
+        },
+        "w_2_1_4": {
+          "type": "number"
+        },
+        "w_2_1_5": {
+          "type": "number"
+        },
+        "w_2_2_0": {
+          "type": "number"
+        },
+        "w_2_2_1": {
+          "type": "number"
+        },
+        "w_2_2_2": {
+          "type": "number"
+        },
+        "w_2_2_3": {
+          "type": "number"
+        },
+        "w_2_2_4": {
+          "type": "number"
+        },
+        "w_2_2_5": {
+          "type": "number"
+        },
+        "w_2_3_0": {
+          "type": "number"
+        },
+        "w_2_3_1": {
+          "type": "number"
+        },
+        "w_2_3_2": {
+          "type": "number"
+        },
+        "w_2_3_3": {
+          "type": "number"
+        },
+        "w_2_3_4": {
+          "type": "number"
+        },
+        "w_2_3_5": {
+          "type": "number"
+        },
+        "w_2_4_0": {
+          "type": "number"
+        },
+        "w_2_4_1": {
+          "type": "number"
+        },
+        "w_2_4_2": {
+          "type": "number"
+        },
+        "w_2_4_3": {
+          "type": "number"
+        },
+        "w_2_4_4": {
+          "type": "number"
+        },
+        "w_2_4_5": {
+          "type": "number"
+        },
+        "w_2_5_0": {
+          "type": "number"
+        },
+        "w_2_5_1": {
+          "type": "number"
+        },
+        "w_2_5_2": {
+          "type": "number"
+        },
+        "w_2_5_3": {
+          "type": "number"
+        },
+        "w_2_5_4": {
+          "type": "number"
+        },
+        "w_2_5_5": {
+          "type": "number"
+        },
+        "w_3_0_0": {
+          "type": "number"
+        },
+        "w_3_0_1": {
+          "type": "number"
+        },
+        "w_3_0_2": {
+          "type": "number"
+        },
+        "w_3_0_3": {
+          "type": "number"
+        },
+        "w_3_0_4": {
+          "type": "number"
+        },
+        "w_3_0_5": {
+          "type": "number"
+        },
+        "w_3_1_0": {
+          "type": "number"
+        },
+        "w_3_1_1": {
+          "type": "number"
+        },
+        "w_3_1_2": {
+          "type": "number"
+        },
+        "w_3_1_3": {
+          "type": "number"
+        },
+        "w_3_1_4": {
+          "type": "number"
+        },
+        "w_3_1_5": {
+          "type": "number"
+        },
+        "w_3_2_0": {
+          "type": "number"
+        },
+        "w_3_2_1": {
+          "type": "number"
+        },
+        "w_3_2_2": {
+          "type": "number"
+        },
+        "w_3_2_3": {
+          "type": "number"
+        },
+        "w_3_2_4": {
+          "type": "number"
+        },
+        "w_3_2_5": {
+          "type": "number"
+        },
+        "w_3_3_0": {
+          "type": "number"
+        },
+        "w_3_3_1": {
+          "type": "number"
+        },
+        "w_3_3_2": {
+          "type": "number"
+        },
+        "w_3_3_3": {
+          "type": "number"
+        },
+        "w_3_3_4": {
+          "type": "number"
+        },
+        "w_3_3_5": {
+          "type": "number"
+        },
+        "w_3_4_0": {
+          "type": "number"
+        },
+        "w_3_4_1": {
+          "type": "number"
+        },
+        "w_3_4_2": {
+          "type": "number"
+        },
+        "w_3_4_3": {
+          "type": "number"
+        },
+        "w_3_4_4": {
+          "type": "number"
+        },
+        "w_3_4_5": {
+          "type": "number"
+        },
+        "w_3_5_0": {
+          "type": "number"
+        },
+        "w_3_5_1": {
+          "type": "number"
+        },
+        "w_3_5_2": {
+          "type": "number"
+        },
+        "w_3_5_3": {
+          "type": "number"
+        },
+        "w_3_5_4": {
+          "type": "number"
+        },
+        "w_3_5_5": {
+          "type": "number"
+        },
+        "w_4_0_0": {
+          "type": "number"
+        },
+        "w_4_0_1": {
+          "type": "number"
+        },
+        "w_4_0_2": {
+          "type": "number"
+        },
+        "w_4_0_3": {
+          "type": "number"
+        },
+        "w_4_0_4": {
+          "type": "number"
+        },
+        "w_4_0_5": {
+          "type": "number"
+        },
+        "w_4_1_0": {
+          "type": "number"
+        },
+        "w_4_1_1": {
+          "type": "number"
+        },
+        "w_4_1_2": {
+          "type": "number"
+        },
+        "w_4_1_3": {
+          "type": "number"
+        },
+        "w_4_1_4": {
+          "type": "number"
+        },
+        "w_4_1_5": {
+          "type": "number"
+        },
+        "w_4_2_0": {
+          "type": "number"
+        },
+        "w_4_2_1": {
+          "type": "number"
+        },
+        "w_4_2_2": {
+          "type": "number"
+        },
+        "w_4_2_3": {
+          "type": "number"
+        },
+        "w_4_2_4": {
+          "type": "number"
+        },
+        "w_4_2_5": {
+          "type": "number"
+        },
+        "w_4_3_0": {
+          "type": "number"
+        },
+        "w_4_3_1": {
+          "type": "number"
+        },
+        "w_4_3_2": {
+          "type": "number"
+        },
+        "w_4_3_3": {
+          "type": "number"
+        },
+        "w_4_3_4": {
+          "type": "number"
+        },
+        "w_4_3_5": {
+          "type": "number"
+        },
+        "w_4_4_0": {
+          "type": "number"
+        },
+        "w_4_4_1": {
+          "type": "number"
+        },
+        "w_4_4_2": {
+          "type": "number"
+        },
+        "w_4_4_3": {
+          "type": "number"
+        },
+        "w_4_4_4": {
+          "type": "number"
+        },
+        "w_4_4_5": {
+          "type": "number"
+        },
+        "w_4_5_0": {
+          "type": "number"
+        },
+        "w_4_5_1": {
+          "type": "number"
+        },
+        "w_4_5_2": {
+          "type": "number"
+        },
+        "w_4_5_3": {
+          "type": "number"
+        },
+        "w_4_5_4": {
+          "type": "number"
+        },
+        "w_4_5_5": {
+          "type": "number"
+        },
+        "w_5_0_0": {
+          "type": "number"
+        },
+        "w_5_0_1": {
+          "type": "number"
+        },
+        "w_5_0_2": {
+          "type": "number"
+        },
+        "w_5_0_3": {
+          "type": "number"
+        },
+        "w_5_0_4": {
+          "type": "number"
+        },
+        "w_5_0_5": {
+          "type": "number"
+        },
+        "w_5_1_0": {
+          "type": "number"
+        },
+        "w_5_1_1": {
+          "type": "number"
+        },
+        "w_5_1_2": {
+          "type": "number"
+        },
+        "w_5_1_3": {
+          "type": "number"
+        },
+        "w_5_1_4": {
+          "type": "number"
+        },
+        "w_5_1_5": {
+          "type": "number"
+        },
+        "w_5_2_0": {
+          "type": "number"
+        },
+        "w_5_2_1": {
+          "type": "number"
+        },
+        "w_5_2_2": {
+          "type": "number"
+        },
+        "w_5_2_3": {
+          "type": "number"
+        },
+        "w_5_2_4": {
+          "type": "number"
+        },
+        "w_5_2_5": {
+          "type": "number"
+        },
+        "w_5_3_0": {
+          "type": "number"
+        },
+        "w_5_3_1": {
+          "type": "number"
+        },
+        "w_5_3_2": {
+          "type": "number"
+        },
+        "w_5_3_3": {
+          "type": "number"
+        },
+        "w_5_3_4": {
+          "type": "number"
+        },
+        "w_5_3_5": {
+          "type": "number"
+        },
+        "w_5_4_0": {
+          "type": "number"
+        },
+        "w_5_4_1": {
+          "type": "number"
+        },
+        "w_5_4_2": {
+          "type": "number"
+        },
+        "w_5_4_3": {
+          "type": "number"
+        },
+        "w_5_4_4": {
+          "type": "number"
+        },
+        "w_5_4_5": {
+          "type": "number"
+        },
+        "w_5_5_0": {
+          "type": "number"
+        },
+        "w_5_5_1": {
+          "type": "number"
+        },
+        "w_5_5_2": {
+          "type": "number"
+        },
+        "w_5_5_3": {
+          "type": "number"
+        },
+        "w_5_5_4": {
+          "type": "number"
+        },
+        "w_5_5_5": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+The `data` argument contains the numeric instance:
+{
+  "components": [
+    1,
+    2,
+    3
+  ],
+  "spare_levels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "reliability": {
+    "1": [
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "2": [
+      0.6,
+      0.75,
+      0.95,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "3": [
+      0.7,
+      0.9,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "unit_price": {
+    "1": 20,
+    "2": 30,
+    "3": 40
+  },
+  "unit_weight": {
+    "1": 2,
+    "2": 4,
+    "3": 6
+  },
+  "budget": 150,
+  "weight_limit": 20,
+  "note": "Decision variable keys w_a_b_c select the complete combination with a spares for component 1, b for component 2, c for component 3. Exactly one combination is selected."
+}
+
+Modeling rules:
+- Use only gurobipy and the Python standard library.
+- Read ALL numeric values from `data`; do not hard-code numbers from the problem text.
+- Declare each variable's type (continuous / integer / binary) as appropriate to the problem.
+- Do not read files. Do not access the network. Do not print anything.
+- The returned solution keys must match the schema exactly.
+
+Interface & API-hygiene rules (these are about correct code, not about the model's math):
+- The `variables` dict must contain ONLY the required variable keys mapping to gurobipy Var
+  objects (or dicts of Var objects). Do NOT put metadata in it: no `variables_keys`, `note`,
+  `description`, `explanation`, comments, strings, or type labels as values.
+- After model.optimize(), read results as attributes: `model.Status` and `model.ObjVal`
+  (note the capitalization). Read a variable's value with `var.X`.
+- Use only real gurobipy status constants: GRB.OPTIMAL, GRB.INFEASIBLE, GRB.UNBOUNDED,
+  GRB.INF_OR_UNBD, GRB.TIME_LIMIT. Do NOT use names like GRB.INFEASIBLE_OR_UNBOUNDED,
+  and do NOT call GRB.Status(...) or index GRB.Status — it is not callable.
+- If you read a variable attribute such as VType or LB, call model.update() first.
+- Do not call model.getVarByName(...) or model.getConstrByName(...) unless you have called
+  model.update() and the variable/constraint is guaranteed to exist.
+- To sum Var objects use gurobipy.quicksum(...); do not add a Var to a Python string.
+
+Return ONLY raw Python code. No markdown fences, no explanations.

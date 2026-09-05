@@ -1,0 +1,71 @@
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    variables = {}
+    
+    for container_id in data["container_ids"]:
+        variables[f"y_{container_id}"] = model.addVar(vtype=gp.GRB.BINARY, name=f"y_{container_id}")
+        
+    for container_id in data["container_ids"]:
+        variables[f"uA_{container_id}"] = model.addVar(vtype=gp.GRB.BINARY, name=f"uA_{container_id}")
+        
+    for container_id in data["container_ids"]:
+        for good in data["goods"]:
+            variables[f"q_{container_id}_{good}"] = model.addVar(vtype=gp.GRB.INTEGER, lb=0, name=f"q_{container_id}_{good}")
+            
+    # Constraints
+    for container_id in data["container_ids"]:
+        model.addConstr(variables[f"y_{container_id}"] <= 1)
+        
+    for good in data["goods"]:
+        total_quantity = sum(variables[f"q_{container_id}_{good}"] for container_id in data["container_ids"])
+        model.addConstr(total_quantity == data["quantity"][good])
+        
+    for container_id in data["container_ids"]:
+        total_weight = gp.quicksum([variables[f"q_{container_id}_{good}"] * data["weight_tons"][good] for good in data["goods"]])
+        model.addConstr(total_weight <= data["container_capacity_tons"] * variables[f"y_{container_id}"])
+        
+    for container_id in data["container_ids"]:
+        total_weight = gp.quicksum([variables[f"q_{container_id}_{good}"] * data["weight_tons"][good] for good in data["goods"]])
+        model.addConstr(total_weight >= data["minimum_load_tons_if_used"] * variables[f"y_{container_id}"])
+        
+    for container_id in data["container_ids"]:
+        total_D_units = variables[f"q_{container_id}_D"]
+        model.addConstr(total_D_units >= data["minimum_D_units_if_used"] * variables[f"y_{container_id}"])
+        
+    if data["A_requires_at_least_one_C_in_same_container"]:
+        for container_id in data["container_ids"]:
+            total_A_units = variables[f"q_{container_id}_A"]
+            model.addConstr(total_A_units <= (300 - variables[f"uA_{container_id}"]) * variables[f"y_{container_id}"])
+            
+    # Objective
+    objective = gp.quicksum([variables[f"y_{container_id}"] for container_id in data["container_ids"]])
+    model.setObjective(objective, gp.GRB.MINIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = "OPTIMAL"
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = "INFEASIBLE"
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = "UNBOUNDED"
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = "INF_OR_UNBD"
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = "TIME_LIMIT"
+        
+    solution = {key: variables[key].X for key in variables}
+    
+    return {
+        "status": status,
+        "objective": model.ObjVal,
+        "solution": solution
+    }

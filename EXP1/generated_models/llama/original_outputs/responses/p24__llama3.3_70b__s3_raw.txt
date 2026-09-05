@@ -1,0 +1,92 @@
+```python
+import gurobipy as gp
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model()
+    
+    container_ids = data['container_ids']
+    goods = data['goods']
+    quantity = data['quantity']
+    weight_tons = data['weight_tons']
+    container_capacity_tons = data['container_capacity_tons']
+    minimum_load_tons_if_used = data['minimum_load_tons_if_used']
+    minimum_D_units_if_used = data['minimum_D_units_if_used']
+    
+    variables = {}
+    
+    for i in container_ids:
+        variables[f'y_{i}'] = model.addVar(vtype=gp.GRB.BINARY, name=f'y_{i}')
+        variables[f'uA_{i}'] = model.addVar(vtype=gp.GRB.BINARY, name=f'uA_{i}')
+        
+    for i in container_ids:
+        for good in goods:
+            variables[f'q_{i}_{good}'] = model.addVar(vtype=gp.GRB.INTEGER, lb=0, name=f'q_{i}_{good}')
+    
+    # Objective: minimize the number of used containers
+    model.setObjective(gp.quicksum(variables[f'y_{i}'] for i in container_ids), gp.GRB.MINIMIZE)
+    
+    # Constraints:
+    # Each good is packed exactly once
+    for good in goods:
+        model.addConstr(gp.quicksum(variables[f'q_{i}_{good}'] for i in container_ids) == quantity[good], name=f'pack_all_{good}')
+        
+    # Container capacity constraints
+    for i in container_ids:
+        model.addConstr(
+            gp.quicksum(weight_tons[good] * variables[f'q_{i}_{good}'] for good in goods) <= container_capacity_tons * variables[f'y_{i}'],
+            name=f'capacity_{i}'
+        )
+        
+    # Minimum load constraints
+    for i in container_ids:
+        model.addConstr(
+            gp.quicksum(weight_tons[good] * variables[f'q_{i}_{good}'] for good in goods) >= minimum_load_tons_if_used * variables[f'y_{i}'],
+            name=f'minimum_load_{i}'
+        )
+        
+    # Minimum D units constraints
+    for i in container_ids:
+        model.addConstr(
+            variables[f'q_{i}_D'] >= minimum_D_units_if_used * variables[f'y_{i}'],
+            name=f'minimum_D_{i}'
+        )
+        
+    # A requires at least one C in the same container
+    if data['A_requires_at_least_one_C_in_same_container']:
+        for i in container_ids:
+            model.addConstr(
+                variables[f'q_{i}_C'] >= variables[f'uA_{i}'],
+                name=f'A_requires_C_{i}'
+            )
+            
+            model.addConstr(
+                variables[f'q_{i}_A'] <= quantity['A'] * variables[f'uA_{i}'],
+                name=f'A_implies_uA_{i}'
+            )
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    status = None
+    if model.Status == gp.GRB.OPTIMAL:
+        status = 'OPTIMAL'
+    elif model.Status == gp.GRB.INFEASIBLE:
+        status = 'INFEASIBLE'
+    elif model.Status == gp.GRB.UNBOUNDED:
+        status = 'UNBOUNDED'
+    elif model.Status == gp.GRB.INF_OR_UNBD:
+        status = 'INF_OR_UNBD'
+    elif model.Status == gp.GRB.TIME_LIMIT:
+        status = 'TIME_LIMIT'
+    
+    solution = {key: variables[key].X for key in variables}
+    
+    return {
+        'status': status,
+        'objective': model.ObjVal,
+        'solution': solution
+    }
+```

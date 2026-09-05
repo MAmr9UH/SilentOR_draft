@@ -1,0 +1,66 @@
+import gurobipy as gp
+from gurobipy import GRB
+import math
+
+def build_model(data: dict) -> tuple:
+    model = gp.Model("fertilizer_production_model")
+    
+    # Decision variables
+    produce_liquid = model.addVar(name="produce_liquid", vtype=GRB.CONTINUOUS, lb=0)
+    produce_solid = model.addVar(name="produce_solid", vtype=GRB.CONTINUOUS, lb=0)
+    ending_liquid = model.addVar(name="ending_liquid", vtype=GRB.CONTINUOUS, lb=0)
+    ending_solid = model.addVar(name="ending_solid", vtype=GRB.CONTINUOUS, lb=0)
+    
+    variables = {
+        "produce_liquid": produce_liquid,
+        "produce_solid": produce_solid,
+        "ending_liquid": ending_liquid,
+        "ending_solid": ending_solid
+    }
+    
+    # Machine 1 constraint
+    model.addConstr(50 * produce_liquid + 24 * produce_solid <= 40 * 60)
+    
+    # Machine 2 constraint
+    model.addConstr(30 * produce_liquid + 33 * produce_solid <= 35 * 60)
+    
+    # Initial inventory
+    model.addConstr(ending_liquid >= produce_liquid - data["initial_inventory"]["liquid"])
+    model.addConstr(ending_solid >= produce_solid - data["initial_inventory"]["solid"])
+    
+    # Demand
+    model.addConstr(produce_liquid <= data["demand"]["liquid"])
+    model.addConstr(produce_solid <= data["demand"]["solid"])
+    
+    # Objective function: Maximize total ending inventory
+    model.setObjective(ending_liquid + ending_solid, GRB.MAXIMIZE)
+    
+    return model, variables
+
+def solve(data: dict) -> dict:
+    model, variables = build_model(data)
+    model.optimize()
+    
+    if model.status == GRB.OPTIMAL:
+        return {
+            "status": "OPTIMAL",
+            "objective": model.objVal,
+            "solution": {
+                "produce_liquid": variables["produce_liquid"].x,
+                "produce_solid": variables["produce_solid"].x,
+                "ending_liquid": variables["ending_liquid"].x,
+                "ending_solid": variables["ending_solid"].x
+            }
+        }
+    elif model.status == GRB.INFEASIBLE:
+        return {
+            "status": "INFEASIBLE",
+            "objective": None,
+            "solution": None
+        }
+    else:
+        return {
+            "status": "OTHER",
+            "objective": None,
+            "solution": None
+        }

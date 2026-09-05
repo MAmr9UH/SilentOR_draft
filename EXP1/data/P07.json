@@ -1,0 +1,47 @@
+{
+  "problem_id": 7,
+  "scenario_id": "multiproduct_production_inventory",
+  "data_instance": {
+    "products": [
+      "I",
+      "II",
+      "III"
+    ],
+    "quarters": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "orders": {
+      "I_1": 1500,
+      "I_2": 1000,
+      "I_3": 2000,
+      "I_4": 1200,
+      "II_1": 1500,
+      "II_2": 1500,
+      "II_3": 1200,
+      "II_4": 1500,
+      "III_1": 1000,
+      "III_2": 2000,
+      "III_3": 1500,
+      "III_4": 2500
+    },
+    "hours_per_unit": {
+      "I": 2,
+      "II": 4,
+      "III": 3
+    },
+    "capacity_hours_per_quarter": 15000,
+    "initial_inventory": 0,
+    "required_ending_inventory": 150,
+    "late_penalty_per_unit_per_quarter": {
+      "I": 20,
+      "II": 20,
+      "III": 10
+    },
+    "storage_cost_per_unit_per_quarter": 5,
+    "product_I_blocked_quarter": 2,
+    "note": "orders['P_Q'] is the contracted order of product P in quarter Q. Decision variable keys: x_<P>_<Q> = units produced, Iv_<P>_<Q> = units in inventory at end of quarter, Bk_<P>_<Q> = units backlogged (ordered but not yet delivered) at end of quarter. P in I,II,III; Q in 1..4."
+  }
+}

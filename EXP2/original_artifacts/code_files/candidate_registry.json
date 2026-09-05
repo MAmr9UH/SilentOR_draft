@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "candidates": [
+    {
+      "candidate_id": "base_p1",
+      "candidate_kind": "base",
+      "problem_id": 1,
+      "code_path": "exp2_bases/base_p1.py"
+    },
+    {
+      "candidate_id": "base_p3",
+      "candidate_kind": "base",
+      "problem_id": 3,
+      "code_path": "exp2_bases/base_p3.py"
+    },
+    {
+      "candidate_id": "base_p5",
+      "candidate_kind": "base",
+      "problem_id": 5,
+      "code_path": "exp2_bases/base_p5.py"
+    },
+    {
+      "candidate_id": "base_p6",
+      "candidate_kind": "base",
+      "problem_id": 6,
+      "code_path": "exp2_bases/base_p6.py"
+    },
+    {
+      "candidate_id": "base_p8",
+      "candidate_kind": "base",
+      "problem_id": 8,
+      "code_path": "exp2_bases/base_p8.py"
+    },
+    {
+      "candidate_id": "base_p9",
+      "candidate_kind": "base",
+      "problem_id": 9,
+      "code_path": "exp2_bases/base_p9.py"
+    },
+    {
+      "candidate_id": "base_p10",
+      "candidate_kind": "base",
+      "problem_id": 10,
+      "code_path": "exp2_bases/base_p10.py"
+    },
+    {
+      "candidate_id": "base_p12",
+      "candidate_kind": "base",
+      "problem_id": 12,
+      "code_path": "exp2_bases/base_p12.py"
+    },
+    {
+      "candidate_id": "base_p22",
+      "candidate_kind": "base",
+      "problem_id": 22,
+      "code_path": "exp2_bases/base_p22.py"
+    },
+    {
+      "candidate_id": "base_p23",
+      "candidate_kind": "base",
+      "problem_id": 23,
+      "code_path": "exp2_bases/base_p23.py"
+    },
+    {
+      "candidate_id": "base_p29",
+      "candidate_kind": "base",
+      "problem_id": 29,
+      "code_path": "exp2_bases/base_p29.py"
+    },
+    {
+      "candidate_id": "base_p30",
+      "candidate_kind": "base",
+      "problem_id": 30,
+      "code_path": "exp2_bases/base_p30.py"
+    },
+    {
+      "candidate_id": "base_p31",
+      "candidate_kind": "base",
+      "problem_id": 31,
+      "code_path": "exp2_bases/base_p31.py"
+    },
+    {
+      "candidate_id": "base_p34",
+      "candidate_kind": "base",
+      "problem_id": 34,
+      "code_path": "exp2_bases/base_p34.py"
+    },
+    {
+      "candidate_id": "base_p35",
+      "candidate_kind": "base",
+      "problem_id": 35,
+      "code_path": "exp2_bases/base_p35.py"
+    },
+    {
+      "candidate_id": "base_p36",
+      "candidate_kind": "base",
+      "problem_id": 36,
+      "code_path": "exp2_bases/base_p36.py"
+    },
+    {
+      "candidate_id": "base_p37",
+      "candidate_kind": "base",
+      "problem_id": 37,
+      "code_path": "exp2_bases/base_p37.py"
+    },
+    {
+      "candidate_id": "base_p39",
+      "candidate_kind": "base",
+      "problem_id": 39,
+      "code_path": "exp2_bases/base_p39.py"
+    },
+    {
+      "candidate_id": "base_p40",
+      "candidate_kind": "base",
+      "problem_id": 40,
+      "code_path": "exp2_bases/base_p40.py"
+    },
+    {
+      "candidate_id": "base_p41",
+      "candidate_kind": "base",
+      "problem_id": 41,
+      "code_path": "exp2_bases/base_p41.py"
+    },
+    {
+      "candidate_id": "base_p17",
+      "candidate_kind": "base",
+      "problem_id": 17,
+      "code_path": "exp2_bases/base_p17.py"
+    },
+    {
+      "candidate_id": "base_p27",
+      "candidate_kind": "base",
+      "problem_id": 27,
+      "code_path": "exp2_bases/base_p27.py"
+    },
+    {
+      "candidate_id": "base_p28",
+      "candidate_kind": "base",
+      "problem_id": 28,
+      "code_path": "exp2_bases/base_p28.py"
+    },
+    {
+      "candidate_id": "base_p32",
+      "candidate_kind": "base",
+      "problem_id": 32,
+      "code_path": "exp2_bases/base_p32.py"
+    },
+    {
+      "candidate_id": "base_p38",
+      "candidate_kind": "base",
+      "problem_id": 38,
+      "code_path": "exp2_bases/base_p38.py"
+    },
+    {
+      "candidate_id": "base_p42",
+      "candidate_kind": "base",
+      "problem_id": 42,
+      "code_path": "exp2_bases/base_p42.py"
+    },
+    {
+      "candidate_id": "base_p43",
+      "candidate_kind": "base",
+      "problem_id": 43,
+      "code_path": "exp2_bases/base_p43.py"
+    },
+    {
+      "candidate_id": "base_p44",
+      "candidate_kind": "base",
+      "problem_id": 44,
+      "code_path": "exp2_bases/base_p44.py"
+    },
+    {
+      "candidate_id": "base_p45",
+      "candidate_kind": "base",
+      "problem_id": 45,
+      "code_path": "exp2_bases/base_p45.py"
+    },
+    {
+      "candidate_id": "mut_p1_R5_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 1,
+      "code_path": "mutants/mut_p1_R5_domain.py"
+    },
+    {
+      "candidate_id": "mut_p35_Rbinary_y_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 35,
+      "code_path": "mutants/mut_p35_Rbinary_y_domain.py"
+    },
+    {
+      "candidate_id": "mut_p35_Rcaplink1_linking",
+      "candidate_kind": "mutant",
+      "problem_id": 35,
+      "code_path": "mutants/mut_p35_Rcaplink1_linking.py"
+    },
+    {
+      "candidate_id": "mut_p35_Rdemand1_misspec",
+      "candidate_kind": "mutant",
+      "problem_id": 35,
+      "code_path": "mutants/mut_p35_Rdemand1_misspec.py"
+    },
+    {
+      "candidate_id": "mut_p30_Ryear2_misspec",
+      "candidate_kind": "mutant",
+      "problem_id": 30,
+      "code_path": "mutants/mut_p30_Ryear2_misspec.py"
+    },
+    {
+      "candidate_id": "mut_p30_Rlimit2_misspec",
+      "candidate_kind": "mutant",
+      "problem_id": 30,
+      "code_path": "mutants/mut_p30_Rlimit2_misspec.py"
+    },
+    {
+      "candidate_id": "mut_p30_Rfinal_misspec",
+      "candidate_kind": "mutant",
+      "problem_id": 30,
+      "code_path": "mutants/mut_p30_Rfinal_misspec.py"
+    },
+    {
+      "candidate_id": "mut_p3_R7_s2_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 3,
+      "code_path": "mutants/mut_p3_R7_s2_domain.py"
+    },
+    {
+      "candidate_id": "mut_p3_R2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 3,
+      "code_path": "mutants/mut_p3_R2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p3_R9_s2_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 3,
+      "code_path": "mutants/mut_p3_R9_s2_objective.py"
+    },
+    {
+      "candidate_id": "mut_p5_R8_sel_calculus_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 5,
+      "code_path": "mutants/mut_p5_R8_sel_calculus_domain.py"
+    },
+    {
+      "candidate_id": "mut_p5_R3_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 5,
+      "code_path": "mutants/mut_p5_R3_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p5_R9_sel_calculus_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 5,
+      "code_path": "mutants/mut_p5_R9_sel_calculus_objective.py"
+    },
+    {
+      "candidate_id": "mut_p6_R_bal_5_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 6,
+      "code_path": "mutants/mut_p6_R_bal_5_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p6_R_obj_x_4_1_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 6,
+      "code_path": "mutants/mut_p6_R_obj_x_4_1_objective.py"
+    },
+    {
+      "candidate_id": "mut_p8_R_obj_s1_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 8,
+      "code_path": "mutants/mut_p8_R_obj_s1_objective.py"
+    },
+    {
+      "candidate_id": "mut_p9_R_int_s0_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 9,
+      "code_path": "mutants/mut_p9_R_int_s0_domain.py"
+    },
+    {
+      "candidate_id": "mut_p9_R_day1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 9,
+      "code_path": "mutants/mut_p9_R_day1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p9_R_obj_s0_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 9,
+      "code_path": "mutants/mut_p9_R_obj_s0_objective.py"
+    },
+    {
+      "candidate_id": "mut_p10_R_cloth_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 10,
+      "code_path": "mutants/mut_p10_R_cloth_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p10_R_labor_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 10,
+      "code_path": "mutants/mut_p10_R_labor_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p10_R_obj_shirts_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 10,
+      "code_path": "mutants/mut_p10_R_obj_shirts_objective.py"
+    },
+    {
+      "candidate_id": "mut_p12_R_cap_c1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 12,
+      "code_path": "mutants/mut_p12_R_cap_c1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p12_R_dem_s1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 12,
+      "code_path": "mutants/mut_p12_R_dem_s1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p12_R_obj_y_c1_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 12,
+      "code_path": "mutants/mut_p12_R_obj_y_c1_objective.py"
+    },
+    {
+      "candidate_id": "mut_p22_R_bottleneck_B_C_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 22,
+      "code_path": "mutants/mut_p22_R_bottleneck_B_C_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p22_R_bottleneck_C_E_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 22,
+      "code_path": "mutants/mut_p22_R_bottleneck_C_E_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p22_R_obj_z_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 22,
+      "code_path": "mutants/mut_p22_R_obj_z_objective.py"
+    },
+    {
+      "candidate_id": "mut_p23_R_choose_one_combo_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 23,
+      "code_path": "mutants/mut_p23_R_choose_one_combo_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p23_R_weight_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 23,
+      "code_path": "mutants/mut_p23_R_weight_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p23_R_obj_w_0_0_0_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 23,
+      "code_path": "mutants/mut_p23_R_obj_w_0_0_0_objective.py"
+    },
+    {
+      "candidate_id": "mut_p29_R_task_A_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 29,
+      "code_path": "mutants/mut_p29_R_task_A_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p29_R_task_B_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 29,
+      "code_path": "mutants/mut_p29_R_task_B_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p29_R_obj_x_I_B_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 29,
+      "code_path": "mutants/mut_p29_R_obj_x_I_B_objective.py"
+    },
+    {
+      "candidate_id": "mut_p31_R_demand_Donghai_1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 31,
+      "code_path": "mutants/mut_p31_R_demand_Donghai_1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p31_R_demand_Donghai_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 31,
+      "code_path": "mutants/mut_p31_R_demand_Donghai_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p31_R_obj_p3_shortfall_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 31,
+      "code_path": "mutants/mut_p31_R_obj_p3_shortfall_objective.py"
+    },
+    {
+      "candidate_id": "mut_p34_R_integer_trucks_trucks_A_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 34,
+      "code_path": "mutants/mut_p34_R_integer_trucks_trucks_A_domain.py"
+    },
+    {
+      "candidate_id": "mut_p34_R_raw_A_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 34,
+      "code_path": "mutants/mut_p34_R_raw_A_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p34_R_obj_trucks_A_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 34,
+      "code_path": "mutants/mut_p34_R_obj_trucks_A_objective.py"
+    },
+    {
+      "candidate_id": "mut_p36_R_binary_y_y_1_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 36,
+      "code_path": "mutants/mut_p36_R_binary_y_y_1_domain.py"
+    },
+    {
+      "candidate_id": "mut_p36_R_at_least_two_lengths_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 36,
+      "code_path": "mutants/mut_p36_R_at_least_two_lengths_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p36_R_obj_x_1_1_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 36,
+      "code_path": "mutants/mut_p36_R_obj_x_1_1_objective.py"
+    },
+    {
+      "candidate_id": "mut_p37_R_capacity_1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 37,
+      "code_path": "mutants/mut_p37_R_capacity_1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p37_R_capacity_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 37,
+      "code_path": "mutants/mut_p37_R_capacity_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p37_R_profit_definition_profit_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 37,
+      "code_path": "mutants/mut_p37_R_profit_definition_profit_objective.py"
+    },
+    {
+      "candidate_id": "mut_p39_R_cmax_B_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 39,
+      "code_path": "mutants/mut_p39_R_cmax_B_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p39_R_prec_A_D_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 39,
+      "code_path": "mutants/mut_p39_R_prec_A_D_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p39_R_obj_Cmax_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 39,
+      "code_path": "mutants/mut_p39_R_obj_Cmax_objective.py"
+    },
+    {
+      "candidate_id": "mut_p40_R_max_labor_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 40,
+      "code_path": "mutants/mut_p40_R_max_labor_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p40_R_max_skilled_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 40,
+      "code_path": "mutants/mut_p40_R_max_skilled_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p40_R_obj_skilled_t1_A_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 40,
+      "code_path": "mutants/mut_p40_R_obj_skilled_t1_A_objective.py"
+    },
+    {
+      "candidate_id": "mut_p41_R_liquid_balance_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 41,
+      "code_path": "mutants/mut_p41_R_liquid_balance_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p41_R_machine1_capacity_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 41,
+      "code_path": "mutants/mut_p41_R_machine1_capacity_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p41_R_obj_ending_solid_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 41,
+      "code_path": "mutants/mut_p41_R_obj_ending_solid_objective.py"
+    },
+    {
+      "candidate_id": "mut_p17_R_open_binary_y_c1_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 17,
+      "code_path": "mutants/mut_p17_R_open_binary_y_c1_domain.py"
+    },
+    {
+      "candidate_id": "mut_p17_R_cap_c1_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 17,
+      "code_path": "mutants/mut_p17_R_cap_c1_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p17_R_obj_y_c4_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 17,
+      "code_path": "mutants/mut_p17_R_obj_y_c4_objective.py"
+    },
+    {
+      "candidate_id": "mut_p27_R_mtz_2_3_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 27,
+      "code_path": "mutants/mut_p27_R_mtz_2_3_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p27_R_mtz_2_4_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 27,
+      "code_path": "mutants/mut_p27_R_mtz_2_4_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p27_R_obj_x_1_5_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 27,
+      "code_path": "mutants/mut_p27_R_obj_x_1_5_objective.py"
+    },
+    {
+      "candidate_id": "mut_p28_R_integer_t_t_Verona_Genoa_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 28,
+      "code_path": "mutants/mut_p28_R_integer_t_t_Verona_Genoa_domain.py"
+    },
+    {
+      "candidate_id": "mut_p28_R_demand_Ancona_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 28,
+      "code_path": "mutants/mut_p28_R_demand_Ancona_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p28_R_obj_t_Verona_Venice_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 28,
+      "code_path": "mutants/mut_p28_R_obj_t_Verona_Venice_objective.py"
+    },
+    {
+      "candidate_id": "mut_p32_R_route_precedence_pos_1_vat_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 32,
+      "code_path": "mutants/mut_p32_R_route_precedence_pos_1_vat_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p32_R_route_precedence_pos_1_vat_3_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 32,
+      "code_path": "mutants/mut_p32_R_route_precedence_pos_1_vat_3_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p32_R_obj_Cmax_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 32,
+      "code_path": "mutants/mut_p32_R_obj_Cmax_objective.py"
+    },
+    {
+      "candidate_id": "mut_p38_R_balance_II_10_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 38,
+      "code_path": "mutants/mut_p38_R_balance_II_10_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p38_R_balance_II_11_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 38,
+      "code_path": "mutants/mut_p38_R_balance_II_11_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p38_R_obj_prod_I_7_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 38,
+      "code_path": "mutants/mut_p38_R_obj_prod_I_7_objective.py"
+    },
+    {
+      "candidate_id": "mut_p1_R6_alloc11_lower_bound",
+      "candidate_kind": "mutant",
+      "problem_id": 1,
+      "code_path": "mutants/mut_p1_R6_alloc11_lower_bound.py"
+    },
+    {
+      "candidate_id": "mut_p1_R7_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 1,
+      "code_path": "mutants/mut_p1_R7_objective.py"
+    },
+    {
+      "candidate_id": "mut_p30_Robj_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 30,
+      "code_path": "mutants/mut_p30_Robj_objective.py"
+    },
+    {
+      "candidate_id": "mut_p35_Robj_objective",
+      "candidate_kind": "mutant",
+      "problem_id": 35,
+      "code_path": "mutants/mut_p35_Robj_objective.py"
+    },
+    {
+      "candidate_id": "mut_p42_R_demand_2_capability_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 42,
+      "code_path": "mutants/mut_p42_R_demand_2_capability_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p42_R_availability_3_rhs_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 42,
+      "code_path": "mutants/mut_p42_R_availability_3_rhs_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p42_R_availability_1_lhs_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 42,
+      "code_path": "mutants/mut_p42_R_availability_1_lhs_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p43_R_integer_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 43,
+      "code_path": "mutants/mut_p43_R_integer_domain.py"
+    },
+    {
+      "candidate_id": "mut_p44_R_machine2_sequence_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 44,
+      "code_path": "mutants/mut_p44_R_machine2_sequence_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p44_R_first_machine_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 44,
+      "code_path": "mutants/mut_p44_R_first_machine_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p44_R_machine1_sequence_2_constraint",
+      "candidate_kind": "mutant",
+      "problem_id": 44,
+      "code_path": "mutants/mut_p44_R_machine1_sequence_2_constraint.py"
+    },
+    {
+      "candidate_id": "mut_p45_R_integer_domain",
+      "candidate_kind": "mutant",
+      "problem_id": 45,
+      "code_path": "mutants/mut_p45_R_integer_domain.py"
+    }
+  ]
+}

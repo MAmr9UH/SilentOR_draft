@@ -1,0 +1,54 @@
+import gurobipy as gp
+
+def solve_model(data):
+    # Create model
+    model = gp.Model()
+
+    # Define variables
+    x = {}
+    for i in range(len(data['distance'])):
+        key = data['distance'].keys()[i]
+        x[key] = model.addVar(vtype=gp.GRB.CONTINUOUS, name=key)
+
+    y = {}
+    for node in range(max([max(pair) for pair in data['distance'].keys()])):
+        y[node] = model.addVar(vtype=gp.GRB.BINARY, name=f"y_{node}")
+
+    # Define objective function
+    obj_func = gp.quicksum(x[key] * float(data['distance'][key]) for key in x)
+    model.setObjective(obj_func)
+
+    # Add constraints
+    for i in range(len(data['distance'])):
+        key = data['distance'].keys()[i]
+        node1, node2 = map(int, key.split(','))
+        model.addConstr(x[key] <= y[node1])
+        model.addConstr(x[key] <= y[node2])
+
+    model.addConstr(gp.quicksum(y.values()) == 20)
+
+    # Solve the model
+    model.optimize()
+
+    # Get solution status and objective value
+    status = model.Status
+    obj_val = model.ObjVal
+
+    return {
+        'status': status,
+        'obj_val': obj_val,
+        'variables': x,
+        'y_values': {node: y[node].X for node in y}
+    }
+
+# Example usage:
+data = {
+    "distance": {
+        "0,1": 18.681542,
+        "0,2": 20.615528,
+        # ... rest of the data ...
+    },
+    "big_m": 2000
+}
+
+solution = solve_model(data)
